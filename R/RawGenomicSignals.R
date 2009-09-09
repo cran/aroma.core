@@ -395,13 +395,15 @@ setMethodS3("binnedSmoothing", "RawGenomicSignals", function(this, ..., weights=
   verbose && printf(verbose, "Range of positions: [%.0f,%.0f]\n", 
                                            xRange[1], xRange[2]);
 
+  locusFields <- NULL;
   wOut <- NULL;
   if (n > 0) {
     if (byCount) {
       verbose && enter(verbose, "Binned smoothing (by count)");
       # Smoothing y and x (and w).
       Y <- cbind(y=y, x=x, w=weights);
-      xRank <- seq(length=length(x));
+      locusFields <- colnames(Y);
+      xRank <- seq(length=nrow(Y));
       verbose && cat(verbose, "Positions (ranks):");
       verbose && str(verbose, xRank);
       verbose && cat(verbose, "Arguments:");
@@ -452,6 +454,11 @@ setMethodS3("binnedSmoothing", "RawGenomicSignals", function(this, ..., weights=
   res$y <- ys;
   res$x <- xOut;
   res$w <- wOut;
+
+  # Drop all locus fields not binned [AD HOC: Those should also be binned. /HB 2009-06-30]
+  if (!is.null(locusFields)) {
+    setLocusFields(res, locusFields);
+  }
   verbose && exit(verbose);
 
   verbose && exit(verbose);
@@ -627,6 +634,20 @@ setMethodS3("xMax", "RawGenomicSignals", function(this, ...) {
   xRange(this, ...)[2];
 })
 
+setMethodS3("yRange", "RawGenomicSignals", function(this, na.rm=TRUE, ...) {
+  y <- getSignals(this);
+  range(y, na.rm=na.rm);
+})
+
+setMethodS3("yMin", "RawGenomicSignals", function(this, ...) {
+  yRange(this, ...)[1];
+})
+
+setMethodS3("yMax", "RawGenomicSignals", function(this, ...) {
+  yRange(this, ...)[2];
+})
+
+
 setMethodS3("signalRange", "RawGenomicSignals", function(this, na.rm=TRUE, ...) {
   y <- getSignals(this);
   range(y, na.rm=na.rm);
@@ -656,6 +677,14 @@ setMethodS3("extractRawGenomicSignals", "default", abstract=TRUE);
 
 ############################################################################
 # HISTORY:
+# 2009-09-07
+# o Added yRange(), yMin() and yMax() to RawGenomicSignals.
+# 2009-07-03
+# o BUG FIX: binnedSmoothing() added non existing locus field 'w'.
+# 2009-06-30
+# o Now binnedSmoothing() of RawGenomicSignals drops locus fields that were
+#   not binned.  Ideally all locus fields (including custom ones) should be
+#   binned, but we leave that for a future implementation.
 # 2009-06-13
 # o Now RawGenomicSignals(y=rgs) sets all locus fields in 'rgs' if it is
 #   a RawGenomicSignals object.

@@ -50,16 +50,16 @@ extends \link[aroma.core]{SegmentedGenomicSignalsInterface}\cr
 
 
  \bold{Methods inherited from SegmentedGenomicSignalsInterface}:\cr
-as.data.frame, binnedSmoothingByState, extractSubsetByState, getStateColors, getStates, getUniqueStates, kernelSmoothingByState, plot, points, setStates
+as.data.frame, binnedSmoothingByState, extractSubsetByState, getStateColorMap, getStateColors, getStates, getUniqueStates, kernelSmoothingByState, plot, points, setStateColorMap, setStates
 
  \bold{Methods inherited from RawCopyNumbers}:\cr
 as.data.frame, cnRange, getCn, getCNs, plot
 
  \bold{Methods inherited from RawGenomicSignals}:\cr
-addBy, addLocusFields, append, applyBinaryOperator, as.data.frame, binnedSmoothing, divideBy, estimateStandardDeviation, extractDataForSegmentation, extractRegion, extractSubset, gaussianSmoothing, getChromosome, getLocusFields, getName, getPositions, getSigma, getSignals, getWeights, getXScale, getXY, getYScale, hasWeights, kernelSmoothing, lines, multiplyBy, nbrOfLoci, plot, points, setLocusFields, setSigma, setWeights, setXScale, setYScale, signalRange, sort, subtractBy, summary, xMax, xMin, xRange, xSeq
+addBy, addLocusFields, append, applyBinaryOperator, as.data.frame, binnedSmoothing, divideBy, estimateStandardDeviation, extractDataForSegmentation, extractRegion, extractSubset, gaussianSmoothing, getChromosome, getLocusFields, getName, getPositions, getSigma, getSignals, getWeights, getXScale, getXY, getYScale, hasWeights, kernelSmoothing, lines, multiplyBy, nbrOfLoci, plot, points, setLocusFields, setSigma, setWeights, setXScale, setYScale, signalRange, sort, subtractBy, summary, xMax, xMin, xRange, xSeq, yMax, yMin, yRange
 
  \bold{Methods inherited from Object}:\cr
-asThis, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, save
+asThis, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, registerFinalizer, save
 
 
  }

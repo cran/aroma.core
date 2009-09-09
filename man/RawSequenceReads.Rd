@@ -1,47 +1,51 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Do not modify this file since it was automatically generated from:
 % 
-%  RawAlleleBFractions.R
+%  RawSequenceReads.R
 % 
 % by the Rdoc compiler part of the R.oo package.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \name{RawAlleleBFractions}
+ \name{RawSequenceReads}
 \docType{class}
-\alias{RawAlleleBFractions}
+\alias{RawSequenceReads}
 
 
- \title{The RawAlleleBFractions class}
+ \title{The RawSequenceReads class}
 
  \description{
   Package:  aroma.core \cr
-\bold{Class RawAlleleBFractions}\cr
+\bold{Class RawSequenceReads}\cr
 
 \code{\link[R.oo]{Object}}\cr
 \code{~~|}\cr
 \code{~~+--}\code{\link[aroma.core]{RawGenomicSignals}}\cr
 \code{~~~~~~~|}\cr
-\code{~~~~~~~+--}\code{RawAlleleBFractions}\cr
+\code{~~~~~~~+--}\code{RawSequenceReads}\cr
 
 \bold{Directly known subclasses:}\cr
-\link[aroma.core]{RawMirroredAlleleBFractions}, \link[aroma.core]{SegmentedAlleleBFractions}\cr
+\cr
 
-public static class \bold{RawAlleleBFractions}\cr
+public static class \bold{RawSequenceReads}\cr
 extends \link[aroma.core]{RawGenomicSignals}\cr
 
 
  }
 
- \usage{RawAlleleBFractions(...)}
+ \usage{RawSequenceReads(x=NULL, y=rep(1, length(x)), ...)}
 
  \arguments{
+   \item{x}{An \code{\link[base]{integer}} \code{\link[base]{vector}} of length J specifying the read positions.}
+   \item{y}{An (optional) \code{\link[base]{integer}} \code{\link[base]{vector}} of length J specifying the number of reads at each position. Default is one read per position.}
    \item{...}{Arguments passed to \code{\link{RawGenomicSignals}}.}
  }
 
  \section{Fields and Methods}{
   \bold{Methods:}\cr
 \tabular{rll}{
- \tab \code{extractRawMirroredAlleleBFractions} \tab  -\cr
+ \tab \code{binnedSums} \tab  -\cr
+ \tab \code{extractRawCopyNumbers} \tab  -\cr
+ \tab \code{nbrOfReads} \tab  -\cr
  \tab \code{plot} \tab  -\cr
 }
 

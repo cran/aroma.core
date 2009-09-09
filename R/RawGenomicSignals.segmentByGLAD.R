@@ -20,15 +20,13 @@
 # }
 # 
 # \details{
-#   Internally @seemethod "GLAD::glad" is used to segment the signals.
-#   This segmentation method support weighted segmentation.
+#   Internally @see "GLAD::glad" is used to segment the signals.
+#   This segmentation method does not support weighted segmentation.
 # }
 #
 # @author
 #
 # \seealso{
-#   Internally the segmentation function 
-#   @seemethod "GLAD::glad" is used.
 #   @seeclass
 # }
 #
@@ -170,7 +168,7 @@ setMethodS3("segmentByGLAD", "RawGenomicSignals", function(this, ..., cache=FALS
   # Now, check for cached results
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   verbose && enter(verbose, "Looking for cached results");
-  key <- list(method="segmentByHaarSeg", class=class(this)[1], 
+  key <- list(method="segmentByGLAD", class=class(this)[1], 
                                                 signatures=signatures);
   dirs <- c("aroma.cn", class(this)[1]);
   if (!force) {
@@ -260,6 +258,8 @@ setMethodS3("segmentByGLAD", "RawGenomicSignals", function(this, ..., cache=FALS
 
 ############################################################################
 # HISTORY:
+# 2009-06-27
+# o FIX: Updated the cache key to refer to "segmentByCBS" (was HaarSeg).
 # 2009-05-10
 # o Created.
 ############################################################################

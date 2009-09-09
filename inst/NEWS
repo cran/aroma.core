@@ -1,6 +1,58 @@
 Package: aroma.core
 ===================
 
+Version: 1.2.0 [2009-09-09]
+o New public release. 
+o Fixed broken/missing Rd links.
+o Package passes R CMD check on R v2.9.2 and all redundancy tests.
+
+
+Version: 1.1.7 [2009-09-07]
+o Now getUnitsOnChromosomes() for AromaUnitChromosomeTabularBinaryFile
+  returns a vector by default (unlist=TRUE).
+
+
+Version: 1.1.6 [2009-09-07]
+o Added yRange(), yMin() and yMax() for RawGenomicSignals.
+o Added extractRawCopyNumbers() for RawSequenceReads.
+o BUG FIX/WORKAROUND: smoothScatter(), which is used in for 
+  instance aroma.affymetrix, is in the graphics package from 
+  R v2.9.0.  It was previously in geneplotter v1.2.4 and before(!).
+  The code imported it from geneplotter would therefore give an 
+  error of a missing function with geneplotter v1.2.5.  We
+  are now assuming R v2.9.0 by default, but if not available,
+  but geneplotter v1.2.4 or earlier is, geneplotter is loaded.
+  If neither are available, a dummy smoothScatter() is setup
+  reporting an error.
+
+
+Version: 1.1.5 [2009-08-29]
+o Added totalAndFracBData/ to the search path of byName() for
+  AromaUnit(FracB|Total)CnBinarySet.
+
+
+Version: 1.1.4 [2009-07-22]
+o Added allocateFromUnitAnnotationDataFile() for
+  AromaUnitSignalBinaryFile and AromaUnitTabularBinaryFile.
+o Added getUnitTypesFile() for AromaPlatform and AromaPlatformInterface.
+o Added UnitAnnotationDataFile, which now the UnitNamesFile and the new
+  UnitTypesFile inherits from.
+o Now uses() for Interface takes multiple Interface:s.
+
+
+Version: 1.1.3 [2009-07-03]
+o Added class RawSequenceReads.
+o Added support for argument 'byCount' to binnedSmoothingByState() of 
+  SegmentedCopyNumbers.  It is rather complex how it works, but we tried
+  to immitate how it works with byCount=FALSE.
+o Now binnedSmoothing() of RawGenomicSignals demark locus fields 
+  that were not binned to be regular fields.  Ideally all locus fields
+  (including custom ones) should be binned, but we leave that for a 
+  future implementation.
+o Added get-, setStateColorMap(), and getStateColors() for class
+  SegmentedGenomicSignalsInterface.
+
+
 Version: 1.1.2 [2009-06-14]
 o Added argument keepUnits=FALSE to extractRawGenomicSignals() of
   AromaUnitSignalBinaryFile.
