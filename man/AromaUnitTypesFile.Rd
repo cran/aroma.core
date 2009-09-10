@@ -1,21 +1,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Do not modify this file since it was automatically generated from:
 % 
-%  AromaCellTabularBinaryFile.R
+%  AromaUnitTypesFile.R
 % 
 % by the Rdoc compiler part of the R.oo package.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \name{AromaCellTabularBinaryFile}
+ \name{AromaUnitTypesFile}
 \docType{class}
-\alias{AromaCellTabularBinaryFile}
+\alias{AromaUnitTypesFile}
 
 
- \title{The AromaCellTabularBinaryFile class}
+ \title{The AromaUnitTypesFile class}
 
  \description{
   Package:  aroma.core \cr
-\bold{Class AromaCellTabularBinaryFile}\cr
+\bold{Class AromaUnitTypesFile}\cr
 
 \code{\link[R.oo]{Object}}\cr
 \code{~~|}\cr
@@ -27,38 +27,48 @@
 \code{~~~~~~~~~~~~~~~~~|}\cr
 \code{~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.core]{AromaPlatformInterface}}\cr
 \code{~~~~~~~~~~~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.core]{AromaMicroarrayTabularBinaryFile}}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.core]{AromaUnitSignalBinaryFile}}\cr
 \code{~~~~~~~~~~~~~~~~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~+--}\emph{\code{AromaCellTabularBinaryFile}}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.core]{UnitAnnotationDataFile}}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.core]{UnitTypesFile}}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+--}\code{AromaUnitTypesFile}\cr
 
 \bold{Directly known subclasses:}\cr
-\link[aroma.core]{AromaCellPositionFile}, \link[aroma.core]{AromaCellSequenceFile}\cr
+\cr
 
-public abstract static class \bold{AromaCellTabularBinaryFile}\cr
-extends \emph{\link[aroma.core]{AromaMicroarrayTabularBinaryFile}}\cr
+public static class \bold{AromaUnitTypesFile}\cr
+extends \emph{\link[aroma.core]{UnitTypesFile}}\cr
 
 
-
-  A AromaCellTabularBinaryFile is an \code{\link{AromaTabularBinaryFile}} with
-  the constraint that the rows map one-to-one to the cells (features)
-  of a microarray.
  }
 
- \usage{AromaCellTabularBinaryFile(...)}
+ \usage{AromaUnitTypesFile(...)}
 
  \arguments{
-   \item{...}{Arguments passed to \code{\link{AromaTabularBinaryFile}}.}
+   \item{...}{Arguments passed to \code{\link{AromaUnitTabularBinaryFile}}.}
  }
 
  \section{Fields and Methods}{
   \bold{Methods:}\cr
 \tabular{rll}{
- \tab \code{nbrOfCells} \tab  -\cr
+ \tab \code{allocate} \tab  -\cr
+ \tab \code{getChipType} \tab  -\cr
+ \tab \code{getPlatform} \tab  -\cr
+ \tab \code{getUnitTypes} \tab  -\cr
+ \tab \code{importFromUnitTypesFile} \tab  -\cr
 }
 
 
- \bold{Methods inherited from AromaMicroarrayTabularBinaryFile}:\cr
-allocate, as.character, byChipType, findByChipType, getChipType, getFilenameExtension, getPlatform
+ \bold{Methods inherited from UnitTypesFile}:\cr
+getUnitTypes, nbrOfUnits
+
+ \bold{Methods inherited from UnitAnnotationDataFile}:\cr
+byChipType, getAromaUgpFile, getChipType, getPlatform, nbrOfUnits
+
+ \bold{Methods inherited from AromaUnitSignalBinaryFile}:\cr
+allocate, allocateFromUnitAnnotationDataFile, allocateFromUnitNamesFile, as.character, extractMatrix, extractRawGenomicSignals, fromFile, getAromaUgpFile, getChipType, getFilenameExtension, getPlatform, nbrOfUnits, readDataFrame
 
  \bold{Methods inherited from AromaPlatformInterface}:\cr
 getAromaPlatform, getPlatform, getUnitAnnotationDataFile, getUnitNamesFile, getUnitTypesFile
@@ -79,8 +89,4 @@ asThis, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clone
  }
 
  \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
-
- \seealso{
-   \code{\link{AromaUnitTabularBinaryFile}}.
- }
 \keyword{classes}

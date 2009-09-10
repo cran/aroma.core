@@ -257,7 +257,7 @@ setMethodS3("readRawFooter", "AromaTabularBinaryFile", function(this, con=NULL, 
   seek(con=con, where=footerOffset, origin="start", rw="r");
   nbrOfBytes <- readInts(con=con, size=4);
 
-  raw <- readBin(con=con, what="raw", n=nbrOfBytes);
+  raw <- readBin(con=con, what=raw(), n=nbrOfBytes);
 
   res <- list(
     nbrOfBytes=nbrOfBytes,
@@ -893,7 +893,7 @@ setMethodS3("updateData", "AromaTabularBinaryFile", function(this, rows=NULL, co
 #      column is signed or not.}
 #   \item{comment}{An optional @character string written to the file header.}
 #   \item{overwrite}{If @TRUE, an existing file is overwritten, otherwise not.}
-#   \item{skip}{If @TRUE and \code{overwrite=@TRUE}, any existing file is 
+#   \item{skip}{If @TRUE and \code{overwrite=TRUE}, any existing file is 
 #      returned as is.}
 #   \item{footer}{An optional @list of attributes written (as character 
 #      strings) to the file footer.}

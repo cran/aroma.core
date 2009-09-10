@@ -22,7 +22,7 @@
 \code{~~+--}\code{RawGenomicSignals}\cr
 
 \bold{Directly known subclasses:}\cr
-\link[aroma.core]{RawAlleleBFractions}, \link[aroma.core]{RawCopyNumbers}, \link[aroma.core]{RawMirroredAlleleBFractions}, \link[aroma.core]{SegmentedAlleleBFractions}, \link[aroma.core]{SegmentedCopyNumbers}\cr
+\link[aroma.core]{RawAlleleBFractions}, \link[aroma.core]{RawCopyNumbers}, \link[aroma.core]{RawMirroredAlleleBFractions}, \link[aroma.core]{RawSequenceReads}, \link[aroma.core]{SegmentedAlleleBFractions}, \link[aroma.core]{SegmentedCopyNumbers}\cr
 
 public static class \bold{RawGenomicSignals}\cr
 extends \link[R.oo]{Object}\cr
@@ -88,11 +88,14 @@ extends \link[R.oo]{Object}\cr
  \tab \code{xMin} \tab  -\cr
  \tab \code{xRange} \tab  -\cr
  \tab \code{xSeq} \tab  -\cr
+ \tab \code{yMax} \tab  -\cr
+ \tab \code{yMin} \tab  -\cr
+ \tab \code{yRange} \tab  -\cr
 }
 
 
  \bold{Methods inherited from Object}:\cr
-asThis, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, save
+asThis, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, registerFinalizer, save
 
 
  }
