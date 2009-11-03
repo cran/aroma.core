@@ -1,6 +1,32 @@
 Package: aroma.core
 ===================
 
+Version: 1.3.1 [2009-11-03]
+o Replaced Rd cross references to sfit and HaarSeg packages with
+  plain text in order to meet the CRAN requirements that all
+  Rd links must exist on the CRAN servers.
+
+
+Version: 1.3.0 [2009-11-01]
+o New public release. 
+o More recent dependencies on Bioconductor packages.
+o Package passes R CMD check on R v2.10.0 and all redundancy tests.
+
+
+Version: 1.2.3 [2009-10-25]
+o Added getExtensionPattern() to most GenericDataFile classes.
+
+
+Version: 1.2.2 [2009-10-16]
+o Added setName() for RawGenomicSignals.
+o Stricter dependencies.
+
+
+Version: 1.2.1 [2009-10-02]
+o CLEAN UP: Updated to use byPath() instead fromFiles().
+o CLEAN UP: Move the Interface class to the R.oo package.
+
+
 Version: 1.2.0 [2009-09-09]
 o New public release. 
 o Fixed broken/missing Rd links.
