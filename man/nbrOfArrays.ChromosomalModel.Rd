@@ -1,38 +1,38 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Do not modify this file since it was automatically generated from:
 % 
-%  Explorer.R
+%  ChromosomalModel.R
 % 
 % by the Rdoc compiler part of the R.oo package.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\name{getArrays.Explorer}
-\alias{getArrays.Explorer}
-\alias{Explorer.getArrays}
-\alias{getArrays.Explorer}
-\alias{getArrays,Explorer-method}
+\name{nbrOfArrays.ChromosomalModel}
+\alias{nbrOfArrays.ChromosomalModel}
+\alias{ChromosomalModel.nbrOfArrays}
+\alias{nbrOfArrays.ChromosomalModel}
+\alias{nbrOfArrays,ChromosomalModel-method}
 
 
-\title{Gets the names of the arrays}
+\title{Gets the number of arrays}
 
 \description{
- Gets the names of the arrays in the explorer.
+ Gets the number of arrays used in the model.
 }
 
-\usage{\method{getArrays}{Explorer}(this, ...)}
+\usage{\method{nbrOfArrays}{ChromosomalModel}(this, ...)}
 
 \arguments{
   \item{...}{Not used.}
 }
 
 \value{
- Returns a \code{\link[base]{character}} \code{\link[base]{vector}}.
+ Returns an \code{\link[base]{integer}}.
 }
 
 \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
 
 \seealso{
-  For more information see \code{\link{Explorer}}.
+  For more information see \code{\link{ChromosomalModel}}.
 }
 \keyword{internal}
 \keyword{methods}

@@ -60,6 +60,7 @@ extends \emph{\link[aroma.core]{AromaPlatformInterface}}\cr
  \tab \code{getAromaUgpFile} \tab  -\cr
  \tab \code{getChipType} \tab  -\cr
  \tab \code{getPlatform} \tab  -\cr
+ \tab \code{isAverageFile} \tab  -\cr
  \tab \code{nbrOfUnits} \tab  -\cr
  \tab \code{readDataFrame} \tab  -\cr
 }

@@ -1,25 +1,25 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Do not modify this file since it was automatically generated from:
 % 
-%  AromaMicroarrayDataSetTuple.R
+%  ChromosomalModel.R
 % 
 % by the Rdoc compiler part of the R.oo package.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\name{getArrays.AromaMicroarrayDataSetTuple}
-\alias{getArrays.AromaMicroarrayDataSetTuple}
-\alias{AromaMicroarrayDataSetTuple.getArrays}
-\alias{getArrays.AromaMicroarrayDataSetTuple}
-\alias{getArrays,AromaMicroarrayDataSetTuple-method}
+\name{getChromosomes.ChromosomalModel}
+\alias{getChromosomes.ChromosomalModel}
+\alias{ChromosomalModel.getChromosomes}
+\alias{getChromosomes.ChromosomalModel}
+\alias{getChromosomes,ChromosomalModel-method}
 
 
-\title{Gets the names of the arrays}
+\title{Gets the chromosomes available}
 
 \description{
- Gets the names of the arrays available in the model.
+ Gets the chromosomes available.
 }
 
-\usage{\method{getArrays}{AromaMicroarrayDataSetTuple}(this, ...)}
+\usage{\method{getChromosomes}{ChromosomalModel}(this, ...)}
 
 \arguments{
   \item{...}{Not used.}
@@ -32,7 +32,7 @@
 \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
 
 \seealso{
-  For more information see \code{\link{AromaMicroarrayDataSetTuple}}.
+  For more information see \code{\link{ChromosomalModel}}.
 }
 \keyword{internal}
 \keyword{methods}
