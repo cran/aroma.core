@@ -129,14 +129,12 @@ setMethodS3("extractMatrix", "AromaUnitSignalBinaryFile", function(this, units=N
 setMethodS3("extractRawGenomicSignals", "AromaUnitSignalBinaryFile", function(this, chromosome, range=NULL, units=NULL, keepUnits=FALSE, ..., clazz=RawGenomicSignals, verbose=FALSE) {
   # Argument 'units':
   if (!is.null(units)) {
-    units <- Arguments$getIndices(units, range=c(1, nbrOfUnits(this)));
+    units <- Arguments$getIndices(units, max=nbrOfUnits(this));
     units <- sort(unique(units));
   }
 
   # Argument 'clazz':
-  if (!inherits(clazz, "Class")) {
-    throw("Argument 'clazz' is not a Class: ", class(clazz)[1]);
-  }
+  clazz <- Arguments$getInstanceOf(clazz, "Class");
 
   # Argument 'keepUnits':
   keepUnits <- Arguments$getLogical(keepUnits);
@@ -209,6 +207,13 @@ setMethodS3("extractRawGenomicSignals", "AromaUnitSignalBinaryFile", function(th
 }, protected=TRUE)
 
 
+setMethodS3("isAverageFile", "AromaUnitSignalBinaryFile", function(this, ...) {
+  name <- getName(this);
+  res <- (regexpr("^[.]average-", name) != -1);
+  res;
+})
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # BEGIN Interface API?
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -246,19 +251,14 @@ setMethodS3("getChipType", "AromaUnitSignalBinaryFile", function(this, fullname=
 
 setMethodS3("allocateFromUnitNamesFile", "AromaUnitSignalBinaryFile", function(static, unf, ...) {
   # Argument 'unf':
-  className <- "UnitAnnotationDataFile";
-  if (!inherits(unf, className)) {
-    throw("Argument 'unf' is not of class ", className, ": ", class(unf)[1]);
-  }
+  unf <- Arguments$getInstanceOf(unf, "UnitAnnotationDataFile");
+
   allocateFromUnitAnnotationDataFile(static, udf=unf, ...);
 })
 
 setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitSignalBinaryFile", function(static, udf, ...) {
   # Argument 'udf':
-  className <- "UnitAnnotationDataFile";
-  if (!inherits(udf, className)) {
-    throw("Argument 'udf' is not of class ", className, ": ", class(udf)[1]);
-  }
+  udf <- Arguments$getInstanceOf(udf, "UnitAnnotationDataFile");
 
   platform <- getPlatform(udf);
   chipType <- getChipType(udf);
@@ -290,6 +290,8 @@ setMethodS3("getAromaUgpFile", "AromaUnitSignalBinaryFile", function(this, ..., 
 
 ############################################################################
 # HISTORY:
+# 2009-11-19
+# o Added isAverageFile() for AromaUnitSignalBinaryFile.
 # 2009-07-08
 # o Added allocateFromUnitAnnotationDataFile() to AromaUnitSignalBinaryFile.
 # 2009-06-13

@@ -27,7 +27,7 @@
 \link[aroma.core]{AromaUnitTypesFile}\cr
 
 public abstract static class \bold{UnitTypesFile}\cr
-extends \emph{\link[aroma.core]{UnitAnnotationDataFile}}\cr
+extends \link[aroma.core]{UnitAnnotationDataFile}\cr
 
 
 
@@ -50,7 +50,7 @@ extends \emph{\link[aroma.core]{UnitAnnotationDataFile}}\cr
 
 
  \bold{Methods inherited from UnitAnnotationDataFile}:\cr
-byChipType, getAromaUgpFile, getChipType, getPlatform, nbrOfUnits
+byChipType, getAromaUflFile, getAromaUgpFile, getChipType, getPlatform, nbrOfUnits
 
  \bold{Methods inherited from Interface}:\cr
 extend, print, uses

@@ -43,7 +43,8 @@ setMethodS3("isHomozygous", "AromaUnitGenotypeCallFile", function(this, ..., dro
   }
   rm(calls);
 
-  res <- array(NA, dim=dim[-2]);
+  naValue <- as.logical(NA);
+  res <- array(naValue, dim=dim[-2]);
   res[,1] <- (counts == 1);
   rm(counts);
 
@@ -234,7 +235,7 @@ setMethodS3("updateGenotypes", "AromaUnitGenotypeCallFile", function(this, units
     units <- 1:nbrOfUnits;
   } else {
     nbrOfUnits <- nbrOfUnits(this);
-    units <- Arguments$getIndices(units, range=c(1,nbrOfUnits));
+    units <- Arguments$getIndices(units, max=nbrOfUnits);
     nbrOfUnits <- length(units);
   }
 
