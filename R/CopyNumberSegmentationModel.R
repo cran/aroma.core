@@ -43,7 +43,7 @@ setMethodS3("getAsteriskTags", "CopyNumberSegmentationModel", function(this, col
     tags <- c(tags, "paired");
 
   # Collapse?
-  tags <- paste(tags, collapse=collapse);
+  tags <- Arguments$getTags(tags, collapse=collapse);
 
   tags;
 }, protected=TRUE)
@@ -56,40 +56,23 @@ setMethodS3("getTags", "CopyNumberSegmentationModel", function(this, collapse=NU
   # Add model tags
   tags <- c(tags, this$.tags);
 
+  # In case this$.tags is not already split
+  tags <- strsplit(tags, split=",", fixed=TRUE);
+  tags <- unlist(tags);
+
   # Update default tags
   asteriskTags <- paste(getAsteriskTags(this)[-1], collapse=",");
   if (length(asteriskTags) == 0)
     asteriskTags <- "";
   tags[tags == "*"] <- asteriskTags;
-  tags <- tags[nchar(tags) > 0];
 
-  # Nothing more to do?
-  if (length(tags) == 0) {
-    return(NULL);
-  }
-
-  tags <- unlist(strsplit(tags, split=","), use.names=TRUE);
-  tags <- tags[nchar(tags) > 0];
-
-  # Nothing more to do?
-  if (length(tags) == 0) {
-    return(NULL);
-  }
+  tags <- Arguments$getTags(tags, collapse=NULL);
 
   # Get unique tags
   tags <- locallyUnique(tags);
 
   # Collapsed or split?
-  if (!is.null(collapse)) {
-    tags <- paste(tags, collapse=collapse);
-  } else {
-    tags <- unlist(strsplit(tags, split=","));
-  }
-
-  # Nothing more to do?
-  if (length(tags) == 0) {
-    return(NULL);
-  }
+  tags <- Arguments$getTags(tags, collapse=collapse);
 
   tags;
 })
