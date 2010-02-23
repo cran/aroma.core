@@ -20,11 +20,12 @@
 # }
 # 
 # \details{
-#   Internally @see "mpcbs::mpcbs.mbic" is used to segment the signals.
+#   Internally \code{mpcbs.mbic()} of the \pkg{mpcbs} package is used
+#   for segmenting the signals.
 #   This segmentation method does not support weighted segmentation.
 # }
 #
-# @examples "../incl/RawGenomicSignals.SEG.Rex"
+# @examples "../incl/RawGenomicSignals.SEG,MP.Rex"
 #
 # @author
 #
@@ -252,11 +253,13 @@ setMethodS3("segmentByMPCBS", "RawGenomicSignals", function(this, ..., cache=FAL
   verbose && exit(verbose);
 
   fit;  
-}, private=TRUE) # segmentByCBS()
+}) # segmentByCBS()
 
 
 ############################################################################
 # HISTORY:
+# 2010-02-18
+# o Added an MPCBS example().
 # 2010-01-02
 # o Created from segmentByCBS.R.
 ############################################################################

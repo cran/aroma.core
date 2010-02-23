@@ -88,25 +88,21 @@ setMethodS3("getTags", "AromaMicroarrayDataSetTuple", function(this, collapse=NU
   # Add optional tuple tags
   tags <- c(tags, this$.tags);
 
+  # In case this$.tags is not already split
+  tags <- strsplit(tags, split=",", fixed=TRUE);
+  tags <- unlist(tags);
+
   # Update asterisk tags
   tags[tags == "*"] <- getAsteriskTags(this, collapse=",");
 
   # Remove empty tags
-  tags <- tags[nchar(tags) > 0];
+  tags <- Arguments$getTags(tags, collapse=NULL);
 
   # Remove duplicated tags 
   tags <- locallyUnique(tags);
 
   # Collapsed or split?
-  if (!is.null(collapse)) {
-    tags <- paste(tags, collapse=collapse);
-  } else {
-    if (length(tags) > 0)
-      tags <- unlist(strsplit(tags, split=","));
-  }
-
-  if (length(tags) == 0)
-    tags <- NULL;
+  tags <- Arguments$getTags(tags, collapse=collapse);
 
   tags;
 })

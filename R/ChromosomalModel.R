@@ -42,12 +42,7 @@ setConstructorS3("ChromosomalModel", function(cesTuple=NULL, tags="*", genome="H
   }
 
   # Argument 'tags':
-  if (!is.null(tags)) {
-    tags <- Arguments$getCharacters(tags);
-    tags <- trim(unlist(strsplit(tags, split=",")));
-    tags <- tags[nchar(tags) > 0];
-  }
- 
+  tags <- Arguments$getTags(tags, collapse=NULL);
 
   this <- extend(Object(), "ChromosomalModel",
     .alias = NULL,
@@ -222,9 +217,66 @@ setMethodS3("nbrOfChipTypes", "ChromosomalModel", function(this, ...) {
 
 
 setMethodS3("getListOfUnitNamesFiles", "ChromosomalModel", function(this, ...) {
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Validate arguments
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Argument 'verbose':
+  verbose <- Arguments$getVerbose(verbose);
+  if (verbose) {
+    pushState(verbose);
+    on.exit(popState(verbose));
+  }
+
+  verbose && enter(verbose, "Retrieving unit names files");
+
   tuple <- getSetTuple(this);
-  getListOfUnitNamesFiles(tuple, ...);
+
+  tryCatch({
+    unfList <- getListOfUnitNamesFiles(tuple, ...);
+  }, error = function(ex) {
+    msg <- sprintf("Failed to located unit-names files for one of the chip types (%s). The error message was: %s", paste(getChipTypes(this), collapse=", "), ex$message);
+    throw(msg);
+  });
+
+  verbose && exit(verbose);
+
+  unfList;
 }, private=TRUE)
+
+
+setMethodS3("getListOfAromaUgpFiles", "ChromosomalModel", function(this, ..., verbose=FALSE) {
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Validate arguments
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Argument 'verbose':
+  verbose <- Arguments$getVerbose(verbose);
+  if (verbose) {
+    pushState(verbose);
+    on.exit(popState(verbose));
+  }
+
+  verbose && enter(verbose, "Retrieving list of UGP files");
+
+  tuple <- getSetTuple(this);
+#  unfList <- getListOfUnitNamesFiles(this);
+
+  ugpList <- NULL;
+  tryCatch({
+    verbose && enter(verbose, "Retrieving UGP files from unit names files");
+#    ugpList <- lapply(unfList, getAromaUgpFile, verbose=less(verbose));
+#   TODO: Why not do this?  /HB 2010-01-12
+    ugpList <- lapply(tuple, getAromaUgpFile, verbose=less(verbose));
+    verbose && exit(verbose);
+  }, error = function(ex) {
+    msg <- sprintf("Failed to located UGP files for one of the chip types (%s). Please note that DChip GenomeInformation files are no longer supported.  The error message was: %s", paste(getChipTypes(this), collapse=", "), ex$message);
+    throw(msg);
+  });
+
+  verbose && exit(verbose);
+
+  ugpList;
+})
+
 
 setMethodS3("getListOfUnitTypesFiles", "ChromosomalModel", function(this, ...) {
   tuple <- getSetTuple(this);
@@ -490,29 +542,23 @@ setMethodS3("getTags", "ChromosomalModel", function(this, collapse=NULL, ...) {
   # Add model tags
   tags <- c(tags, this$.tags);
 
+  # In case this$.tags is not already split
+  tags <- strsplit(tags, split=",", fixed=TRUE);
+  tags <- unlist(tags);
+
   # Update default tags
   asteriskTags <- getAsteriskTags(this, collapse=",");
   if (length(asteriskTags) == 0)
     asteriskTags <- "";
   tags[tags == "*"] <- asteriskTags;
-  tags <- tags[nchar(tags) > 0];
-  tags <- unlist(strsplit(tags, split=","), use.names=TRUE);
 
-  # Keep non-empty tags
-  tags <- tags[nchar(tags) > 0];
+  tags <- Arguments$getTags(tags, collapse=NULL);
 
   # Get unique tags
   tags <- locallyUnique(tags);
 
   # Collapsed or split?
-  if (!is.null(collapse)) {
-    tags <- paste(tags, collapse=collapse);
-  } else {
-    tags <- unlist(strsplit(tags, split=","));
-  }
-
-  if (length(tags) == 0)
-    tags <- NULL;
+  tags <- Arguments$getTags(tags, collapse=collapse);
 
   tags;
 })
@@ -564,35 +610,6 @@ setMethodS3("getChromosomes", "ChromosomalModel", function(this, ...) {
 
 
 
-setMethodS3("getListOfAromaUgpFiles", "ChromosomalModel", function(this, ..., verbose=FALSE) {
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Validate arguments
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Argument 'verbose':
-  verbose <- Arguments$getVerbose(verbose);
-  if (verbose) {
-    pushState(verbose);
-    on.exit(popState(verbose));
-  }
-
-  verbose && enter(verbose, "Retrieving list of UGP files");
-  ugpList <- NULL;
-  tryCatch({
-    verbose && enter(verbose, "Retrieving unit names files");
-    unfList <- getListOfUnitNamesFiles(this);
-    verbose && exit(verbose);
-    verbose && enter(verbose, "Retrieving UGP files from unit names files");
-    ugpList <- lapply(unfList, getAromaUgpFile, verbose=less(verbose));
-    verbose && exit(verbose);
-    verbose && exit(verbose);
-  }, error = function(ex) {
-    msg <- sprintf("Failed to located UGP files for one of the chip types (%s). Please note that DChip GenomeInformation files are no longer supported.  There error message was: %s", paste(getChipTypes(this), collapse=", "), ex$message);
-    throw(msg);
-  });
-
-  ugpList;
-})
-
 
 
 setMethodS3("getGenome", "ChromosomalModel", function(this, ...) {
@@ -600,10 +617,24 @@ setMethodS3("getGenome", "ChromosomalModel", function(this, ...) {
 })
 
 
-setMethodS3("getGenomeFile", "ChromosomalModel", function(this, ..., verbose=FALSE) {
+setMethodS3("getGenomeFile", "ChromosomalModel", function(this, ..., genome=getGenome(this), tags="chromosomes", pattern="^%s(,.*)*[.]txt$", onMissing=c("error", "warning", "ignore"), verbose=FALSE) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Argument 'genome':
+  genome <- Arguments$getCharacter(genome);
+
+  # Argument 'tags':
+  tags <- Arguments$getTags(tags, collapse=",");
+
+  # Argument 'pattern':
+  if (!is.null(pattern)) {
+    pattern <- Arguments$getRegularExpression(pattern);
+  }
+
+  # Argument 'onMissing':
+  onMissing <- match.arg(onMissing);
+
   # Argument 'verbose':
   verbose <- Arguments$getVerbose(verbose);
   if (verbose) {
@@ -611,26 +642,59 @@ setMethodS3("getGenomeFile", "ChromosomalModel", function(this, ..., verbose=FAL
     on.exit(popState(verbose));
   }
 
-  fullname <- getGenome(this);
-  pattern <- sprintf("^%s.*,chromosomes.txt$", fullname);
 
-  # 1. Search in the regular places
-  pathname <- findAnnotationData(name=fullname, set="genomes", 
-                            pattern=pattern, ..., verbose=less(verbose, 10));
+  verbose && enter(verbose, "Locating genome annotation file");
 
-  # 2. As a backup, search in the <pkg>/annotationData/ directory
-  if (is.null(pathname)) {
-    verbose && enter(verbose, "Search among package's annotationData/");
-    path <- system.file("annotationData", package="aroma.affymetrix");
+  fullname <- paste(c(genome, tags), collapse=",");
+
+  verbose && cat(verbose, "Genome name: ", genome);
+  verbose && cat(verbose, "Genome tags: ", tags);
+  verbose && cat(verbose, "Genome fullname: ", fullname);
+
+  pattern <- sprintf(pattern, fullname);
+  verbose && cat(verbose, "Pattern: ", pattern);
+
+  # Paths to search in
+  paths <- c(
+    system.file("annotationData", package="aroma.core"),
+    system.file("annotationData", package="aroma.affymetrix")
+  );
+  keep <- (nchar(paths) > 0);
+  paths <- paths[keep];
+  keep <- sapply(paths, FUN=isDirectory);
+  paths <- paths[keep];
+  paths <- lapply(paths, FUN=function(path) Arguments$getReadablePath(path));
+  paths <- c(list(NULL), paths);
+
+  verbose && cat(verbose, "Paths to be searched:");
+  verbose && str(verbose, paths);
+
+  for (kk in seq(along=paths)) {
+    path <- paths[[kk]];
     verbose && cat(verbose, "Path: ", path);
     pathname <- findAnnotationData(name=fullname, set="genomes", 
                 pattern=pattern, ..., paths=path, verbose=less(verbose, 10));
-    verbose && exit(verbose);
+    if (!is.null(pathname)) {
+      verbose && cat(verbose, "Found file: ", pathname);
+      break;
+    }
   }
 
+  # Failed to locate a file?
   if (is.null(pathname)) {
-    throw("Failed to locate a genome annotation data file: ", fullname);
+    msg <- sprintf("Failed to locate a genome annotation data file with pattern '%s' for genome '%s'.", pattern, genome);
+    verbose && cat(verbose, msg);
+
+    # Action?
+    if (onMissing == "error") {
+      throw(msg);
+    } else if (onMissing == "warning") {
+      warning(msg);
+    } else if (onMissing == "ignore") {
+    }
   }
+
+  verbose && exit(verbose);
 
   pathname;
 }, protected=TRUE)
@@ -720,6 +784,50 @@ setMethodS3("getSetTag", "ChromosomalModel", function(this, ...) {
 }, private=TRUE)
 
 
+setMethodS3("getOutputSet", "ChromosomalModel", function(this, ...) {
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Validate arguments
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Argument 'verbose':
+  verbose <- Arguments$getVerbose(verbose);
+  if (verbose) {
+    pushState(verbose);
+    on.exit(popState(verbose));
+  }
+
+  verbose && enter(verbose, "Retrieving output set");
+
+  verbose && enter(verbose, "Scanning output path");
+  # Locate all 
+  path <- getPath(this);
+  verbose && cat(verbose, "Path: ", path);
+  fs <- GenericDataFileSet$byPath(path, ...);
+  verbose && cat(verbose, "Number of matching files located: ", nbrOfFiles(fs));
+  verbose && exit(verbose);
+
+  verbose && enter(verbose, "Keep those with fullnames matching the input data set");
+  fullnames <- getFullNames(fs);
+  
+  # Drop extranous files
+  keepFullnames <- getFullNames(this);
+  patterns <- sprintf("^%s", fullnames);
+  keep <- rep(FALSE, times=length(fullnames));
+  for (pattern in patterns) {
+    keep <- keep | (regexpr(pattern, fullnames) != -1);
+  }
+  if (any(!keep)) {
+    fs <- extract(fs, keep);
+  }
+  verbose && exit(verbose);
+
+  verbose && print(verbose, fs);
+
+  verbose && exit(verbose);
+
+  fs;
+}, private=TRUE)
+
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 # BEGIN: DEPRECATED
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -762,6 +870,16 @@ setMethodS3("setAlias", "ChromosomalModel", function(this, alias=NULL, ...) {
 
 ##############################################################################
 # HISTORY:
+# 2010-02-19
+# o Updated getGenomeFile() for ChromosomalModel such that it can be used
+#   to locate other types of genome annotation files as well, files that
+#   may be optional (without giving an error).
+# 2010-02-18
+# o Added getOutputSet() for ChromosomalModel.
+# 2010-01-13
+# o getListOfAromaUgpFiles() for ChromosomalModel no longer goes via 
+#   getListOfUnitNamesFiles().  This opens up the possibility to work with
+#   data files without unit names files, e.g. smoothed CN data.
 # 2009-11-18
 # o CLEAN UP: Removed all Affymetrix specific classes/methods.
 # 2009-11-16

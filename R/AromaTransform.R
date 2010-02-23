@@ -196,18 +196,15 @@ setMethodS3("getTags", "AromaTransform", function(this, collapse=NULL, ...) {
   # Get class-specific tags
   tags <- c(tags, this$.tags);
 
+  # In case this$.tags is not already split
+  tags <- strsplit(tags, split=",", fixed=TRUE);
+  tags <- unlist(tags);
+
   # Update default tags
   tags[tags == "*"] <- getAsteriskTags(this, collapse=",");
 
   # Collapsed or split?
-  if (!is.null(collapse)) {
-    tags <- paste(tags, collapse=collapse);
-  } else {
-    tags <- unlist(strsplit(tags, split=","));
-  }
-
-  if (length(tags) == 0)
-    tags <- NULL;
+  tags <- Arguments$getTags(tags, collapse=collapse);
 
   tags;
 })
@@ -216,9 +213,7 @@ setMethodS3("getTags", "AromaTransform", function(this, collapse=NULL, ...) {
 setMethodS3("setTags", "AromaTransform", function(this, tags="*", ...) {
   # Argument 'tags':
   if (!is.null(tags)) {
-    tags <- Arguments$getCharacters(tags);
-    tags <- trim(unlist(strsplit(tags, split=",")));
-    tags <- tags[nchar(tags) > 0];
+    tags <- Arguments$getCharacters(tags, collapse=NULL);
   }
   
   this$.tags <- tags;

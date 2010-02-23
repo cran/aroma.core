@@ -51,7 +51,6 @@
 \alias{applyRegions.CopyNumberOutliers}
 \alias{applyRows}
 \alias{applyRows.CopyNumberRegions}
-\alias{AromaCellPositionFile}
 \alias{AromaCellSequenceFile}
 \alias{AromaCore}
 \alias{AromaPackage}
@@ -944,7 +943,28 @@
 \alias{drawCnRegions.MPCBS}
 \alias{extractCopyNumberRegions.MPCBS}
 \alias{segmentByMPCBS}
-\alias{segmentByMPCBS.RawGenomicSignals}
+\alias{getAromaUgpFile.AromaPlatformInterface}
+\alias{isCompatibleWith}
+\alias{isCompatibleWith.AromaPlatformInterface}
+\alias{getTags.Arguments}
+\alias{doCBS}
+\alias{doCBS.character}
+\alias{doCBS.CopyNumberDataSet}
+\alias{getOutputSet}
+\alias{getOutputSet.ChromosomalModel}
+\alias{setAttributesBy.AromaTabularBinarySet}
+\alias{setAttributesBySampleAnnotationFile.AromaTabularBinarySet}
+\alias{setAttributesBySampleAnnotationSet.AromaTabularBinarySet}
+\alias{setAttributesByTags.AromaTabularBinarySet}
+\alias{allocate.AromaCellCpgFile}
+\alias{byChipType.AromaCellCpgFile}
+\alias{getColumnNames.AromaCellCpgFile}
+\alias{getFilenameExtension.AromaCellCpgFile}
+\alias{isMissing.AromaCellCpgFile}
+\alias{readCpgs}
+\alias{readCpgs.AromaCellCpgFile}
+\alias{updateCpgs}
+\alias{updateCpgs.AromaCellCpgFile}
 
 \description{
   This page contains aliases for all "non-documented" objects that

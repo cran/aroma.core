@@ -49,11 +49,7 @@ setConstructorS3("Explorer", function(tags="*", ...) {
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Argument 'tags':
-  if (!is.null(tags)) {
-    tags <- Arguments$getCharacters(tags);
-    tags <- trim(unlist(strsplit(tags, split=",")));
-    tags <- tags[nchar(tags) > 0];
-  }
+  tags <- Arguments$getTags(tags, collapse=NULL);
 
   extend(Object(), "Explorer",
     .alias = NULL,
@@ -348,25 +344,22 @@ setMethodS3("getTags", "Explorer", function(this, collapse=NULL, ...) {
   tags <- getTagsOfInput(this, ...);
 
   tags <- c(tags, this$.tags);
+
+  # In case this$.tags is not already split
+  tags <- strsplit(tags, split=",", fixed=TRUE);
+  tags <- unlist(tags);
+
   tags <- locallyUnique(tags);
 
   # Update asterisk tags
   tags[tags == "*"] <- getAsteriskTags(this, collapse=",");
 
-  # Keep non-empty tags
-  tags <- tags[nchar(tags) > 0];
+  tags <- Arguments$getTags(tags, collapse=NULL);
 
   tags <- locallyUnique(tags);
 
   # Collapsed or split?
-  if (!is.null(collapse)) {
-    tags <- paste(tags, collapse=collapse);
-  } else {
-    tags <- unlist(strsplit(tags, split=","));
-  }
-
-  if (length(tags) == 0)
-    tags <- NULL;
+  tags <- Arguments$getTags(tags, collapse=collapse);
 
   tags;
 })
@@ -407,7 +400,8 @@ setMethodS3("getReportPathPattern", "Explorer", function(this, ...) {
 })
 
 setMethodS3("splitByReportPathPattern", "Explorer", function(this, tags, ...) {
-  tags <- paste(tags, collapse=",");
+  # Argument 'tags':
+  tags <- Arguments$getTags(tags, collapse=",");
 
   # Get subname and sampleLayerPrefix
 	pattern <- getReportPathPattern(this);
@@ -440,8 +434,9 @@ setMethodS3("getSubname", "Explorer", function(this, ...) {
 
   # Infer from tags
   tags <- getTags(this, collapse=",");
-  if (nchar(tags) == 0)
+  if (length(tags) == 0 || nchar(tags) == 0) {
     tags <- "raw";  # Default
+  }
 
   subname <- splitByReportPathPattern(this, tags)$subname;
   if (is.null(subname))
@@ -454,8 +449,9 @@ setMethodS3("getSubname", "Explorer", function(this, ...) {
 setMethodS3("getSampleLayerPrefix", "Explorer", function(this, ...) {
   # Infer from tags
   tags <- getTags(this, collapse=",");
-  if (nchar(tags) == 0)
+  if (length(tags) == 0 || nchar(tags) == 0) {
     tags <- "raw";  # Default
+  }
   prefix <- splitByReportPathPattern(this, tags)$sampleLayerPrefix;
   prefix;
 }, protected=TRUE)
