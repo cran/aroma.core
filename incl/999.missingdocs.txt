@@ -466,3 +466,10 @@ getTags.Arguments
   getColumnNames.AromaCellCpgFile getFilenameExtension.AromaCellCpgFile
   isMissing.AromaCellCpgFile readCpgs readCpgs.AromaCellCpgFile
   updateCpgs updateCpgs.AromaCellCpgFile
+  getRandomSeed getRandomSeed.CbsModel setRandomSeed
+  setRandomSeed.CbsModel
+equals.CopyNumberRegions
+writeDataFrame
+  getParentName getParentName.GenericDataFile
+  getParentName.GenericDataFileSet getRootName
+  getRootName.AromaTabularBinaryFile getRootName.AromaTabularBinarySet

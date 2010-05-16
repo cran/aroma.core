@@ -1,6 +1,59 @@
 Package: aroma.core
 ===================
 
+Version: 1.6.0 [2010-05-14]
+o Package submitted to CRAN.
+o Package pass R CMD check on R v2.11.0 and v2.12.0 devel.
+
+
+Version: 1.5.8 [2010-05-13]
+o Now argument 'path' of all writeDataFrame() methods defaults 
+  to <rootPath>,txt/<dataSet>/<chipType>/.
+
+
+Version: 1.5.7 [2010-04-27]
+o Added writeDataFrame() for AromaUnitTabularBinaryFile.
+o Added argument 'columnNamesPrefix' to all writeDataFrame().
+o AD HOC: Now getUnitAnnotationDataFile() of AromaPlatformInterface 
+  load aroma.affymetrix if needed and if installed.
+
+
+Version: 1.5.6 [2010-04-22]
+o Added writeDataFrame() for AromaUnitSignalBinary{File|Set}.
+
+
+Version: 1.5.5 [2010-04-12]
+o BUG FIX: getFitFunction() of CbsModel would return a function that
+  would give "Error in segmentByCBS.RawGenomicSignals(..., seed = seed):
+  formal argument "seed" matched by multiple actual arguments".
+
+
+Version: 1.5.4 [2010-04-06]
+o Added equals() for CopyNumberRegions.
+o Added argument 'seed' to CbsModel, which will, if specified, set
+  the random seed (temporarily) each time (per sample and chromosome)
+  before calling the segmentation method.
+
+
+Version: 1.5.3 [2010-04-05]
+o Added argument 'seed' to segmentByCBS() for RawGenomicSignals.
+
+
+Version: 1.5.2 [2010-03-29]
+o ROBUSTNESS: Increased the requirements of support packages.
+
+
+Version: 1.5.1 [2010-03-02]
+o Now segmentByMPCBS() can be used to segment data from a single source.
+o CHANGE: Argument 'arrays' of doCBS() for CopyNumberDataSet no longer
+  subset the input data set, but instead is passed to the fit() function
+  of the segmentation model.  This way all arrays in the input data set 
+  are still used for calculating the pooled reference.
+o ROBUSTNESS: Added more sanity checks to segmentByMPCBS() for
+  RawGenomicSignals.
+o BUG FIX: Forgot argument 'verbose' of getOutputSet() of ChromosomalModel.
+
+
 Version: 1.5.0 [2010-02-22]
 o Submitted to CRAN.  No changes since v1.4.7.
 o Package passes R CMD check on R v2.10.1 patch and R v2.11.0 devel.
