@@ -950,6 +950,7 @@
 \alias{doCBS}
 \alias{doCBS.character}
 \alias{doCBS.CopyNumberDataSet}
+\alias{doCBS.CopyNumberDataSetTuple}
 \alias{getOutputSet}
 \alias{getOutputSet.ChromosomalModel}
 \alias{setAttributesBy.AromaTabularBinarySet}
@@ -977,6 +978,32 @@
 \alias{getRootName}
 \alias{getRootName.AromaTabularBinaryFile}
 \alias{getRootName.AromaTabularBinarySet}
+\alias{getAromaFullNameTranslatorSet}
+\alias{getAromaFullNameTranslatorSet.character}
+\alias{getFullNameTranslatorSet}
+\alias{getFullNameTranslatorSet.character}
+\alias{getFullNameTranslatorSet.GenericDataFileSet}
+\alias{getAromaFullNameTranslatorSet.AromaMicroarrayDataSet}
+\alias{getAromaFullNameTranslatorSet.AromaUnitSignalBinarySet}
+\alias{extractRegions}
+\alias{extractRegions.RawGenomicSignals}
+\alias{subset.CopyNumberRegions}
+\alias{writeDataFrame.AromaUnitTotalCnBinarySet}
+\alias{writeDataFrame.AromaUnitFracBCnBinarySet}
+\alias{-.CopyNumberRegions}
+\alias{*.CopyNumberRegions}
+\alias{+.CopyNumberRegions}
+\alias{getMeanAt}
+\alias{getMeanAt.CopyNumberRegions}
+\alias{getValueAt}
+\alias{getValueAt.CopyNumberRegions}
+\alias{prune}
+\alias{prune.CopyNumberRegions}
+\alias{simulateRawCopyNumbers}
+\alias{simulateRawCopyNumbers.CopyNumberRegions}
+\alias{xRange.CopyNumberRegions}
+\alias{xMax.CopyNumberRegions}
+\alias{xMin.CopyNumberRegions}
 
 \description{
   This page contains aliases for all "non-documented" objects that

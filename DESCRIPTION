@@ -1,11 +1,11 @@
 Package: aroma.core
-Version: 1.6.0
-Date: 2010-05-14
+Version: 1.7.0
+Date: 2010-07-26
 Title: Support package for aroma.affymetrix et al.
 Author: Henrik Bengtsson <henrikb@braju.com>
 Maintainer: Henrik Bengtsson <henrikb@braju.com>
-Depends: R (>= 2.9.0), R.methodsS3 (>= 1.2.0), R.oo (>= 1.7.2), R.utils
-        (>= 1.4.0), R.cache (>= 0.3.0), R.filesets (>= 0.8.1), R.rsp
+Depends: R (>= 2.9.0), R.methodsS3 (>= 1.2.0), R.oo (>= 1.7.3), R.utils
+        (>= 1.4.3), R.cache (>= 0.3.0), R.filesets (>= 0.8.3), R.rsp
         (>= 0.3.6), matrixStats (>= 0.2.1), digest (>= 0.4.2),
         aroma.light (>= 1.16.0)
 Imports: affxparser (>= 1.16.0), RColorBrewer (>= 1.0-2)
@@ -24,6 +24,6 @@ LazyLoad: TRUE
 biocViews: Microarray, OneChannel, TwoChannel, MultiChannel,
         DataImport, DataRepresentation, GUI, Visualization,
         Preprocessing, QualityControl, aCGH, CopyNumberVariants
-Packaged: 2010-05-14 07:21:35 UTC; hb
+Packaged: 2010-07-26 09:08:08 UTC; hb
 Repository: CRAN
-Date/Publication: 2010-05-16 16:15:34
+Date/Publication: 2010-07-26 11:49:38
