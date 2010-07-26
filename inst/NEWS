@@ -1,6 +1,63 @@
 Package: aroma.core
 ===================
 
+Version: 1.7.0 [2010-07-26]
+o Committed to CRAN. No updates.
+
+
+Version: 1.6.8 [2010-07-24]
+o Added several methods for CopyNumberRegions, e.g. xRange(), prune(), 
+  simulateRawCopyNumbers(), "+"(), "-"() and "*"().
+
+
+Version: 1.6.7 [2010-07-20]
+o Added writeDataFrame() for AromaUnitTotalCnBinarySet and
+  AromaUnitFracBCnBinarySet to get the correct filename extension.
+  Thanks Nicolas Vergne at the Curie Institute for reporting this.
+
+
+Version: 1.6.6 [2010-07-19]
+o Added subset() for CopyNumberRegions.
+o Now extractRegion() for RawGenomicSignals also accepts a
+  CopyNumberRegions object for argument 'regions'.
+o Added extractRegions() for RawGenomicSignals.
+
+
+Version: 1.6.5 [2010-07-08]
+o BUG FIX: writeDateFrame() for AromaUnitSignalBinarySet would 
+  write the same data chunk over and over.
+
+
+Version: 1.6.4 [2010-07-06]
+o BUG FIX: indexOf() for ChromosomalModel would return NA if a search
+  pattern contained parenthesis '(' and ')'.  There was a similar issue
+  in indexOf() for GenericDataFileSet/List in R.filesets, which was
+  solved in R.filesets 0.8.3.  Now indexOf() for ChromosomalModel 
+  utilizes ditto for GenericDataFileSet for its solution.
+
+
+Version: 1.6.3 [2010-06-22]
+o BUG FIX: as.GrayscaleImage(..., transforms=NULL) for 'matrix' would
+  throw "Exception: Argument 'transforms' contains a non-function: NULL".
+
+
+Version: 1.6.2 [2010-06-02]
+o BUG FIX: updateDataColumn() of AromaTabularBinaryFile would 
+  censor *signed integers* incorrectly; it should censor at/to
+  [-(n+1),n], but did it at [-n,(n+1)] ("two's complement").
+  This caused it to write too large values as n+1, which then
+  would be read as -(n+1), e.g. writing 130 would be censored
+  to 128 (should be 127), which then would be read as -128.
+  Added more detailed information on how many values were censored.
+  Thanks Robert Ivanek for report on this.
+
+
+Version: 1.6.1 [2010-05-27]
+o Added trial version of fullname translator files.
+o doCBS() for character:s support data set tuples.
+o Added doCBS() for CopyNumberDataSetTuple:s.
+
+
 Version: 1.6.0 [2010-05-14]
 o Package submitted to CRAN.
 o Package pass R CMD check on R v2.11.0 and v2.12.0 devel.
