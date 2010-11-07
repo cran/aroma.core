@@ -1,6 +1,61 @@
 Package: aroma.core
 ===================
 
+Version: 1.8.0 [2010-11-07]
+o Committed to CRAN.
+o CLEANUP: Dropped non-used Javascript toolkit code that was intended
+  to be used for a future version of ChromosomeExplorer.
+
+
+Version: 1.7.6 [2010-11-06]
+o ROBUSTNESS: Now subsample() for BinnedScatter utilizes resample().
+o CLEANUP: Removed stext().  It is in R.utils.
+o CLEANUP: Removed some outdated patches for R v2.7.0 and before.
+o CLEANUP: Package no longer need to "suggest" geneplotter.
+
+
+Version: 1.7.5 [2010-10-25]
+o Now fit() for CopyNumberSegmentationModel also passed the optional
+  arguments ('...') passed to the constructor function.  This makes it
+  possible to specify all arguments while initiating the model, e.g.
+  sm <- CbsModel(..., min.width=5, alpha=0.05).
+o Now optional arguments '...' to CopyNumberChromosomalModel are recorded.
+
+
+Version: 1.7.4 [2010-10-13]
+o ROBUSTNESS/BUG FIX: The internal drawCytoband2() used to annotate 
+  chromosomal plots with cytobands tries to utilize GLAD package,
+  if available.  However, even when GLAD is installed it may still be
+  broken due to missing dynamic libraries, e.g. 'Error in 
+  library.dynam(lib, package, package.lib) : DLL 'GLAD' not found: maybe
+  not installed for this architecture?'.  We now avoid this too.
+
+
+Version: 1.7.3 [2010-09-12]
+o Added drawDensity() for CopyNumberRegions and RawGenomicSignals.
+o Added getDensity() for CopyNumberRegions which returns the 
+  empirical density of the mean levels weighted by the region lengths.
+o Added getLength() for CopyNumberRegions, which returns a vector
+  of region lengths.
+o Now the ylim defaults to c(0,5) for plot() for RawCopyNumbers.
+o Added basic support for operators +, - and * to RawGenomicSignals.
+
+
+Version: 1.7.2 [2010-08-22]
+o Added the AromaGenomeTextFile class.
+o Added genome annotation file Canine,chromosomes,UGP,HB20100822.txt to
+  system.file("annotationData/genomes/Canine", package="aroma.core").
+o BUG FIX: annotationData/genomes/Human/Human,chromosomes.txt had
+  an extra TAB on the ChrM row.
+
+
+Version: 1.7.1 [2010-08-06]
+o Added abstract classes SegmentationDataFile and SegmentationDataSet
+  to represent segmentation data results.  Current subclasses are
+  CbsSegmentationData(File|Set).
+o Added more utility methods for CopyNumberRegions.
+
+
 Version: 1.7.0 [2010-07-26]
 o Committed to CRAN. No updates.
 

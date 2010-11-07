@@ -1,21 +1,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Do not modify this file since it was automatically generated from:
 % 
-%  AromaCellTabularBinaryFile.R
+%  AromaGenomeTextFile.R
 % 
 % by the Rdoc compiler part of the R.oo package.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
- \name{AromaCellTabularBinaryFile}
+ \name{AromaGenomeTextFile}
 \docType{class}
-\alias{AromaCellTabularBinaryFile}
+\alias{AromaGenomeTextFile}
 
 
- \title{The AromaCellTabularBinaryFile class}
+ \title{The AromaGenomeTextFile class}
 
  \description{
   Package:  aroma.core \cr
-\bold{Class AromaCellTabularBinaryFile}\cr
+\bold{Class AromaGenomeTextFile}\cr
 
 \code{\link[R.oo]{Object}}\cr
 \code{~~|}\cr
@@ -25,48 +25,40 @@
 \code{~~~~~~~~~~~~|}\cr
 \code{~~~~~~~~~~~~+--}\code{\link[R.filesets]{GenericTabularFile}}\cr
 \code{~~~~~~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.core]{AromaTabularBinaryFile}}\cr
+\code{~~~~~~~~~~~~~~~~~+--}\code{\link[R.filesets]{TabularTextFile}}\cr
 \code{~~~~~~~~~~~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.core]{AromaPlatformInterface}}\cr
-\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~+--}\code{\link[aroma.core]{AromaMicroarrayTabularBinaryFile}}\cr
-\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|}\cr
-\code{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+--}\emph{\code{AromaCellTabularBinaryFile}}\cr
+\code{~~~~~~~~~~~~~~~~~~~~~~+--}\emph{\code{AromaGenomeTextFile}}\cr
 
 \bold{Directly known subclasses:}\cr
-\link[aroma.core]{AromaCellCpgFile}, \link[aroma.core]{AromaCellPositionFile}, \link[aroma.core]{AromaCellSequenceFile}\cr
+\cr
 
-public abstract static class \bold{AromaCellTabularBinaryFile}\cr
-extends \emph{\link[aroma.core]{AromaMicroarrayTabularBinaryFile}}\cr
+public abstract static class \bold{AromaGenomeTextFile}\cr
+extends \emph{\link[R.filesets]{TabularTextFile}}\cr
 
 
 
-  An AromaCellTabularBinaryFile is an \code{\link{AromaTabularBinaryFile}} with
-  the constraint that the rows map one-to-one to the cells (features)
-  of a microarray.
+  An AromaGenomeTextFile represents a annotation tabular text file that
+  specifies the number of bases (nucleotides) per chromosome for a
+  particular genome/organism.
  }
 
- \usage{AromaCellTabularBinaryFile(...)}
+ \usage{AromaGenomeTextFile(...)}
 
  \arguments{
-   \item{...}{Arguments passed to \code{\link{AromaTabularBinaryFile}}.}
+   \item{...}{Arguments passed to \code{\link[R.filesets]{TabularTextFile}}.}
  }
 
  \section{Fields and Methods}{
   \bold{Methods:}\cr
 \tabular{rll}{
- \tab \code{nbrOfCells} \tab  -\cr
+ \tab \code{byGenome} \tab  -\cr
+ \tab \code{findByGenome} \tab  -\cr
+ \tab \code{readDataFrame} \tab  -\cr
 }
 
 
- \bold{Methods inherited from AromaMicroarrayTabularBinaryFile}:\cr
-allocate, as.character, byChipType, findByChipType, getChipType, getFilenameExtension, getPlatform
-
- \bold{Methods inherited from AromaPlatformInterface}:\cr
-getAromaPlatform, getAromaUgpFile, getPlatform, getUnitAnnotationDataFile, getUnitNamesFile, getUnitTypesFile, isCompatibleWith
-
- \bold{Methods inherited from AromaTabularBinaryFile}:\cr
-[, [[, [<-, allocate, as.character, colMeans, colMedians, colStats, colSums, dimnames<-, getBytesPerColumn, getColClasses, getColumnNames, getRootName, importFrom, lapply, nbrOfColumns, nbrOfRows, readColumns, readDataFrame, readFooter, readHeader, readRawFooter, setAttributesByTags, subset, summary, updateData, updateDataColumn, writeFooter, writeRawFooter
+ \bold{Methods inherited from TabularTextFile}:\cr
+[, as.character, getColumnNames, getHeader, getReadArguments, hasColumnHeader, nbrOfLines, nbrOfRows, readColumnNames, readColumns, readDataFrame, readLines, readRawHeader, writeColumnsToFiles
 
  \bold{Methods inherited from GenericTabularFile}:\cr
 as.character, dim, extractMatrix, getColumnNames, getColumnNameTranslator, nbrOfColumns, nbrOfRows, readColumns, readDataFrame, setColumnNameTranslator, translateColumnNames
@@ -83,9 +75,34 @@ asThis, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clone
 
  }
 
- \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+ \details{
+   An AromaGenomeTextFile is a tab-delimited text file with a header
+   containing (at least) column names 'chromosome' and 'nbrOfBases'.
+   The 'chromosome' column specifies the chromosomes (character strings)
+   and the 'nbrOfBases' column specifies the lengths (integer) of the
+   chromosomes in number of bases (nucleotides).
 
- \seealso{
-   \code{\link{AromaUnitTabularBinaryFile}}.
+   The filename of an AromaGenomeTextFile should have format
+   "<genome>,chromosomes(,<tag>)*.txt",
+   and be located in annotationData/genomes/<genome>/, e.g.
+   annotationData/genomes/Human/Human,chromosomes,max,20090503.txt.
  }
+
+ \examples{
+# Locate a Human,chromosomes(,.*)*.txt file
+db <- AromaGenomeTextFile$byGenome("Human");
+print(db);
+
+# Read the data
+df <- readDataFrame(db);
+print(df);
+str(df);
+
+# Details on the file format
+oopts <- options(width=40);
+print(readLines(db));
+options(oopts);
+}
+
+ \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
 \keyword{classes}
