@@ -419,7 +419,7 @@
   smoothWRMA smoothWRMA.matrix smoothWSA smoothWSA.matrix
   sort.RawGenomicSignals splitByReportPathPattern
   splitByReportPathPattern.Explorer splitInChunks splitInChunks.numeric
-  sqrtabs sqrtcenter sqrtneg sqrtpos stext stext.default stextChipType
+  sqrtabs sqrtcenter sqrtneg sqrtpos stextChipType
   stextChipType.character stextLabel stextLabel.AromaMicroarrayDataFile
   stextLabels stextLabels.AromaMicroarrayDataFile stextSize
   stextSize.AromaMicroarrayDataFile stringTree stringTree.character
@@ -457,7 +457,7 @@
   getAromaUgpFile.AromaPlatformInterface isCompatibleWith
   isCompatibleWith.AromaPlatformInterface
 getTags.Arguments
-  doCBS doCBS.character doCBS.CopyNumberDataSet 
+  doCBS doCBS.CopyNumberDataSet 
   doCBS.CopyNumberDataSetTuple
   getOutputSet
   getOutputSet.ChromosomalModel setAttributesBy.AromaTabularBinarySet
@@ -489,3 +489,30 @@ writeDataFrame.AromaUnitFracBCnBinarySet
   prune prune.CopyNumberRegions simulateRawCopyNumbers
   simulateRawCopyNumbers.CopyNumberRegions xRange.CopyNumberRegions
 xMax.CopyNumberRegions xMin.CopyNumberRegions
+  append.CopyNumberRegions as.character.SegmentationDataSet
+  byName.CbsSegmentationDataSet byPath.CbsSegmentationDataSet
+  byPath.SegmentationDataSet CbsSegmentationDataFile
+  CbsSegmentationDataSet extractByReferenceName
+  extractByReferenceName.SegmentationDataSet extractBySampleName
+  extractBySampleName.SegmentationDataSet
+  extractCopyNumberRegions.SegmentationDataFile
+  extractCopyNumberRegions.SegmentationDataSet
+  getChipType.SegmentationDataSet getChromosome.SegmentationDataFile
+  getChromosomes.CopyNumberRegions getChromosomes.SegmentationDataSet
+  getDefaultFullName.SegmentationDataSet getReferenceName
+  getReferenceName.SegmentationDataFile getReferenceNames
+  getReferenceNames.SegmentationDataSet getSampleName
+  getSampleName.SegmentationDataFile getSampleNames
+  getSampleNames.SegmentationDataSet loadFit
+  loadFit.CbsSegmentationDataFile loadFit.SegmentationDataFile
+  nbrOfChromosomes nbrOfChromosomes.CopyNumberRegions
+  SegmentationDataFile SegmentationDataSet unique.CopyNumberRegions
+ byGenome byGenome.AromaGenomeTextFile
+  findByGenome findByGenome.AromaGenomeTextFile
+  readDataFrame.AromaGenomeTextFile
+  -.RawGenomicSignals *.RawGenomicSignals +.RawGenomicSignals
+  draw draw.density drawDensity drawDensity.CopyNumberRegions
+  drawDensity.RawGenomicSignals swapXY swapXY.density
+ getDensity getDensity.CopyNumberRegions getLength
+ getLength.CopyNumberRegions
+getOptionalArguments getOptionalArguments.CopyNumberChromosomalModel
