@@ -1,6 +1,6 @@
 Package: aroma.core
-Version: 1.8.0
-Date: 2010-11-07
+Version: 1.8.1
+Date: 2010-12-02
 Title: Core methods and classes used by aroma.* package part of The
         Aroma Project
 Author: Henrik Bengtsson <henrikb@braju.com>
@@ -26,6 +26,8 @@ LazyLoad: TRUE
 biocViews: Microarray, OneChannel, TwoChannel, MultiChannel,
         DataImport, DataRepresentation, GUI, Visualization,
         Preprocessing, QualityControl, aCGH, CopyNumberVariants
-Packaged: 2010-11-07 18:59:45 UTC; hb
 Repository: CRAN
-Date/Publication: 2010-11-08 07:29:31
+Repository/R-Forge/Project: aroma-dots
+Repository/R-Forge/Revision: 2099
+Date/Publication: 2010-12-06 07:48:37
+Packaged: 2010-12-04 21:40:57 UTC; rforge
