@@ -1,13 +1,13 @@
 Package: aroma.core
-Version: 1.8.1
-Date: 2010-12-02
+Version: 1.9.0
+Date: 2011-01-10
 Title: Core methods and classes used by aroma.* package part of The
         Aroma Project
 Author: Henrik Bengtsson <henrikb@braju.com>
 Maintainer: Henrik Bengtsson <henrikb@braju.com>
 Depends: R (>= 2.9.0), R.methodsS3 (>= 1.2.1), R.oo (>= 1.7.4), R.utils
-        (>= 1.5.6), R.cache (>= 0.3.0), R.filesets (>= 0.9.0), R.rsp
-        (>= 0.4.0), matrixStats (>= 0.2.2), digest (>= 0.4.2),
+        (>= 1.6.0), R.cache (>= 0.3.0), R.filesets (>= 0.9.1), R.rsp
+        (>= 0.4.1), matrixStats (>= 0.2.2), digest (>= 0.4.2),
         aroma.light (>= 1.18.2)
 Imports: affxparser (>= 1.16.0), RColorBrewer (>= 1.0-2)
 Suggests: RColorBrewer (>= 1.0-2), EBImage (>= 2.2.0), Cairo (>=
@@ -26,8 +26,6 @@ LazyLoad: TRUE
 biocViews: Microarray, OneChannel, TwoChannel, MultiChannel,
         DataImport, DataRepresentation, GUI, Visualization,
         Preprocessing, QualityControl, aCGH, CopyNumberVariants
+Packaged: 2011-01-10 12:08:30 UTC; hb
 Repository: CRAN
-Repository/R-Forge/Project: aroma-dots
-Repository/R-Forge/Revision: 2099
-Date/Publication: 2010-12-06 07:48:37
-Packaged: 2010-12-04 21:40:57 UTC; rforge
+Date/Publication: 2011-01-10 14:37:15
