@@ -12,6 +12,8 @@
 #
 # \arguments{
 #   \item{...}{Additional arguments passed to the segmentation function.}
+#   \item{flavor}{A @character string specifying what flavor of
+#      GLAD should be used.}
 #   \item{verbose}{See @see "R.utils::Verbose".}
 # }
 #
@@ -20,7 +22,8 @@
 # }
 # 
 # \details{
-#   Internally @see "GLAD::glad" is used to segment the signals.
+#   Internally @see "GLAD::glad" or  @see "GLAD::daglad" is used to
+#   segment the signals.
 #   This segmentation method does not support weighted segmentation.
 # }
 #
@@ -32,10 +35,13 @@
 #
 # @keyword IO
 #*/########################################################################### 
-setMethodS3("segmentByGLAD", "RawGenomicSignals", function(this, ..., cache=FALSE, force=FALSE, verbose=FALSE) {
+setMethodS3("segmentByGLAD", "RawGenomicSignals", function(this, ..., flavor=c("glad", "daglad"), cache=FALSE, force=FALSE, verbose=FALSE) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Argument 'flavor':
+  flavor <- match.arg(flavor);
+
   # Argument 'verbose':
   verbose <- Arguments$getVerbose(verbose);
   if (verbose) {
@@ -57,7 +63,7 @@ setMethodS3("segmentByGLAD", "RawGenomicSignals", function(this, ..., cache=FALS
   pkgVer <- pkg$Version;
   pkgDetails <- sprintf("%s v%s", pkgName, pkgVer);
 
-  methodName <- "glad";
+  methodName <- flavor;
   verbose && cat(verbose, "Method: ", methodName);
   verbose && cat(verbose, "Package: ", pkgDetails);
 
@@ -207,6 +213,17 @@ setMethodS3("segmentByGLAD", "RawGenomicSignals", function(this, ..., cache=FALS
   verbose && cat(verbose, "Fitting time per 1000 loci (in seconds):");
   verbose && print(verbose, 1000*t/nbrOfLoci);
 
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Add segmentByGLAD() parameters
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  params <- list(
+    flavor = flavor
+  );
+
+  attr(fit, "params") <- params;
+
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Estimating aroma parameters
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -258,6 +275,12 @@ setMethodS3("segmentByGLAD", "RawGenomicSignals", function(this, ..., cache=FALS
 
 ############################################################################
 # HISTORY:
+# 2011-01-14
+# o Added 'params' attribute to returned result object.
+# 2011-01-11
+# o Added argument 'flavor' to segmentByGLAD() for RawGenomicSignals,
+#   which makes it possible to specify whether daglad() or glad() of
+#   the GLAD package will be used.
 # 2010-12-07
 # o segmentByGLAD() for RawGenomicSignals now utilizing requireWithMemory()
 #   to decrease the annoyances for users if GLAD fails to load.
