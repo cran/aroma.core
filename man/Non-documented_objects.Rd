@@ -1060,6 +1060,31 @@
 \alias{getChromosomeLength.CopyNumberChromosomalModel}
 \alias{requireWithMemory}
 \alias{requireWithMemory.default}
+\alias{writeImage}
+\alias{writeImage.Image}
+\alias{createImage}
+\alias{createImage.matrix}
+\alias{getImageData}
+\alias{getImageData.Image}
+\alias{setImageData}
+\alias{setImageData.Image}
+\alias{RasterImage}
+\alias{[.RasterImage}
+\alias{as.character.RasterImage}
+\alias{display.RasterImage}
+\alias{dropAlpha}
+\alias{dropAlpha.RasterImage}
+\alias{getImageData.RasterImage}
+\alias{read}
+\alias{read.RasterImage}
+\alias{rescale.RasterImage}
+\alias{save.RasterImage}
+\alias{setImageData.RasterImage}
+\alias{str.RasterImage}
+\alias{write.RasterImage}
+\alias{writeImage.RasterImage}
+\alias{colorize.RasterImage}
+\alias{interleave.RasterImage}
 
 \description{
   This page contains aliases for all "non-documented" objects that
