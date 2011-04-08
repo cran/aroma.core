@@ -158,16 +158,6 @@ setMethodS3("writeDataFrame", "AromaUnitTabularBinaryFile", function(this, filen
   verbose && cat(verbose, "Destination pathname: ", pathname);
 
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Write to a temporary file
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  verbose && enter(verbose, "Allocating temporary file");
-  pathnameT <- sprintf("%s.tmp", pathname);
-  pathnameT <- Arguments$getWritablePathname(pathnameT, mustNotExist=TRUE);
-  verbose && cat(verbose, "Temporary destination pathname: ", pathnameT);
-  verbose && exit(verbose);
-
-
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Get annotation data
@@ -295,6 +285,16 @@ setMethodS3("writeDataFrame", "AromaUnitTabularBinaryFile", function(this, filen
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   verbose && enter(verbose, "Writing file");
 
+  # Overwrite?
+  if (overwrite && isFile(pathname)) {
+    # TODO: Added a backup/restore feature in case new writing fails.
+    file.remove(pathname);
+    verbose && cat(verbose, "Removed pre-existing file (overwrite=TRUE).");
+  }
+
+  # Write to a temporary file
+  pathnameT <- pushTemporaryFile(pathname, verbose=verbose);
+
   if (!is.null(hdr)) {
     verbose && enter(verbose, "Writing file header");
     cat(file=pathnameT, hdr, sep="\n", append=FALSE);
@@ -310,20 +310,9 @@ setMethodS3("writeDataFrame", "AromaUnitTabularBinaryFile", function(this, filen
   rm(data);
   verbose && exit(verbose);
 
-  verbose && exit(verbose);
+  # Renaming temporary file
+  pathname <- popTemporaryFile(pathnameT, verbose=verbose);
 
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Rename temporary file
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  verbose && enter(verbose, "Renaming temporary file");
-  file.rename(pathnameT, pathname);
-  if (isFile(pathnameT)) {
-    throw("Failed to rename temporary file: ", pathnameT, " -> ", pathname);
-  }
-  if (!isFile(pathname)) {
-    throw("Failed to rename temporary file: ", pathnameT, " -> ", pathname);
-  }
   verbose && exit(verbose);
 
 

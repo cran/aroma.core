@@ -1,9 +1,6 @@
 setMethodS3("getParentName", "GenericDataFileSet", function(this, ..., tags="*") {
   # Argument 'tags':
-  if (!is.null(tags)) {
-    tags <- Arguments$getCharacters(tags);
-    tags <- unlist(strsplit(tags, split=",", fixed=TRUE), use.names=FALSE);
-  }
+  tags <- Arguments$getTags(tags, collapse=NULL);
 
   path <- getPath(this);
   path <- getParent(path, ...);
@@ -21,10 +18,7 @@ setMethodS3("getParentName", "GenericDataFileSet", function(this, ..., tags="*")
 
 setMethodS3("getParentName", "GenericDataFile", function(this, ..., tags="*") {
   # Argument 'tags':
-  if (!is.null(tags)) {
-    tags <- Arguments$getCharacters(tags);
-    tags <- unlist(strsplit(tags, split=",", fixed=TRUE), use.names=FALSE);
-  }
+  tags <- Arguments$getTags(tags, collapse=NULL);
 
   path <- getPath(this);
   path <- getParent(path, ...);
@@ -42,6 +36,13 @@ setMethodS3("getParentName", "GenericDataFile", function(this, ..., tags="*") {
 
 ############################################################################
 # HISTORY:
+# 2011-03-04
+# o BUG FIX: When recently started use Arguments$getTags() in
+#   getParentName(), we introduced a bug causing asterisk tags ("*")
+#   not to be replaced.  Using 'collapse=NULL' solved it.
+# 2011-02-18
+# o ROBUSTNESS: Now getParentName() for GenericDataFile(Set) utilized
+#   Arguments$getTags().
 # 2010-05-12
 # o Created.
 ############################################################################

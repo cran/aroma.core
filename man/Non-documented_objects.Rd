@@ -1085,6 +1085,15 @@
 \alias{writeImage.RasterImage}
 \alias{colorize.RasterImage}
 \alias{interleave.RasterImage}
+\alias{dropRootPathTags.default}
+\alias{loadAll}
+\alias{loadAll.SampleAnnotationSet}
+\alias{byPathnames}
+\alias{byPathnames.SampleAnnotationSet}
+\alias{getAromaGenomeTextFile}
+\alias{getAromaGenomeTextFile.ChromosomalModel}
+\alias{getChromosomeLabels}
+\alias{getChromosomeLabels.ChromosomeExplorer}
 
 \description{
   This page contains aliases for all "non-documented" objects that

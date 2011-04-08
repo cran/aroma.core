@@ -173,17 +173,15 @@ setMethodS3("writeDataFrame", "AromaUnitSignalBinaryFile", function(this, filena
 
   verbose && cat(verbose, "Destination pathname: ", pathname);
 
+  # Overwrite?
+  if (overwrite && isFile(pathname)) {
+    # TODO: Added a backup/restore feature in case new writing fails.
+    file.remove(pathname);
+    verbose && cat(verbose, "Removed pre-existing file (overwrite=TRUE).");
+  }
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Write to a temporary file
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  verbose && enter(verbose, "Allocating temporary file");
-  pathnameT <- sprintf("%s.tmp", pathname);
-  pathnameT <- Arguments$getWritablePathname(pathnameT, mustNotExist=TRUE);
-  verbose && cat(verbose, "Temporary destination pathname: ", pathnameT);
-  verbose && exit(verbose);
-
-
+  pathnameT <- pushTemporaryFile(pathname, verbose=verbose);
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Get annotation data
@@ -348,19 +346,8 @@ setMethodS3("writeDataFrame", "AromaUnitSignalBinaryFile", function(this, filena
   verbose && exit(verbose);
 
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Rename temporary file
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  verbose && enter(verbose, "Renaming temporary file");
-  file.rename(pathnameT, pathname);
-  if (isFile(pathnameT)) {
-    throw("Failed to rename temporary file: ", pathnameT, " -> ", pathname);
-  }
-  if (!isFile(pathname)) {
-    throw("Failed to rename temporary file: ", pathnameT, " -> ", pathname);
-  }
-  verbose && exit(verbose);
-
+  # Renaming temporary file
+  pathname <- popTemporaryFile(pathnameT, verbose=verbose);
 
   verbose && enter(verbose, "Loading output data file");
   res <- TabularTextFile(pathname, sep=sep);

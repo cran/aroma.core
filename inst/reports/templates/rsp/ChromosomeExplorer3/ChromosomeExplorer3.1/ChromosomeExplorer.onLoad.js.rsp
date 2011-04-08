@@ -24,5 +24,3 @@ explorer.onLoad = function() {
 
   return(false);
 }
-
-chromosomes = new Array(<%=paste("'", chromosomeLabels, "'", sep="", collapse=", ")%>);
