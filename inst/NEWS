@@ -1,6 +1,95 @@
 Package: aroma.core
 ===================
 
+Version: 2.1.0 [2011-04-08]
+o No updates.  Submitted to CRAN.
+
+
+Version: 2.0.8 [2011-04-03]
+o CLEANUP: Utilizing hpaste() internally wherever applicable. 
+
+
+Version: 2.0.7 [2011-03-28]
+o BUG FIX: allocateFromUnitAnnotationDataFile() for 
+  AromaUnitTabularBinaryFile would include chip type tags in the
+  path, e.g. annotationData/chipTypes/GenomeWidesSNP_6,Full.
+
+
+Version: 2.0.6 [2011-03-14]
+o Now ChromosomeExplorer does a better job of listing
+  chromosomes that are specific to the genome/organism used.
+o Added getChromosomeLabels() for ChromosomeExplorer.
+
+
+Version: 2.0.5 [2011-03-04]
+o BUG FIX: lapplyInChunks(idxs) for numeric did not correctly handle
+  the case when length(idxs) == 0, because of a typo.
+
+
+Version: 2.0.4 [2011-03-03]
+o Added static loadAll() for SampleAnnotationSet.
+o Updated the default filename patterns used by findByGenome() for
+  AromaGenomeTextFile to "^%s,chromosomes(|,.*)*[.]txt$".
+o Now getGenomeFile() for ChromosomalModel utilizes byGenome() for
+  AromaGenomeTextFile to locate the genome annotation file.
+o GENERALIZATION: Now findByGenome() for AromaGenomeTextFile follows 
+  the new aroma search conventions.
+o GENERALIZATION: In addition to search <rootPath>/<set>/<name> paths,
+  findAnnotationData() can also search <rootPath>/<set>/ by not 
+  specifying argument 'name' (or setting it to NULL).  Also, if it
+  cannot locate any files, it falls back to annotation data available
+  in any of the aroma.* packages.
+o ROBUSTNESS: Added a return contract/sanity check asserting that
+  getUnitsOnChromosomes() for AromaUnitChromosomeTabularBinaryFile
+  truly returns valid 'unit' indices.  Thanks to Emilie Sohier, 
+  France for reporting on a problem related to this.
+
+
+Version: 2.0.3 [2011-03-02]
+o GENERALIZATION: Now the default for createImage() for matrix is to 
+  test to create images according to aroma settings option
+  'output/ImageClasses'.
+o GENERALIZATION: getAverageFile() for AromaUnitTotalCnBinarySet first
+  searches for an existing result file according to the new search
+  conventions.  If not found, then it's created.
+o STANDARDIZATION: Now the default output path for all 
+  allocateFromUnitAnnotationDataFile() is
+  annotationData/chipTypes/<chipType>/.  Before it was the same
+  directory as the original annotation data file, which may for
+  instance have been in a deeper subdirectory, or recently also
+  in a sibling root path.
+o ROBUSTNESS: Now getAverageFile() for AromaUnitTotalCnBinarySet creates
+  the result file atomically by writing to a temporary file which is
+  renamed afterward.
+o Now write() and read() for RasterImage throws an informative error
+  message explaining that the 'png' package is needed.
+o BUG FIX: colorize() for Image would throw '<simpleError in ...: could
+  not find function "colorMode">', because the colorMode() function
+  needs to be explicitly imported after the recent package cleanups.
+o BUG FIX: colorize() for Image tried to call createImage() using a
+  vector instead of a matrix.
+o BUG FIX: createImage() for matrix would not return the first possible
+  image created (when testing different image classes) but instead
+  continue trying to create image for all possible classes. 
+  For instance, this meant that although you had the 'EBImage' package
+  installed, but not the 'png' package, it would still in the end try
+  to (also) use 'png' package.  If writing PNG images to file, say via
+  ArrayExplorer, this would result in "Error in loadNamespace(name) : 
+  there is no package called 'png'".  Thanks Richard Beyer at
+  University of Washington for reporting on this.
+
+
+Version: 2.0.2 [2011-02-19]
+o GENERALIZATION: Extended the default root paths of findAnnotationData()
+  to be annotationData/ and annotationData,<tags>/
+
+
+Version: 2.0.1 [2011-02-19]
+o CLEANUP: Moved static getTags() to Arguments to R.filesets v0.9.3.
+o CLEANUP: Deprecated static method importFromTable() for FileMatrix.
+o CLEANUP: Removed several deprecated methods.
+
+
 Version: 2.0.0 [2011-02-16]
 o No updates.  Submitted to CRAN.
 

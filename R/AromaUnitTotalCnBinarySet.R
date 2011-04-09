@@ -144,8 +144,44 @@ setMethodS3("getAverageFile", "AromaUnitTotalCnBinarySet", function(this, name=N
   }
 
   if (is.null(res)) {
-    pathname <- Arguments$getWritablePathname(filename, path=getPath(this), mustNotExist=FALSE);
-    verbose && cat(verbose, "Pathname: ", pathname);
+    verbose && enter(verbose, "Searching for an existing file");
+
+    # Searching for the output file in multiple directories
+    path <- getPath(this);
+    paths <- c(path);
+
+    # Drop tags from root path?
+    if (getOption(aromaSettings, "devel/dropRootPathTags", FALSE)) {
+      path <- dropRootPathTags(path, depth=2, verbose=less(verbose, 5));
+      paths <- c(paths, path);
+      paths <- unique(paths);
+    }
+
+    verbose && cat(verbose, "Paths:");
+    verbose && print(verbose, paths);
+    verbose && cat(verbose, "Filename: ", filename);
+
+    pathname <- NULL;
+    for (kk in seq(along=paths)) {
+      path <- paths[kk];
+      verbose && enter(verbose, sprintf("Searching path #%d of %d", kk, length(paths)));
+
+      verbose && cat(verbose, "Path: ", path);
+      pathnameT <- Arguments$getReadablePathname(filename, path=path, mustExist=FALSE);
+      verbose && cat(verbose, "Pathname: ", pathnameT);
+      if (isFile(pathnameT)) {
+        pathname <- pathnameT;
+        verbose && cat(verbose, "Found an existing file.");
+        verbose && exit(verbose);
+        break;
+      }
+
+      verbose && exit(verbose);
+    } # for (kk ...)
+    verbose && cat(verbose, "Located pathname: ", pathname);
+
+    verbose && exit(verbose);
+
 
     if (isFile(pathname)) {
       verbose && enter(verbose, "Loading existing data file");
@@ -154,9 +190,24 @@ setMethodS3("getAverageFile", "AromaUnitTotalCnBinarySet", function(this, name=N
     } else {
       verbose && enter(verbose, "Allocating empty data file to store average signals");
       ugp <- getAromaUgpFile(df);
-      res <- df$allocateFromUnitAnnotationDataFile(udf=ugp, filename=pathname, verbose=less(verbose));
+
+      path <- paths[length(paths)];
+      verbose && cat(verbose, "Path: ", path);
+      verbose && cat(verbose, "Filename: ", filename);
+      pathname <- Arguments$getWritablePathname(filename, path=path, mustNotExist=TRUE);
+
+      pathnameT <- pushTemporaryFile(pathname, verbose=verbose);
+
+      res <- df$allocateFromUnitAnnotationDataFile(udf=ugp, filename=pathnameT, verbose=less(verbose));
       naValue <- as.double(NA);
       res[,1] <- naValue;
+
+      pathname <- popTemporaryFile(pathnameT, verbose=verbose);
+
+      # Don't forget to update 'res' accordingly
+      # BTW, should there be a protected setPathname() or a popTemporaryFile().
+      res$.pathname <- pathname;
+
       verbose && exit(verbose);
     }
 
@@ -283,6 +334,16 @@ setMethodS3("writeDataFrame", "AromaUnitTotalCnBinarySet", function(this, filena
 
 ############################################################################
 # HISTORY:
+# 2011-03-02
+# o BUG FIX: getAverageFile() did not update the pathname of internal
+#   'res' file object, which pointed to a temporary file.
+# 2011-02-28
+# o ROBUSTNESS: Now getAverageFile() for AromaUnitTotalCnBinarySet creates
+#   the result file atomically by writing to a temporary file which is
+#   renamed afterward.
+# o GENERALIZATION: getAverageFile() for AromaUnitTotalCnBinarySet first
+#   searches for an existing result file according to the new aroma search
+#   conventions.  If not found, then it's created.
 # 2010-07-20
 # o Added writeDataFrame() for AromaUnitTotalCnBinarySet to get the
 #   correct filename extension.

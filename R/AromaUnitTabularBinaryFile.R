@@ -158,21 +158,28 @@ setMethodS3("allocateFromUnitNamesFile", "AromaUnitTabularBinaryFile", function(
 })
 
 
-setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitTabularBinaryFile", function(static, udf, path=getPath(udf), tags=NULL, footer=list(), ...) {
+setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitTabularBinaryFile", function(static, udf, path=NULL, tags=NULL, footer=list(), ...) {
   # Argument 'udf':
   udf <- Arguments$getInstanceOf(udf, "UnitAnnotationDataFile");
 
-  # Generate filename: <chipType>(,tags)*.<ext>
-  chipType <- getChipType(udf);
-
-  # Exclude 'monocell' tags (AD HOC)
-  chipType <- gsub(",monocell", "", chipType);
+  # Output path
+  if (is.null(path)) {
+    chipTypeS <- getChipType(udf, fullname=FALSE);
+    path <- file.path("annotationData", "chipTypes", chipTypeS);
+  }
+  path <- Arguments$getWritablePath(path);
 
   # Get platform
   platform <- getPlatform(udf);
 
   # Number of units
   nbrOfUnits <- nbrOfUnits(udf);
+
+  # Generate filename: <chipType>(,tags)*.<ext>
+  chipType <- getChipType(udf);
+
+  # Exclude 'monocell' tags (AD HOC)
+  chipType <- gsub(",monocell", "", chipType);
 
   fullname <- paste(c(chipType, tags), collapse=",");
   ext <- getFilenameExtension(static);
@@ -191,6 +198,17 @@ setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitTabularBinaryFile", 
 
 ############################################################################
 # HISTORY:
+# 2011-03-28
+# o BUG FIX: allocateFromUnitAnnotationDataFile() for 
+#   AromaUnitTabularBinaryFile would include chip type tags in the
+#   path, e.g. annotationData/chipTypes/GenomeWidesSNP_6,Full.
+# 2011-02-28
+# o STANDARDIZATION: Now the default output path for all 
+#   allocateFromUnitAnnotationDataFile() is
+#   annotationData/chipTypes/<chipType>/.  Before it was the same
+#   directory as the original annotation data file, which may for
+#   instance have been in a deeper subdirectory, or recently also
+#   in a sibling root path.
 # 2009-07-08
 # o Added allocateFromUnitAnnotationDataFile() to AromaUnitTabularBinaryFile.
 # 2009-05-12

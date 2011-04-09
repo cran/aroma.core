@@ -527,3 +527,8 @@ requireWithMemory requireWithMemory.default
   save.RasterImage setImageData.RasterImage str.RasterImage
   write.RasterImage writeImage.RasterImage
  colorize.RasterImage interleave.RasterImage
+dropRootPathTags.default
+loadAll loadAll.SampleAnnotationSet
+  byPathnames byPathnames.SampleAnnotationSet
+  getAromaGenomeTextFile getAromaGenomeTextFile.ChromosomalModel
+getChromosomeLabels getChromosomeLabels.ChromosomeExplorer

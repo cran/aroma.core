@@ -1047,6 +1047,12 @@ setMethodS3("allocate", "AromaTabularBinaryFile", function(static, filename, pat
     throw("Argument 'footer' must be NULL or a list: ", class(footer)[1]);
   }
 
+  # Argument 'overwrite':
+  overwrite <- Arguments$getLogical(overwrite);
+
+  # Argument 'skip':
+  skip <- Arguments$getLogical(skip);
+
   # Argument 'verbose':
   verbose <- Arguments$getVerbose(verbose);
   if (verbose) {
@@ -1086,9 +1092,14 @@ setMethodS3("allocate", "AromaTabularBinaryFile", function(static, filename, pat
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Create empty temporary file
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Open temporary file (should not exist!)
-  pathnameT <- sprintf("%s.tmp", pathname);
-  pathnameT <- Arguments$getWritablePathname(pathnameT, mustNotExist=TRUE);
+  # Overwrite?
+  if (overwrite && isFile(pathname)) {
+    # TODO: Added a backup/restore feature in case new writing fails.
+    file.remove(pathname);
+    verbose && cat(verbose, "Removed pre-existing file (overwrite=TRUE).");
+  }
+
+  pathnameT <- pushTemporaryFile(pathname, verbose=verbose);
 
   con <- file(pathnameT, open="wb");
   on.exit({
@@ -1132,10 +1143,7 @@ setMethodS3("allocate", "AromaTabularBinaryFile", function(static, filename, pat
   con <- NULL;
 
   # Rename temporary file
-  file.rename(pathnameT, pathname);
-  if (!isFile(pathname) || isFile(pathnameT)) {
-    throw("Failed to rename temporary file: ", pathnameT, " -> ", pathname);
-  }
+  pathname <- popTemporaryFile(pathnameT, verbose=verbose);
 
   # Object to be returned
   res <- newInstance(static, pathname);

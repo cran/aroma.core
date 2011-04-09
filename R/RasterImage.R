@@ -65,9 +65,12 @@ setMethodS3("write", "RasterImage", function(x, file, path=".", overwrite=FALSE,
   pathname <- Arguments$getWritablePathname(file, path=path, mustNotExist=!overwrite, ...);
 
   # Write to a temporary file
-  pathnameT <- sprintf("%s.tmp", pathname);
+  pathnameT <- pushTemporaryFile(pathname, verbose=verbose);
 
   if (format == "png") {
+    if (!isPackageInstalled("png")) {
+      throw("Cannot write PNG to file. Package not installed: png");
+    }
     png::writePNG(this, target=pathnameT);
   }
 
@@ -75,7 +78,7 @@ setMethodS3("write", "RasterImage", function(x, file, path=".", overwrite=FALSE,
   pathnameT <- Arguments$getReadablePathname(pathnameT, mustExist=TRUE);
 
   # Rename temporary file
-  file.rename(pathnameT, pathname);
+  pathname <- popTemporaryFile(pathnameT, verbose=verbose);
 
   invisible(pathname);
 })
@@ -98,6 +101,9 @@ setMethodS3("read", "RasterImage", function(static, ..., format=c("auto", "png")
   }
 
   output <- capture.output({
+    if (!isPackageInstalled("png")) {
+      throw("Cannot read PNG from file. Package not installed: png");
+    }
     img <- png::readPNG(pathname, native=FALSE);
   });
 
@@ -468,6 +474,9 @@ setMethodS3("colorize", "RasterImage", function(this, palette=gray.colors(256), 
 
 ############################################################################
 # HISTORY:
+# 2011-02-24
+# o Now write() and read() for RasterImage throws an informative error
+#   message explaining that the 'png' package is needed.
 # 2011-01-31
 # o Added interleave() for RasterImage.
 # o Added colorize() for RasterImage.

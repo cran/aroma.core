@@ -10,9 +10,12 @@
 # @synopsis
 #
 # \arguments{
-#   \item{name}{A @character string.}
-#   \item{tags}{Optional @character string.}
-#   \item{pattern}{A filename pattern to search for.}
+#   \item{name}{Optional @character string.}
+#   \item{tags}{Optional @character string. 
+#     Only used if argument \code{pattern} is not specified.}
+#   \item{pattern}{A filename pattern to search for.
+#     If @NULL, then defaults to the fullname as defined by 
+#     arguments \code{name} and \code{tags}.}
 #   \item{private}{If @FALSE, files and directories starting 
 #     with a periods are ignored.}
 #   \item{...}{Arguments passed to @see "affxparser::findFiles".}
@@ -32,14 +35,113 @@
 #
 # @keyword internal
 #*/###########################################################################
-setMethodS3("findAnnotationData", "default", function(name, tags=NULL, set, pattern=NULL, private=FALSE, ..., firstOnly=TRUE, paths=NULL, verbose=FALSE) {
+setMethodS3("findAnnotationData", "default", function(name=NULL, tags=NULL, set, pattern=NULL, private=FALSE, ..., firstOnly=TRUE, paths=NULL, verbose=FALSE) {
   # Needs affxparser::findFiles()
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Local functions
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  orderByFullName <- function(pathnames, ..., verbose=FALSE) {
+    # Nothing to do?
+    if (length(pathnames) == 0) {
+      return(integer(0));
+    }
+
+    verbose && enter(verbose, "Ordering in increasing lengths of fullnames");
+  
+    # Order located pathnames in increasing length of the fullnames
+    # This is an AD HOC solution for selecting GenomeWideSNP_6 before
+    # GenomeWideSNP_6,Full.
+  
+    # (a) Get filenames
+    filenames <- basename(pathnames);
+  
+    # (b) Get fullnames by dropping filename extension
+    fullnames <- gsub("[.][^.]*$", "", filenames);
+  
+    # (c) Order by length of fullnames
+    o <- order(nchar(fullnames));
+  
+    verbose && cat(verbose, "Order:");
+    verbose && print(verbose, o);
+  
+    verbose && exit(verbose);
+  
+    o;
+  } # orderByFullNames()
+
+
+  sortByFullName <- function(pathnames, ..., verbose=FALSE) {
+    o <- orderByFullName(pathnames, verbose=verbose);
+    pathnames <- pathnames[o];
+    pathnames;
+  } # sortByFullName()
+
+
+  localFindFiles <- function(..., paths=paths) {
+    isInPrivateDirectory <- function(pathname) {
+      pathname <- strsplit(pathname, split="[/\\\\]")[[1]];
+      pathname <- pathname[!(pathname %in% c(".", ".."))];
+      any(regexpr("^[.]", pathname) != -1);
+    } # isInPrivateDirectory()
+
+    # By explicitly searching each path seperately as here, we
+    # can guarantee that the root paths are search in the correct
+    # order according to the aroma search conventions. /HB 2011-03-03
+    pathnames <- c();
+    for (kk in seq(along=paths)) {
+      path <- paths[kk];
+      verbose && enter(verbose, sprintf("Path #%d of %d", kk, length(paths)));
+
+      verbose && cat(verbose, "Path: ", path);
+      pathnamesKK <- affxparser::findFiles(..., paths=path);
+      verbose && print(verbose, pathnamesKK);
+
+      if (length(pathnamesKK) == 0) {
+        verbose && exit(verbose);
+        next;
+      }
+
+      # AD HOC: Clean out files in "private" directories
+      if (!private) {
+        excl <- sapply(pathnamesKK, FUN=isInPrivateDirectory);
+        pathnamesKK <- pathnamesKK[!excl];
+        verbose && cat(verbose, "Dropping private directories:");
+        verbose && print(verbose, pathnamesKK);
+      }
+
+      if (length(pathnamesKK) == 0) {
+        verbose && exit(verbose);
+        next;
+      }
+
+##      verbose && enter(verbose, "Reorder by fullname");
+##      pathnamesKK <- sortByFullName(pathnamesKK, verbose=verbose);
+##      verbose && print(verbose, pathnamesKK);
+##      verbose && exit(verbose);
+    
+      pathnames <- c(pathnames, pathnamesKK);
+
+      verbose && exit(verbose);
+    } # for (kk ...)
+    pathnames;
+  } # localFindFiles()
+
+
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Argument 'name':
-  name <- Arguments$getCharacter(name, length=c(1,1));
+  if (!is.null(name)) {
+    name <- Arguments$getCharacter(name, length=c(1,1));
+  }
+
+  # Argument 'tags':
+  tags <- Arguments$getTags(tags);
+  if (!is.null(tags) && is.null(name)) {
+    throw("Argument 'tags' must be NULL if argument 'name' is: ", tags);
+  }
 
   # Argument 'set':
   set <- Arguments$getCharacter(set, length=c(1,1));
@@ -55,12 +157,13 @@ setMethodS3("findAnnotationData", "default", function(name, tags=NULL, set, patt
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Main
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  fullname <- paste(c(name, tags), collapse=",");
   if (is.null(pattern)) {
-    pattern <- fullname;
+    if (!is.null(name)) {
+      fullname <- paste(c(name, tags), collapse=",");
+      pattern <- fullname;
+      rm(fullname); # Not need anymore
+    }
   }
-
-  name <- gsub("[,].*", "", fullname);
 
   verbose && enter(verbose, "Searching for annotation data file(s)");
 
@@ -71,27 +174,142 @@ setMethodS3("findAnnotationData", "default", function(name, tags=NULL, set, patt
   verbose && cat(verbose, "Paths (from argument): ", paste(paths, collapse=", "));
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Get search paths
+  # Getting root paths
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  paths0 <- paths;
+  verbose && enter(verbose, "Identifying root (search) paths");
+  verbose && cat(verbose, "Requested root paths:");
+  verbose && print(verbose, paths);
 
   if (is.null(paths)) {
-    paths <- "annotationData";
-    verbose && cat(verbose, "Paths (default): ", paste(paths, collapse=", "));
+    verbose && enter(verbose, "Using default root paths");
+
+    # Default root paths: annotationData/, annotationData,<tags>/
+    rootPattern <- "^annotationData(|,.*)";
+
+    ## verbose && cat(verbose, "Directory patterns: ", rootPattern);
+    paths <- list.files(path=".", pattern=rootPattern);
+    paths <- sort(paths);
+
+    verbose && cat(verbose, "Identified root paths:");
+    verbose && print(verbose, paths);
+
+    verbose && enter(verbose, "Adding root paths of aroma.* packages as a backup");
+    # Searching for aroma.* packages with install.packages() is
+    # more generic, but also much slower. Maybe later. /HB 2011-03-03
+    pkgs <- c("aroma.core", "aroma.affymetrix", "aroma.cn");
+    pkgPaths <- sapply(pkgs, FUN=function(pkg) {
+      system.file("annotationData", package=pkg);
+    });
+    pkgPaths <- pkgPaths[nchar(pkgPaths) > 0];
+    verbose && cat(verbose, "Additional root paths:");
+    verbose && print(verbose, pkgPaths);
+    paths <- c(paths, pkgPaths);
+    verbose && exit(verbose);
+
+
+    # Nothing to do?
+    if (length(paths) == 0) {
+      verbose && cat(verbose, "None of the search paths exists. Skipping.");
+      verbose && exit(verbose);
+      verbose && exit(verbose);
+      return(NULL);
+    }
+
+    verbose && exit(verbose);
   } else {
     # Split path strings by semicolons.
     paths <- unlist(strsplit(paths, split=";"));
-    verbose && cat(verbose, "Paths (updated): ", paste(paths, collapse=", "));
+
+    verbose && cat(verbose, "Parsed root paths:");
+    verbose && print(verbose, paths);
+  }
+
+  # Expand any file system links
+  paths <- sapply(paths, FUN=filePath, expandLinks="any");
+
+  # Keep only existing search paths
+  paths <- paths[sapply(paths, FUN=isDirectory)];
+  verbose && cat(verbose, "Existing root paths:");
+  verbose && print(verbose, paths);
+
+  verbose && exit(verbose);
+
+  # Nothing to do?
+  if (length(paths) == 0) {
+    verbose && cat(verbose, "None of the search paths exists. Skipping.");
+    verbose && exit(verbose);
+    return(NULL);
   }
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Search in annotationData/<set>/<genome>/
+  # Getting subdir sets in root paths, i.e. <rootPath>/<set>/
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  verbose && enter(verbose, "Identifying all <rootPath>/<set>/ paths");
+  verbose && cat(verbose, "Set: ", set);
+
   # Expand any file system links
-  paths <- file.path(paths, set, name);
+  paths <- file.path(paths, set);
   paths <- sapply(paths, FUN=filePath, expandLinks="any");
 
-  verbose && cat(verbose, "Paths (final): ", paste(paths, collapse=", "));
+  verbose && cat(verbose, "Possible <rootPath>/<set>/ paths:");
+  verbose && print(verbose, paths);
+
+  # Keep only existing search paths
+  paths <- paths[sapply(paths, FUN=isDirectory)];
+  verbose && cat(verbose, "Existing <rootPath>/<set>/ paths:");
+  verbose && print(verbose, paths);
+
+  verbose && exit(verbose);
+
+  # Nothing to do?
+  if (length(paths) == 0) {
+    verbose && cat(verbose, "None of the search paths exists. Skipping.");
+    verbose && exit(verbose);
+    return(NULL);
+  }
+
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Getting named sub sets, i.e. <rootPath>/<set>/<name>?
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  if (!is.null(name)) {
+    verbose && enter(verbose, "Identifying all <rootPath>/<set>/<name>/ paths");
+    verbose && cat(verbose, "Name: ", name);
+
+    # Expand any file system links
+    paths <- file.path(paths, name);
+    paths <- sapply(paths, FUN=filePath, expandLinks="any");
+
+    verbose && cat(verbose, "Possible <rootPath>/<set>/<name>/ paths:");
+    verbose && print(verbose, paths);
+
+    # Keep only existing search paths
+    paths <- paths[sapply(paths, FUN=isDirectory)];
+    verbose && cat(verbose, "Existing <rootPath>/<set>/<name>/ paths:");
+    verbose && print(verbose, paths);
+
+    verbose && exit(verbose);
+
+    # Nothing to do?
+    if (length(paths) == 0) {
+      verbose && cat(verbose, "None of the search paths exists. Skipping.");
+      verbose && exit(verbose);
+      return(NULL);
+    }
+  }
+
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Now, search all paths
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  verbose && cat(verbose, "Final paths to search:");
+  verbose && print(verbose, paths);
+
+  # AD HOC: Searching in sibling root paths is only done in the correct
+  # order when firstOnly == FALSE. /HB 2011-03-03
+##  if (firstOnly) {
+##    warning("Searching for annotation data in multiple root paths with 'firstOnly=TRUE' is *not* guaranteed to be done in the correct order. /HB 2011-03-03");
+##  }
 
   # Search recursively for all files
   args <- list(...);
@@ -102,53 +320,23 @@ setMethodS3("findAnnotationData", "default", function(name, tags=NULL, set, patt
   args$firstOnly <- FALSE;
   verbose && cat(verbose, "Arguments to findFiles:");
   verbose && str(verbose, args);
-  localFindFiles <- function(...) {
-    affxparser::findFiles(...);
-  }
+
   pathnames <- do.call("localFindFiles", args=args);
 
-  # No files found?
-  if (length(pathnames) == 0) {
-    verbose && exit(verbose);
-    return(NULL);
-  }
+  verbose && cat(verbose, "All located pathname(s):");
+  verbose && print(verbose, pathnames);
 
-  # AD HOC: Clean out files in "private" directories
-  if (!private) {
-    isInPrivateDirectory <- function(pathname) {
-      pathname <- strsplit(pathname, split="[/\\\\]")[[1]];
-      pathname <- pathname[!(pathname %in% c(".", ".."))];
-      any(regexpr("^[.]", pathname) != -1);
-    }
-
-    excl <- sapply(pathnames, FUN=isInPrivateDirectory);
-    pathnames <- pathnames[!excl];
-
-    # No files remaining?
-    if (length(pathnames) == 0) {
-      verbose && exit(verbose);
-      return(NULL);
-    }
-  }
-
-  # Order located pathnames in increasing length of the fullnames
-  # This is an AD HOC solution for selecting GenomeWideSNP_6 before
-  # GenomeWideSNP_6,Full.
-  # (a) Get filenames
-  filenames <- basename(pathnames);
-  # (b) Get fullnames by dropping filename extension
-  fullnames <- gsub("[.][^.]*$", "", filenames);
-  # (c) Order by length of fullnames
-  o <- order(nchar(fullnames));
-  pathnames <- pathnames[o];
+  verbose && enter(verbose, "Reorder by fullname");
+  pathnames <- sortByFullName(pathnames, verbose=verbose);
+  verbose && print(verbose, pathnames);
+  verbose && exit(verbose);
 
   # Keep first match?
   if (firstOnly && length(pathnames) > 1) {
     pathnames <- pathnames[1];
+    verbose && cat(verbose, "Returning the first one only");
+    verbose && print(verbose, pathnames);
   }
-
-  verbose && cat(verbose, "Located pathname(s):");
-  verbose && print(verbose, pathnames);
 
   verbose && exit(verbose);
 
@@ -157,6 +345,19 @@ setMethodS3("findAnnotationData", "default", function(name, tags=NULL, set, patt
 
 ############################################################################
 # HISTORY:
+# 2011-03-03
+# o Now findAnnotationData() again guarantees that the returned pathnames
+#   are ordered by the (length of the) fullnames.
+# o GENERALIZATION: Now findAnnotationData() falls back to annotation data
+#   available in any of the aroma.* packages.
+# o GENERALIZATION: In addition to search <rootPath>/<set>/<name> paths,
+#   findAnnotationData() can also search <rootPath>/<set>/ by not 
+#   specifying argument 'name' (or setting it to NULL).
+# o SPEEDUP: Now findAnnotationData() returns NULL as soon as it knows
+#   there are no root paths, subdir sets etc to search.
+# 2011-02-19
+# o GENERALIZATION: Extended the default root paths of findAnnotationData()
+#   to be annotationData/ and annotationData,<tags>/
 # 2009-02-10
 # o Now findAnnotationData() always returns pathnames ordered by the length
 #   of their fullnames. Before this was only done if 'firstOnly=TRUE'.
