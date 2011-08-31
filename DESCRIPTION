@@ -1,6 +1,6 @@
 Package: aroma.core
-Version: 2.1.4
-Date: 2011-08-02
+Version: 2.1.5
+Date: 2011-08-30
 Title: Core methods and classes used by aroma.* package part of The
         Aroma Project
 Author: Henrik Bengtsson <henrikb@braju.com>
@@ -26,6 +26,6 @@ LazyLoad: TRUE
 biocViews: Microarray, OneChannel, TwoChannel, MultiChannel,
         DataImport, DataRepresentation, GUI, Visualization,
         Preprocessing, QualityControl, aCGH, CopyNumberVariants
-Packaged: 2011-08-02 08:33:33 UTC; hb
+Packaged: 2011-08-31 02:31:14 UTC; hb
 Repository: CRAN
-Date/Publication: 2011-08-02 10:32:27
+Date/Publication: 2011-08-31 04:11:10

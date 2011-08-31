@@ -12,7 +12,6 @@ append <- R.filesets::append;
 lapply <- R.utils::lapply;
 sapply <- R.filesets::sapply;
 
-
 .First.lib <- function(libname, pkgname) {
 ## .onAttach <- function(libname, pkgname) {
   pkg <- AromaCore(pkgname);
