@@ -1,4 +1,5 @@
-29be1e491aa2769d00af1223026c8d41 *DESCRIPTION
+549ce451358a0581f0eac513cd08be81 *DESCRIPTION
+2bc9ad43c26ab06f581dcd72b7fc57ce *NAMESPACE
 9400b3c4ffcd01c344a61387d7131750 *R/000.R
 5767e29c8f1a6fad9465457ac611a0cf *R/006.fixVarArgs.R
 9b12c88c7f9ba23558d44e82b7c12b22 *R/009.setup.R
@@ -174,7 +175,7 @@ b0400b2ecbe0204b91ae4c041830e91b *R/stextChipType.R
 301e77939424baf9ab5d7e82f569c3e3 *R/weightedMad.R
 acefbab918558d7d61ae86dbaf3f047a *R/whatDataType.R
 c5b22875325f778879ef69663796800d *R/yellow.colors.R
-49d26b19cc56b12ec92308658105cf12 *R/zzz.R
+18a019ced389326a5dff0fd3f6b9ecef *R/zzz.R
 f8c599667358da454b253b22ddea344f *incl/999.missingdocs.txt
 8b3cfa0fea55757bcf297a9d79f807d9 *incl/AromaGenomeTextFile.Rex
 5135155a71eefccbccfd5d0631e19be9 *incl/BengtssonH_2003.bib.Rdoc
@@ -192,7 +193,7 @@ cb8eb412791c4953ef26dda8924dce37 *incl/colBinnedSmoothing.Rex
 b3f05650bec1669312b523cd73651186 *incl/fitMultiDimensionalCone.matrix.Rex
 88f7d4a597df70100f99fa8c6859e39d *incl/matrixBlockPolish.matrix.Rex
 18215944b90ba729689946a6281d8b21 *incl/mergeBoxplotStats.list.Rex
-bf039f4c5a74f8384a69caaf88429866 *inst/NEWS
+c93d2c05e6235ebc790c945af2f28d51 *inst/NEWS
 d570bca976776301e874467a4dcfe01b *inst/annotationData/genomes/Canine/Canine,chromosomes,UGP,HB20100822.txt
 0bfaac041f78c030c78315b686eafa1a *inst/annotationData/genomes/Human/Human,chromosomes.txt
 6e9d640871de559bdcc3c4158a11b353 *inst/annotationData/genomes/Human/Human,cytobands,GLADv2.4.0,HB20100219.txt
@@ -269,7 +270,7 @@ a4ccafae7719a60abc5ac2d8a07e57dc *inst/testScripts/system/UGP/test20090508,UGP.R
 84688bb0f374e24c039849fa91b3316c *man/AromaCellCpgFile.Rd
 8b8628a009362db53b3935bac8565353 *man/AromaCellPositionFile.Rd
 e8d6ae4f851134b464c2e0f876ba81dd *man/AromaCellTabularBinaryFile.Rd
-5ae57d53a2297e3762313688f0187616 *man/AromaGenomeTextFile.Rd
+26f32c716ac2f2f6897ca72f4c4c9649 *man/AromaGenomeTextFile.Rd
 14ec1e1e79ab23393cd7b4417b00696b *man/AromaMicroarrayDataFile.Rd
 316be61169b82c298ee9017ea6156257 *man/AromaMicroarrayDataSet.Rd
 098b8fb22be774bec2a202b9447397ca *man/AromaMicroarrayDataSetTuple.Rd
@@ -313,7 +314,7 @@ fe48877aadf075e7a48483f6088715e9 *man/UnitAnnotationDataFile.Rd
 3710e98b7912de55921d56a2063bde53 *man/UnitNamesFile.Rd
 f0767c86bbdb0d1fd317fdccf18901bb *man/UnitTypesFile.Rd
 65094eeac05e5ef634fc8dc199d69300 *man/allocate.AromaTabularBinaryFile.Rd
-cd77a7d8459c8f822b448b803b4e2629 *man/aroma.core-package.Rd
+c9d0357abf442af89fd7d470ac17474a *man/aroma.core-package.Rd
 ed3426d1540af935f09aeed2071ab183 *man/as.GrayscaleImage.matrix.Rd
 418f95a4131dd40d90d7c963a8292fe5 *man/colBinnedSmoothing.matrix.Rd
 2e518cb2d24276ad4afe351ce3d7ebef *man/colKernelSmoothing.matrix.Rd
