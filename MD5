@@ -1,5 +1,5 @@
-549ce451358a0581f0eac513cd08be81 *DESCRIPTION
-2bc9ad43c26ab06f581dcd72b7fc57ce *NAMESPACE
+6c33b31d9fe82b8d71db924b6ec2816b *DESCRIPTION
+d0b858b91edd65ef9e42e4bbd99d3230 *NAMESPACE
 9400b3c4ffcd01c344a61387d7131750 *R/000.R
 5767e29c8f1a6fad9465457ac611a0cf *R/006.fixVarArgs.R
 9b12c88c7f9ba23558d44e82b7c12b22 *R/009.setup.R
@@ -49,6 +49,7 @@ c3ba3273bc2cb68ac62b153bb7e77a52 *R/AromaUnitSignalBinarySet.writeDataFrame.R
 f0731494a71551c9eb7393d8e7fb3b80 *R/AromaUnitTabularBinaryFile.R
 a89c316a579ef71d0b32438368026990 *R/AromaUnitTabularBinaryFile.writeDataFrame.R
 3d86859788dd127a5ae3527f41937888 *R/AromaUnitTotalCnBinaryFile.R
+be97bb950a80d22a42b7de2986fc7306 *R/AromaUnitTotalCnBinaryFile.extractPSCNArray.R
 96cf2350eb302ba3fb340d894bf73e37 *R/AromaUnitTotalCnBinaryFile.xam.R
 9face97f6d64caf0c96750438da5028b *R/AromaUnitTotalCnBinaryFileList.R
 3bedfc4ce3d5708e9f27207105c66ed7 *R/AromaUnitTotalCnBinarySet.R
@@ -176,7 +177,7 @@ b0400b2ecbe0204b91ae4c041830e91b *R/stextChipType.R
 acefbab918558d7d61ae86dbaf3f047a *R/whatDataType.R
 c5b22875325f778879ef69663796800d *R/yellow.colors.R
 18a019ced389326a5dff0fd3f6b9ecef *R/zzz.R
-f8c599667358da454b253b22ddea344f *incl/999.missingdocs.txt
+7fd286443a03b4ec52f8b220ecfcfc7a *incl/999.missingdocs.txt
 8b3cfa0fea55757bcf297a9d79f807d9 *incl/AromaGenomeTextFile.Rex
 5135155a71eefccbccfd5d0631e19be9 *incl/BengtssonH_2003.bib.Rdoc
 8b125168165911ec4e4b932c1797b1b7 *incl/BinnedScatter.Rex
@@ -193,7 +194,7 @@ cb8eb412791c4953ef26dda8924dce37 *incl/colBinnedSmoothing.Rex
 b3f05650bec1669312b523cd73651186 *incl/fitMultiDimensionalCone.matrix.Rex
 88f7d4a597df70100f99fa8c6859e39d *incl/matrixBlockPolish.matrix.Rex
 18215944b90ba729689946a6281d8b21 *incl/mergeBoxplotStats.list.Rex
-c93d2c05e6235ebc790c945af2f28d51 *inst/NEWS
+4dc6a20b00a61c47aad50335a98a9821 *inst/NEWS
 d570bca976776301e874467a4dcfe01b *inst/annotationData/genomes/Canine/Canine,chromosomes,UGP,HB20100822.txt
 0bfaac041f78c030c78315b686eafa1a *inst/annotationData/genomes/Human/Human,chromosomes.txt
 6e9d640871de559bdcc3c4158a11b353 *inst/annotationData/genomes/Human/Human,cytobands,GLADv2.4.0,HB20100219.txt
@@ -300,7 +301,7 @@ ea9b5212b455c9d9ae4a89b43e5595a7 *man/CopyNumberSegmentationModel.Rd
 d8537d420324fdfcdedb180b87a0ff1d *man/Explorer.Rd
 902546695b0d9ff0170722387cf206ee *man/GladModel.Rd
 522dfe2d95d87b5b2b4800bf6cf0ab1e *man/HaarSegModel.Rd
-7fa79d7ec4d4c7dfaf3ab6e6a43adeff *man/Non-documented_objects.Rd
+0ffbd6dffdaeb6441fa56c95d7f38e8c *man/Non-documented_objects.Rd
 57f9f1a9f3ae9cf4363aeea5ccd98391 *man/RawAlleleBFractions.Rd
 c1b88da37729d518fad108150473f53c *man/RawCopyNumberModel.Rd
 a3190526cd0863ddff3f1c9d9d2b0edf *man/RawCopyNumbers.Rd
