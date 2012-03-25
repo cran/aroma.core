@@ -32,26 +32,52 @@ setMethodS3("setStates", "SegmentedGenomicSignalsInterface", function(this, stat
     }
   }
 
-  this$.states <- states;
+  if (inherits(this, "RichDataFrame")) {
+    fcn <- function(data, ...) {
+      x <- data$x;
+      states(x, ...);
+    }
+    this[["state"]] <- fcn;
+  } else {
+    this <- setBasicField(this, ".states", states);
+  }
 
   invisible(this);
 })
 
 
-setMethodS3("getStates", "SegmentedGenomicSignalsInterface", function(this, x=getPositions(this), ...) {
+setMethodS3("getStates", "SegmentedGenomicSignalsInterface", function(this, x=NULL, ...) {
   # Argument 'x':
-  x <- Arguments$getNumerics(x, disallow=NULL);
+  if (!is.null(x)) {
+    x <- Arguments$getNumerics(x, disallow=NULL);
+    nbrOfLoci <- length(x);
+  }
 
-  nbrOfLoci <- length(x);
-
-  states <- this$.states;
-
-  if (is.function(states)) {
-    fcn <- states;
-    chromosome <- getChromosome(this);
-    name <- getName(this);
-    states <- fcn(x, chromosome=chromosome, name=name, ...);
-    storage.mode(states) <- "integer";
+  if (inherits(this, "RichDataFrame")) {
+    if (is.null(x)) {
+      states <- this$state;
+      nbrOfLoci <- length(states);
+    } else {
+      tmp <- newInstance(this, nrow=length(x));
+      tmp$x <- x;
+      states <- tmp$state;
+      rm(tmp);
+    }
+  } else {
+    if (is.null(x)) {
+      x <- getPositions(this);
+    }
+    nbrOfLoci <- length(x);
+  
+    states <- getBasicField(this, ".states");
+  
+    if (is.function(states)) {
+      fcn <- states;
+      chromosome <- getChromosome(this);
+      name <- getName(this);
+      states <- fcn(x, chromosome=chromosome, name=name, ...);
+      storage.mode(states) <- "integer";
+    }
   }
 
   # Sanity check
@@ -69,14 +95,51 @@ setMethodS3("getUniqueStates", "SegmentedGenomicSignalsInterface", function(this
 })
 
 
-setMethodS3("as.data.frame", "SegmentedGenomicSignalsInterface", function(x, ...) {
+setMethodS3("as.data.frame", "SegmentedGenomicSignalsInterface", function(x, ..., virtual=TRUE) {
   # To please R CMD check
   this <- x;
 
-  df <- NextMethod("as.data.frame", this, ...);
-  df$state <- getStates(this, x=df$x);
+  if (inherits(this, "RichDataFrame")) {
+    df <- NextMethod("as.data.frame", this, virtual=virtual, ...);
+  } else {
+    df <- NextMethod("as.data.frame", this, ...);
+    if (virtual) {
+      df$state <- getStates(this, x=df$x);
+    }
+  }
 
   df;
+})
+
+setMethodS3("getVirtualField", "SegmentedGenomicSignalsInterface", function(this, key, ...) {
+  # Argument 'key':
+  key <- Arguments$getCharacter(key);
+
+  if (inherits(this, "RichDataFrame")) {
+    value <- this[[key]];
+  } else {
+    fields <- getVirtualLocusFields(this, ...);
+    stopifnot(is.element(key, fields));
+    
+    if (key == "state") {
+      value <- getStates(this, ...);
+    } else {
+      value <- NextMethod("getVirtualField", this, key=key, ...);
+    }
+  }
+
+  value;
+})
+
+setMethodS3("getVirtualLocusFields", "SegmentedGenomicSignalsInterface", function(this, ...) {
+  if (inherits(this, "RichDataFrame")) {
+    fields <- getVirtualColumnNames(this, ...);
+  } else {
+    fields <- NextMethod("getVirtualLocusFields", this, ...);
+    fields <- c(fields, "state");
+    fields <- unique(fields);
+  }
+  fields;
 })
 
 
@@ -90,11 +153,19 @@ setMethodS3("extractSubsetByState", "SegmentedGenomicSignalsInterface", function
 
   # Identify loci that have the requested states
   signalStates <- getStates(this);
+
+  # Sanity check
+  uniqueStates <- unique(signalStates);
+  if (length(uniqueStates) > 0.1*length(signalStates)) {
+    throw(sprintf("Detected too many states: %s [%d]", hpaste(signalStates), length(uniqueStates)));
+  }
+
+  # Subset
   keep <- is.element(signalStates, states);
   keep <- whichVector(keep);
 
   # Extract this subset
-  extractSubset(this, subset=keep, ...);
+  extractSubset(this, keep, ...);
 })
 
  
@@ -178,10 +249,11 @@ setMethodS3("kernelSmoothingByState", "SegmentedGenomicSignalsInterface", functi
   verbose && str(verbose, yOut);
 
   verbose && enter(verbose, "Creating result object");
-  res <- clone(this);
-  clearCache(res);
-  res$y <- yOut;
+  # Allocate results of the correct size
+  res <- newInstance(this, nrow=length(xOut));
+
   res$x <- xOut;
+  res <- setSignals(res, yOut);
   verbose && exit(verbose);
 
   verbose && exit(verbose);
@@ -230,21 +302,15 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
   }
 
   verbose && enter(verbose, "Binning data set");
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Allocate result set
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  verbose && enter(verbose, "Allocating result set");
-  res <- clone(this);
-  clearCache(res);
-
   verbose && cat(verbose, "by: ", by);
   verbose && cat(verbose, "length.out: ", length.out);
   verbose && cat(verbose, "byCount: ", byCount);
 
   verbose && enter(verbose, "Find target positions");
+
   if (byCount) {
     verbose && enter(verbose, "By count");
-    res <- sort(res);
+    res <- sort(this); # sort() returns a clone():d object. /HB 2012-03-01
     resOut <- binnedSmoothing(res, by=by, length.out=length.out, 
                               byCount=TRUE, verbose=less(verbose, 5));
     xOut <- resOut$x;
@@ -259,7 +325,7 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
       xOut <- seq(from=from, to=to, length.out=length.out);
     }
     verbose && exit(verbose);
-  }
+  } # if (byCount)
 
   verbose && cat(verbose, "xOut:");
   verbose && str(verbose, xOut);
@@ -267,10 +333,20 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
   xOut <- Arguments$getNumerics(xOut);
   verbose && exit(verbose);
 
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Allocate result set
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  verbose && enter(verbose, "Allocating result set");
+  # Allocate results of the correct size
+  res <- newInstance(this, nrow=length(xOut));
+
+  # Target 'x' and 'y':
   res$x <- xOut;
-  
-  # Target 'y':
-  res$y <- rep(as.double(NA), times=length(xOut));
+  ys <- rep(as.double(NA), times=length(xOut));
+  res <- setSignals(res, ys);
+  rm(ys);
+
   verbose && print(verbose, res);
   verbose && exit(verbose);
 
@@ -290,7 +366,6 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
     gs <- clone(this);
     gs <- sort(gs);
     gs$xOrder <- seq(length=nbrOfLoci(gs));
-    addLocusFields(gs, "xOrder");
   } else {
     gs <- this;
   }
@@ -320,6 +395,7 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
     nbrOfBins <- nbrOfLoci(resSS);
     rm(resSS);
     if (nbrOfBins == 0) {
+      verbose && cat(verbose, "No bins. Skipping state.");
       verbose && exit(verbose);
       next;
     }
@@ -330,10 +406,11 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     verbose && enter(verbose, "Extracting subset of (source) loci with this signal state");
     gsSS <- extractSubsetByState(gs, states=state, verbose=less(verbose,50));
-    print(gsSS);
+#    verbose && print(verbose, gsSS);
     verbose && exit(verbose);
     # Nothing to do?
     if (nbrOfLoci(gsSS) == 0) {
+      verbose && cat(verbose, "No extracted loci. Skipping state.");
       verbose && exit(verbose);
       next;
     }
@@ -346,11 +423,15 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
       verbose && cat(verbose, "xOrder:");
       verbose && str(verbose, gsSS$xOrder);
       nbrOfLociToAdd <- (gsSS$xOrder[1] %% by) - 1;
-      verbose && cat(verbose, "nbrOfLociToAdd: ", nbrOfLociToAdd);
-      fields <- setdiff(getLocusFields(gsSS), "xOrder");
-      setLocusFields(gsSS, fields);
+      verbose && cat(verbose, "Number of loci to add: ", nbrOfLociToAdd);
       gsSS$xOrder <- NULL;
+      
       if (nbrOfLociToAdd > 0) {
+        # Allocate the correct size
+        nbrOfLoci2 <- nbrOfLoci(gsSS) + nbrOfLociToAdd;
+        gsSS2 <- newInstance(gsSS, nrow=nbrOfLoci2);
+
+        fields <- getDefaultLocusFields(gsSS, translate=TRUE);
         for (ff in fields) {
           values <- gsSS[[ff]];
           if (is.element(ff, "w")) {
@@ -363,11 +444,13 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
           storage.mode(naValue) <- storage.mode(values);
           naValues <- rep(naValue, times=nbrOfLociToAdd);
           values <- c(naValues, values);
-          gsSS[[ff]] <- values;
+          gsSS2[[ff]] <- values;
         } # for (ff ...)
-      }
+        gsSS <- gsSS2;
+        rm(gsSS2);
+      } # if (nbrOfLociToAdd > 0)
       verbose && exit(verbose);
-    }
+    } # if (byCount)
 
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     # Bin loci of this state towards target loci (of the same state)
@@ -385,18 +468,18 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
       args <- list(xOut=xOutSS, by=by, byCount=byCount, ...);
       verbose && str(verbose, args);
       resSS <- binnedSmoothing(gsSS, xOut=xOutSS, by=by, byCount=byCount, ...);
-    }
+    } # if (byCount)
     rm(gsSS, args);
     verbose && print(verbose, resSS);
     verbose && exit(verbose);
 
     # Sanity check
-    str(idxsOut);
-    print(resSS);  
     stopifnot(length(idxsOut) == nbrOfLoci(resSS));  
 
-    res$y[idxsOut] <- resSS$y;
-    rm(resSS);
+    ys <- getSignals(res);
+    ys[idxsOut] <- getSignals(resSS);
+    res <- setSignals(res, ys);
+    rm(resSS, ys);
   
     verbose && exit(verbose);
   } # for (ss ...)
@@ -422,6 +505,9 @@ setMethodS3("points", "SegmentedGenomicSignalsInterface", function(x, ..., col=g
 
 ############################################################################
 # HISTORY:
+# 2012-03-01
+# o Now binnedSmoothingByState() works also when RawGenomicSignals
+#   extends data.frame.
 # 2009-06-30
 # o Added support for argument 'byCount' to binnedSmoothingByState() of 
 #   SegmentedCopyNumbers.  It is rather complex how it works, but we tried

@@ -431,12 +431,12 @@
   updateData updateData.AromaTabularBinaryFile updateDataColumn
   updateDataColumn.AromaTabularBinaryFile updateGenotypes
   updateGenotypes.AromaUnitGenotypeCallFile updatePositions
-  updatePositions.AromaCellPositionFile updateSamplesFile
+  updatePositions.AromaCellPositionFile 
   updateSequenceMatrix updateSequenceMatrix.AromaCellSequenceFile
   updateSequences updateSequences.AromaCellSequenceFile
   updateTargetStrands updateTargetStrands.AromaCellSequenceFile
   validate.AromaMicroarrayDataSet validate.AromaUnitSignalBinarySet
-  weightedMad weightedMean whatDataType whatDataType.default
+  weightedMean whatDataType whatDataType.default
   writeAxesLayers writeAxesLayers.ChromosomeExplorer
   writeCopyNumberRegionLayers
   writeCopyNumberRegionLayers.ChromosomeExplorer writeCytobandLayers
@@ -511,8 +511,8 @@ xMax.CopyNumberRegions xMin.CopyNumberRegions
   findByGenome findByGenome.AromaGenomeTextFile
   readDataFrame.AromaGenomeTextFile
   -.RawGenomicSignals *.RawGenomicSignals +.RawGenomicSignals
-  draw draw.density drawDensity drawDensity.CopyNumberRegions
-  drawDensity.RawGenomicSignals swapXY swapXY.density
+  drawDensity drawDensity.CopyNumberRegions
+  drawDensity.RawGenomicSignals 
  getDensity getDensity.CopyNumberRegions getLength
  getLength.CopyNumberRegions
 getOptionalArguments getOptionalArguments.CopyNumberChromosomalModel
@@ -555,3 +555,76 @@ getDefaultExtension.AromaCellPositionFile
 getDefaultExtension.AromaCellSequenceFile
 getDefaultExtension.AromaUflFile getDefaultExtension.AromaUgpFile
 plotCoverageMap plotCoverageMap.AromaUgpFile
+assertOneChromosome assertOneChromosome.RawGenomicSignals
+getCXY getCXY.RawGenomicSignals
+getChromosomes.RawGenomicSignals
+nbrOfChromosomes.RawGenomicSignals
+extractChromosome extractChromosome.RawGenomicSignals
+extractChromosomes extractChromosomes.RawGenomicSignals
+clearCache.RawGenomicSignals clone.RawGenomicSignals
+getBasicField getBasicField.RawGenomicSignals
+print.RawGenomicSignals setBasicField
+setBasicField.RawGenomicSignals
+newInstance.RawGenomicSignals
+getDefaultLocusFields getDefaultLocusFields.RawGenomicSignals
+getVirtualLocusFields getVirtualLocusFields.RawGenomicSignals
+getVirtualLocusFields.SegmentedGenomicSignalsInterface
+getVersion.Explorer setup.Explorer updateSetupExplorerFile
+updateSetupExplorerFile.Explorer
+$.RichDataFrame $<-.RichDataFrame RichDataFrame
+[.RichDataFrame [[.RichDataFrame [[<-.RichDataFrame
+as.data.frame.RichDataFrame as.list.RichDataFrame
+binnedSmoothingByField binnedSmoothingByField.RawGenomicSignals
+dim.RichDataFrame dropVirtualColumn
+dropVirtualColumn.RichDataFrame getColumnNames.RichDataFrame
+getColumnNamesTranslator getColumnNamesTranslator.RichDataFrame
+getFullName.RichDataFrame getGenericSummary
+getGenericSummary.RichDataFrame getName.RichDataFrame
+getSignalColumnName getSignalColumnName.RawGenomicSignals
+getSignalColumnNames getSignalColumnNames.RawGenomicSignals
+getSignals.RawCopyNumbers getTags.RichDataFrame
+getVirtualColumn getVirtualColumn.RichDataFrame
+getVirtualColumnFunction getVirtualColumnFunction.RichDataFrame
+getVirtualColumnFunctions getVirtualColumnFunctions.RichDataFrame
+getVirtualColumnNames getVirtualColumnNames.RichDataFrame
+getVirtualField getVirtualField.SegmentedGenomicSignalsInterface
+hasColumn hasColumn.RichDataFrame hasColumns
+hasColumns.RichDataFrame hasVirtualColumn
+hasVirtualColumn.RichDataFrame hasVirtualColumns
+hasVirtualColumns.RichDataFrame length.RichDataFrame
+names.RichDataFrame newInstance.RichDataFrame
+print.RichDataFrame rbind.RichDataFrame
+setAttributes.RichDataFrame setColumnNamesMap
+setColumnNamesMap.RichDataFrame setColumnNamesTranslator
+setColumnNamesTranslator.RichDataFrame setName.RichDataFrame
+setSignals setSignals.RawGenomicSignals setTags.RichDataFrame
+setVirtualColumn setVirtualColumn.RichDataFrame
+setVirtualColumnFunctions setVirtualColumnFunctions.RichDataFrame
+subset.RichDataFrame translateColumnNames.RichDataFrame
+as.NonPairedPSCNData as.NonPairedPSCNData.NonPairedPSCNData
+as.NonPairedPSCNData.data.frame as.PairedPSCNData
+as.PairedPSCNData.NonPairedPSCNData
+as.PairedPSCNData.PairedPSCNData as.PairedPSCNData.data.frame
+callNaiveGenotypes.NonPairedPSCNData
+callNaiveGenotypes.PairedPSCNData callSNPs
+callSNPs.AbstractPSCNData callSegmentationOutliers
+callSegmentationOutliers.NonPairedPSCNData
+callSegmentationOutliers.PairedPSCNData dropSegmentationOutliers
+dropSegmentationOutliers.NonPairedPSCNData
+dropSegmentationOutliers.PairedPSCNData extractNonPairedPSCNData
+extractNonPairedPSCNData.PairedPSCNData findLargeGaps
+findLargeGaps.AbstractCNData getChipType.AbstractCNData
+getLocusData getLocusData.AbstractCNData
+getPlatform.AbstractCNData getSNPFields
+getSNPFields.AbstractPSCNData
+getSignalColumnNames.NonPairedPSCNData
+getSignalColumnNames.PairedPSCNData getTCNs
+getTCNs.PairedPSCNData getTotalCopyNumbers
+getTotalCopyNumbers.PairedPSCNData hasKnownPositions
+hasKnownPositions.AbstractCNData
+normalizeTumorBoost.PairedPSCNData orderAlongGenome
+orderAlongGenome.AbstractCNData segmentByCBS.NonPairedPSCNData
+segmentByCBS.PairedPSCNData segmentByPairedPSCBS
+segmentByPairedPSCBS.PairedPSCNData setChipType
+setChipType.AbstractCNData setPlatform
+setPlatform.AbstractCNData

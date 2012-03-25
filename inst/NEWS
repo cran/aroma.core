@@ -1,6 +1,129 @@
 Package: aroma.core
 ===================
 
+Version: 2.5.0 [2012-03-25]
+o Submitted to CRAN.
+o The package passes all redundancy tests.
+
+
+Version: 2.4.13 [2012-03-23]
+o Added alpha versions of PairedPSCNData and NonPairedPSCNData,
+  which inherits from RawGenomicSignals.
+o Turned weightedMad() into a default method, added help documentation
+  with example code.
+o CLEANUP: Moved (internal) swapXY() and draw() for 'density'
+  objects to R.utils (>= 1.10.0).
+o BUG FIX: "["() for RichDataFrame would loose the class attribute,
+  unless argument 'drop' was FALSE.
+
+
+Version: 2.4.12 [2012-03-15]
+o Now colBinnedSmoothing(), colKernelSmoothing() and
+  colGaussianSmoothing() returns a matrix with column names
+  as in argument 'Y'.
+o For RawGenomicSignals, added argument 'fields' to binnedSmoothing()
+  and binnedSmoothingByField().  Also added argument 'field' to
+  getSignals() and estimateStandardDeviation().
+o Now RawGenomicSignals extends new internal RichDataFrame class.
+o CLEANUP: Dropped deprecated files from the reports/includes/js/
+  directory installed by ArrayExplorer and ChromosomeExplorer.
+
+
+Version: 2.4.11 [2012-03-12]
+o Added binnedSmoothingByField() for RawGenomicSignals.
+o Added subset() for RawGenomicSignals.
+o Added get- and setVirtualField() for RawGenomicSignals.
+o Added argument 'sort' to as.data.frame() for RawGenomicSignals.
+
+
+Version: 2.4.10 [2012-03-06]
+o GENERALIZATION: The new ArrayExplorer v3.4 will work with most
+  commonly used web browsers including Mozilla Firefox, Google Chrome,
+  Microsoft Internet Explorer, Apple Safari, and Opera.
+
+
+Version: 2.4.9 [2012-03-06]
+o ROBUSTNESS: Now all writeDataFrame() methods will add quotation
+  marks around column names that contain a comment character ('#').
+  This will make the written file readable with read.table() even 
+  when there are header comments with prefix '#'.  This issue was
+  reported by Yu Song at Oakland University.
+o Now createImage() for matrix creates images of type "png::array"
+  by default (used to be "EBImage::Image").  If the latter, then
+  at least EBImage v3.9.7 (July 2011) is required.
+o BUG FIX: write() for RasterImage would write truncated intensities,
+  because we forgot to rescale [0,65535] to [0,1] intensities.
+
+
+Version: 2.4.8 [2012-03-02]
+o GENERALIZATION: Now RawGenomicSignals inherits from data.frame
+  instead of Object.  It works with the big aroma.affymetrix test
+  suite as well as with the TCGA vignette (of aroma.cn.eval).
+
+
+Version: 2.4.7 [2012-03-01]
+o Preparing for RawGenomicSignals not being reference variables.
+o Preparing for supporting multiple-chromosome RawGenomicSignals.
+o ROBUSTNESS: Added system tests for RawGenomicSignals classes.
+o CLEANUP: Now R CMD check no longer reports that the package
+  is using .Internal() function calls.  This was due to how we
+  adjusted colSums() and colMeans() to become generic functions.
+
+
+Version: 2.4.6 [2012-02-04]
+o Created ChromosomeExplorer v3.4, which should work on even more
+  browsers.
+o GENERALIZATION: Now binnedSmoothing() of RawGenomicSignals default to
+  generate the same target bins as binnedSmoothing() of a numeric vector.
+  Before the bins had to be specified explicitly by the caller.
+o GENERALIZATION: Now it is possible to call colBinnedSmoothing() with
+  an empty set of input loci, but still requesting a set of output loci,
+  which then will be all missing values.
+o BUG FIX: Argument 'x' of colBinnedSmoothing() would default to the
+  incorrect number of loci.
+
+
+Version: 2.4.5 [2012-02-03]
+o GENERALIZATION: As ChromosomeExplorer v3.3, the new ArrayExplorer v3.3
+  works with most common web browsers. See below.  However, we still
+  have problems getting ArrayExplorer to load the main spatial (PNG)
+  image in Internet Explorer.
+o Forgot to include require.js in v2.4.4, which is needed by the
+  ChromosomeExplorer v3.3.
+
+
+Version: 2.4.4 [2012-02-01]
+o GENERALIZATION: The new ChromosomeExplorer v3.3 will work with most
+  commonly used web browsers including Mozilla Firefox, Google Chrome,
+  Microsoft Internet Explorer, Apple Safari and Opera.  This far it has 
+  been tested with the following browsers: Firefox v3.6/v9.01/v10.0, 
+  Chrome v17.0, IE v7.x/v9.0, and Safari 5.
+  NOTE: To update an existing ChromosomeExplorer report, call
+  setup(ce, force=TRUE) where 'ce' is your ChromosomeExplorer object.
+  Thanks to Keith Ching at ConsultChing for the initial troubleshooting
+  [http://consultching.com/root/?p=64] leading me on the right track 
+  on how update ChromosomeExplorer.
+
+
+Version: 2.4.3 [2012-01-17]
+o ROBUSTNESS: Now findPngDevice() tries all the available settings for 
+  argument "type" of png(), for the current platform.  This will
+  increase the chances for finding a PNG device that really works.
+o SPEEDUP: Now findPngDevice() memoizes the results throughout the
+  current session.
+o CLEANUP: Now findPngDevice() uses isPackageInstalled("Cairo") instead
+  of require("Cairo") to avoid loading Cairo if not really used.
+
+
+Version: 2.4.2 [2012-01-14]
+o BUG FIX: drawCytoband() for ChromosomalModel failed to locate the
+  genome annotation data file containing cytoband information, e.g.
+  Human,cytobands,<tags>.txt.  Thanks to Kai Wang at Pfizer for
+  reporting on this.
+o Added tag 'hg17' to Human,cytobands,hg17,GLADv2.4.0,HB20100219.txt 
+  in annotationData/genomes/Human/.
+
+
 Version: 2.4.1 [2012-01-12]
 o CLEANUP: Dropped internal patch of base::serialize(), because it
   was only applied to R (< 2.12.0) anyway and this package now
