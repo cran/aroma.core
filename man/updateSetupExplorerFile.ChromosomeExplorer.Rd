@@ -6,20 +6,20 @@
 % by the Rdoc compiler part of the R.oo package.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\name{updateSamplesFile.ChromosomeExplorer}
-\alias{updateSamplesFile.ChromosomeExplorer}
-\alias{ChromosomeExplorer.updateSamplesFile}
-\alias{updateSamplesFile.ChromosomeExplorer}
-\alias{updateSamplesFile,ChromosomeExplorer-method}
+\name{updateSetupExplorerFile.ChromosomeExplorer}
+\alias{updateSetupExplorerFile.ChromosomeExplorer}
+\alias{ChromosomeExplorer.updateSetupExplorerFile}
+\alias{updateSetupExplorerFile.ChromosomeExplorer}
+\alias{updateSetupExplorerFile,ChromosomeExplorer-method}
 
 
-\title{Updates the samples.js file}
+\title{Updates the Javascript file}
 
 \description{
- Updates the samples.js file.
+ Updates the Javascript file.
 }
 
-\usage{\method{updateSamplesFile}{ChromosomeExplorer}(this, ..., verbose=FALSE)}
+\usage{\method{updateSetupExplorerFile}{ChromosomeExplorer}(this, ..., verbose=FALSE)}
 
 \arguments{
   \item{...}{Not used.}
