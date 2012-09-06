@@ -462,7 +462,6 @@
 \alias{getNames.ChromosomeExplorer}
 \alias{getNames.CopyNumberChromosomalModel}
 \alias{getNumberOfFilesAveraged}
-\alias{getNumberOfFilesAveraged.AromaUnitTotalCnBinaryFile}
 \alias{getNumberOfFilesAveraged.CopyNumberDataFile}
 \alias{getOutputDataSet}
 \alias{getOutputDataSet0}
@@ -1093,14 +1092,11 @@
 \alias{append}
 \alias{lapply}
 \alias{sapply}
-\alias{AromaRepository}
 \alias{downloadACS}
 \alias{downloadACS.AromaRepository}
 \alias{downloadCDF}
 \alias{downloadCDF.AromaRepository}
 \alias{downloadChipTypeFile}
-\alias{downloadChipTypeFile.AromaRepository}
-\alias{downloadFile.AromaRepository}
 \alias{downloadProbeSeqsTXT}
 \alias{downloadProbeSeqsTXT.AromaRepository}
 \alias{downloadTXT}
@@ -1272,6 +1268,28 @@
 \alias{setChipType.AbstractCNData}
 \alias{setPlatform}
 \alias{setPlatform.AbstractCNData}
+\alias{normalizeTumorBoost}
+\alias{callNaiveGenotypes}
+\alias{getNumberOfFilesAveraged.AromaUnitSignalBinaryFile}
+\alias{allocate.AromaUnitPscnBinaryFile}
+\alias{byName.AromaUnitPscnBinarySet}
+\alias{extractRawCopyNumbers.AromaUnitPscnBinaryFile}
+\alias{getAverageFile.AromaUnitPscnBinarySet}
+\alias{getColumnNames.AromaUnitPscnBinaryFile}
+\alias{hasAlleleBFractions.AromaUnitPscnBinaryFile}
+\alias{hasStrandiness.AromaUnitPscnBinaryFile}
+\alias{hasTotalCopyNumberRatios}
+\alias{hasTotalCopyNumberRatios.AromaUnitPscnBinaryFile}
+\alias{writeDataFrame.AromaUnitPscnBinarySet}
+\alias{exportAromaUnitPscnBinarySet}
+\alias{exportAromaUnitPscnBinarySet.AromaUnitTotalCnBinarySet}
+\alias{downloadAll}
+\alias{downloadAll.AromaRepository}
+\alias{listFiles}
+\alias{clearCache.AromaRepository}
+\alias{findAnnotationDataByChipType.AromaRepository}
+\alias{downloadUGC}
+\alias{downloadUGC.AromaRepository}
 
 \description{
   This page contains aliases for all "non-documented" objects that

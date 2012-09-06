@@ -1,4 +1,13 @@
-setMethodS3("fitWRMA", "matrix", function(y, w, psiCode=0, psiK=1.345, .log2=TRUE, ...) {
+setMethodS3("fitWRMA", "matrix", function(y, w, .log2=TRUE, ..., .loadDeps=FALSE) {
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Constants
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  PACKAGE <- "preprocessCore";
+  if (.loadDeps) {
+    require(PACKAGE, character.only=TRUE) || throw("Package not loaded: ", PACKAGE);
+  }
+  rcModelWPLM <- NULL; rm(rcModelWPLM); # To please R CMD check
+
   # Transform 'y' to log2 scale?
   if (.log2)
     y <- log2(y);
@@ -6,8 +15,7 @@ setMethodS3("fitWRMA", "matrix", function(y, w, psiCode=0, psiK=1.345, .log2=TRU
   I <- ncol(y);
   K <- nrow(y);
 
-  pkg <- "preprocessCore";
-  fit <- .Call("R_wrlm_rma_default_model", y, psiCode, psiK, w, PACKAGE=pkg);
+  fit <- rcModelWPLM(y, w=w);
 
   est <- fit$Estimates;
   se <- fit$StdErrors;
@@ -35,6 +43,12 @@ setMethodS3("fitWRMA", "matrix", function(y, w, psiCode=0, psiK=1.345, .log2=TRU
 
 ############################################################################
 # HISTORY:
+# 2012-08-21
+# o ROBUSTNESS: fitWRMA() now calls rcModelWPLM() of preprocessCore
+#   instead of internal .Call(..., PACKAGE="preprocessCore") calls.
+# o CLEANUP: Dropped arguments 'psiCode' and 'psiK' from fitWRMA().
+# 2012-08-08
+# o Added argument '.loadDeps' to fitWRMA().
 # 2007-09-18
 # o Created.
 ############################################################################

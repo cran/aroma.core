@@ -234,7 +234,6 @@
   getNameOfInput.ChromosomeExplorer getNameOfInput.Explorer
   getNames.ChromosomeExplorer getNames.CopyNumberChromosomalModel
   getNumberOfFilesAveraged
-  getNumberOfFilesAveraged.AromaUnitTotalCnBinaryFile
   getNumberOfFilesAveraged.CopyNumberDataFile getOutputDataSet
   getOutputDataSet0 getOutputDataSet0.AromaTransform getOutputFiles
   getOutputFiles.AromaTransform getPairedNames
@@ -534,9 +533,8 @@ loadAll loadAll.SampleAnnotationSet
 getChromosomeLabels getChromosomeLabels.ChromosomeExplorer
 cat getOption
 append lapply sapply
-  AromaRepository downloadACS downloadACS.AromaRepository downloadCDF
+  downloadACS downloadACS.AromaRepository downloadCDF
   downloadCDF.AromaRepository downloadChipTypeFile
-  downloadChipTypeFile.AromaRepository downloadFile.AromaRepository
   downloadProbeSeqsTXT downloadProbeSeqsTXT.AromaRepository downloadTXT
   downloadTXT.AromaRepository downloadUFL downloadUFL.AromaRepository
   downloadUGP downloadUGP.AromaRepository getUrlPath
@@ -628,3 +626,22 @@ segmentByCBS.PairedPSCNData segmentByPairedPSCBS
 segmentByPairedPSCBS.PairedPSCNData setChipType
 setChipType.AbstractCNData setPlatform
 setPlatform.AbstractCNData
+normalizeTumorBoost
+callNaiveGenotypes
+getNumberOfFilesAveraged.AromaUnitSignalBinaryFile
+allocate.AromaUnitPscnBinaryFile 
+byName.AromaUnitPscnBinarySet
+extractRawCopyNumbers.AromaUnitPscnBinaryFile
+getAverageFile.AromaUnitPscnBinarySet
+getColumnNames.AromaUnitPscnBinaryFile
+getNumberOfFilesAveraged.AromaUnitSignalBinaryFile
+hasAlleleBFractions.AromaUnitPscnBinaryFile
+hasStrandiness.AromaUnitPscnBinaryFile hasTotalCopyNumberRatios
+hasTotalCopyNumberRatios.AromaUnitPscnBinaryFile
+writeDataFrame.AromaUnitPscnBinarySet
+exportAromaUnitPscnBinarySet
+exportAromaUnitPscnBinarySet.AromaUnitTotalCnBinarySet
+downloadAll downloadAll.AromaRepository listFiles
+clearCache.AromaRepository
+findAnnotationDataByChipType.AromaRepository
+downloadUGC downloadUGC.AromaRepository
