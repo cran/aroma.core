@@ -30,20 +30,10 @@
 # %}
 #*/########################################################################### 
 setConstructorS3("AromaUnitTabularBinaryFile", function(...) {
-  extend(AromaMicroarrayTabularBinaryFile(...), c("AromaUnitTabularBinaryFile", uses("UnitAnnotationDataFile")));
+  extend(AromaMicroarrayTabularBinaryFile(...), c("AromaUnitTabularBinaryFile", uses("UnitAnnotationDataFile")),
+    "cached:.unf" = NULL
+  );
 })
-
-
-setMethodS3("clearCache", "AromaUnitTabularBinaryFile", function(this, ...) {
-  # Clear all cached values.
-  for (ff in c(".unf")) {
-    this[[ff]] <- NULL;
-  }
-
-  # Then for this object
-  NextMethod(generic="clearCache", object=this, ...); 
-}, private=TRUE)
-
 
 
 setMethodS3("nbrOfUnits", "AromaUnitTabularBinaryFile", function(this, ...) {
@@ -104,7 +94,7 @@ setMethodS3("byChipType", "AromaUnitTabularBinaryFile", function(static, chipTyp
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Look for first possible valid match
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  for (kk in seq(along=pathnames)) {
+  for (kk in seq_along(pathnames)) {
     pathname <- pathnames[kk];
     verbose && enter(verbose, "File #", kk, " (", pathname, ")");
 
@@ -167,7 +157,7 @@ setMethodS3("allocateFromUnitNamesFile", "AromaUnitTabularBinaryFile", function(
   # Argument 'unf':
   unf <- Arguments$getInstanceOf(unf, "UnitNamesFile");
   allocateFromUnitAnnotationDataFile(static, udf=unf, ...);
-})
+}, static=TRUE, protected=TRUE)
 
 
 setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitTabularBinaryFile", function(static, udf, path=NULL, tags=NULL, footer=list(), ...) {
@@ -191,7 +181,7 @@ setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitTabularBinaryFile", 
   chipType <- getChipType(udf);
 
   # Exclude 'monocell' tags (AD HOC)
-  chipType <- gsub(",monocell", "", chipType);
+  chipType <- gsub(",monocell", "", chipType, fixed=TRUE);
 
   fullname <- paste(c(chipType, tags), collapse=",");
   ext <- getFilenameExtension(static);
@@ -200,7 +190,7 @@ setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitTabularBinaryFile", 
   # Create microarray tabular binary file
   allocate(static, filename=filename, path=path, nbrOfRows=nbrOfUnits, 
                                 platform=platform, chipType=chipType, ...);
-}, static=TRUE)
+}, static=TRUE, protected=TRUE)
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -210,6 +200,8 @@ setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitTabularBinaryFile", 
 
 ############################################################################
 # HISTORY:
+# 2012-11-13
+# o Explicitly declared "cached:.unf".
 # 2011-11-19
 # o Now byChipType() for AromaUnitTabularBinaryFile gives an error
 #   message with more information on which file it failed to locate,

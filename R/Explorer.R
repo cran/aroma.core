@@ -78,7 +78,7 @@ setMethodS3("as.character", "Explorer", function(x, ...) {
   s <- c(s, sprintf("RAM: %.2fMB", objectSize(this)/1024^2));
   class(s) <- "GenericSummary";
   s;
-}, private=TRUE)
+}, protected=TRUE)
 
 
 setMethodS3("getVersion", "Explorer", function(this, ...) {
@@ -234,7 +234,7 @@ setMethodS3("nbrOfArrays", "Explorer", function(this, ...) {
 #*/###########################################################################
 setMethodS3("getAlias", "Explorer", function(this, ...) {
   this$.alias;
-})
+}, protected=TRUE)
 
 
 
@@ -259,7 +259,7 @@ setMethodS3("getAlias", "Explorer", function(this, ...) {
 # }
 #
 # \value{
-#   Returns nothing.
+#   Returns itself invisibly.
 # }
 #
 # @author
@@ -282,7 +282,9 @@ setMethodS3("setAlias", "Explorer", function(this, alias=NULL, ...) {
   }
 
   this$.alias <- alias;
-})
+
+  invisible(this);
+}, protected=TRUE)
 
 
 ###########################################################################/**
@@ -376,11 +378,12 @@ setMethodS3("getTags", "Explorer", function(this, collapse=NULL, ...) {
 
 setMethodS3("getAsteriskTags", "Explorer", function(this, ...) {
   "";
-})
+}, protected=TRUE)
+
 
 setMethodS3("getTagsOfInput", "Explorer", function(this, ...) {
   "";
-})
+}, protected=TRUE)
 
 setMethodS3("getNameOfInput", "Explorer", abstract=TRUE, protected=TRUE);
 
@@ -403,11 +406,12 @@ setMethodS3("setReportPathPattern", "Explorer", function(this, pattern, ...) {
   # Argument 'pattern':
   pattern <- Arguments$getRegularExpression(pattern);
   this$.reportPathPattern <- pattern;
-})
+}, protected=TRUE)
+
 
 setMethodS3("getReportPathPattern", "Explorer", function(this, ...) {
 	this$.reportPathPattern;
-})
+}, protected=TRUE)
 
 setMethodS3("splitByReportPathPattern", "Explorer", function(this, tags, ...) {
   # Argument 'tags':
@@ -423,18 +427,47 @@ setMethodS3("splitByReportPathPattern", "Explorer", function(this, tags, ...) {
     res$sampleLayerPrefix <- gsub(pattern, "\\2", tags);
   }
   res;
-})
+}, protected=TRUE)
 
+
+###########################################################################/**
+# @RdocMethod getRootPath
+#
+# @title "Gets the root path of the output directory"
+#
+# \description{
+#  @get "title" that is returned by @seemethod "getPath".
+#  A root path is a directory in the current working directory.
+# }
+#
+# @synopsis
+#
+# \arguments{
+#   \item{...}{Not used.}
+# }
+#
+# \value{
+#  Returns a @character string.
+# }
+#
+# @author
+#
+# \seealso{
+#   @seemethod "getPath".
+#   @seeclass
+# }
+#*/###########################################################################
 setMethodS3("getRootPath", "Explorer", function(this, ...) {
   "reports";
-}, private=TRUE)
+})
 
 
 setMethodS3("setSubname", "Explorer", function(this, value, ...) {
   oldValue <- this$.subname;
   this$.subname <- value;
   invisible(oldValue);
-})
+}, protected=TRUE)
+
 
 setMethodS3("getSubname", "Explorer", function(this, ...) {
   # Preset?
@@ -481,22 +514,43 @@ setMethodS3("getMainPath", "Explorer", function(this, ...) {
   subname <- getSubname(this);
 
   # The full path
-  path <- filePath(rootPath, name, subname, expandLinks="any");
-  if (!isDirectory(path)) {
-    if (getParallelSafe(this)) {
-      tryCatch({
-        mkdirs(path);
-      }, error = function(ex) {});
-    } else {
-      mkdirs(path);
-      if (!isDirectory(path))
-        throw("Failed to create output directory: ", path);
-    }
-  }
+  path <- filePath(rootPath, name, subname);
+  path <- Arguments$getWritablePath(path);
 
   path;
 }, protected=TRUE)
 
+
+###########################################################################/**
+# @RdocMethod getPath
+#
+# @title "Gets the path of the output directory"
+#
+# \description{
+#  @get "title".
+# }
+#
+# @synopsis
+#
+# \arguments{
+#   \item{create}{If @TRUE, the path is created, otherwise not.}
+#   \item{...}{Not used.}
+# }
+#
+# \value{
+#  Returns a @character string.
+# }
+#
+# \details{
+#   Windows Shortcut links are recognized.
+# }
+#
+# @author
+#
+# \seealso{
+#   @seeclass
+# }
+#*/###########################################################################
 setMethodS3("getPath", "Explorer", abstract=TRUE);
 
 
@@ -514,7 +568,8 @@ setMethodS3("getTemplatePath", "Explorer", function(this, ..., verbose=FALSE) {
   verbose && enter(verbose, "Locating template files for ChromosomeExplorer");
   # Search for template files
   rootPath <- getRootPath(this);
-  path <- filePath(rootPath, "templates", expandLinks="any");
+  path <- filePath(rootPath, "templates");
+  path <- Arguments$getReadablePath(path, mustExist=FALSE);
   if (!isDirectory(path)) {
     path <- system.file("reports", "templates", package="aroma.core");
   }
@@ -575,7 +630,8 @@ setMethodS3("addIncludes", "Explorer", function(this, ..., force=FALSE, verbose=
   verbose && exit(verbose);
 
   verbose && exit(verbose);
-})
+}, protected=TRUE)
+
 
 
 
@@ -749,7 +805,7 @@ setMethodS3("display", "Explorer", function(this, filename=sprintf("%s.html", cl
 
   # The path to the explorer HTML document
   path <- getMainPath(this);
-  pathname <- filePath(path, filename, expandLinks="any");
+  pathname <- Arguments$getReadablePathname(filename, path=path, mustExist=FALSE);
 
   # Just in case, is setup needed?
   if (!isFile(pathname)) {
@@ -774,7 +830,7 @@ setMethodS3("display", "Explorer", function(this, filename=sprintf("%s.html", cl
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 setMethodS3("getArrays", "Explorer", function(this, ...) {
   getNames(this, ...);
-}, deprecated=TRUE)
+}, protected=TRUE, deprecated=TRUE)
 
 
 

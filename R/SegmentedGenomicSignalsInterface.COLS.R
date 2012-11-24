@@ -58,28 +58,28 @@ setMethodS3("getStateColors", "SegmentedGenomicSignalsInterface", function(this,
 
   # Neutral states
   if (is.element("0", names(colorMap))) {
-    idxs <- whichVector(states == 0);
+    idxs <- which(states == 0);
     cols[idxs] <- colorMap["0"];
   }
 
   # Negative states
   if (is.element("-", names(colorMap))) {
-    idxs <- whichVector(states < 0);
+    idxs <- which(states < 0);
     cols[idxs] <- colorMap["-"];
   }
 
   # Positive states
   if (is.element("+", names(colorMap))) {
-    idxs <- whichVector(states > 0);
+    idxs <- which(states > 0);
     cols[idxs] <- colorMap["+"];
   }
 
-  for (kk in seq(along=uStates)) {
+  for (kk in seq_along(uStates)) {
     state <- uStates[kk];
     key <- sprintf("%s", state);
 
     if (is.element(key, names(colorMap))) {
-      idxs <- whichVector(states == state);
+      idxs <- which(states == state);
       cols[idxs] <- colorMap[key];
     }
   } # for (kk ...)

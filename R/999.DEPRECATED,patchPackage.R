@@ -30,6 +30,8 @@
 # @keyword internal
 #*/###########################################################################
 setMethodS3("patchPackage", "default", function(pkgName, paths=c("~/.Rpatches/", "patches/"), deleteOld=TRUE, verbose=FALSE, ...) {
+##  .Deprecated(msg="patchPackage() is deprecated without alternatives.");
+
   require("R.utils") || stop("Package not loaded: R.utils");
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -66,7 +68,7 @@ setMethodS3("patchPackage", "default", function(pkgName, paths=c("~/.Rpatches/",
   deleteOld <- Arguments$getLogical(deleteOld);
 
   # Argument 'paths':
-  for (kk in seq(along=paths)) {
+  for (kk in seq_along(paths)) {
     paths[kk] <- Arguments$getReadablePathname(paths[kk], mustExist=FALSE);
   }
 
@@ -86,7 +88,7 @@ setMethodS3("patchPackage", "default", function(pkgName, paths=c("~/.Rpatches/",
 
 
   # 0. Exclude non-existing patch root paths
-  for (kk in seq(along=paths)) {
+  for (kk in seq_along(paths)) {
     if (!isDirectory(paths[kk]))
       paths[kk] <- NA;
   }
@@ -151,7 +153,7 @@ setMethodS3("patchPackage", "default", function(pkgName, paths=c("~/.Rpatches/",
   }
     
   invisible(res);
-}) # patchPackage()
+}, deprecated=TRUE) # patchPackage()
 
 
 ############################################################################

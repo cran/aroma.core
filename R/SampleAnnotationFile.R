@@ -26,10 +26,6 @@ setMethodS3("fromPath", "SampleAnnotationFile", function(static, path, pattern=g
 }, static=TRUE, protected=TRUE)
 
 
-setMethodS3("readData", "SampleAnnotationFile", function(this, ...) {
-  readDataFrame(this, ...);
-}, protected=TRUE, deprecated=TRUE)
-
 setMethodS3("readDataFrame", "SampleAnnotationFile", function(this, rows=NULL, force=FALSE, ...) {
   db <- this$.db;
   if (force || is.null(db)) {
@@ -125,7 +121,7 @@ setMethodS3("apply", "SampleAnnotationFile", function(this, names, FUN, ..., ver
   if (nrow(db) == 0 || ncol(db) == 0)
     return(invisible());
 
-  for (kk in seq(along=res)) {
+  for (kk in seq_along(res)) {
     record <- db[kk,,drop=TRUE];
 
     # Nothing to do?

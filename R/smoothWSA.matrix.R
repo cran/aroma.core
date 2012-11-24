@@ -68,7 +68,7 @@ setMethodS3("smoothWSA", "matrix", function(Y, x, w=NULL, kernel=gaussKernel, sd
   # At each position, calculate the weighed average using a 
   # Gaussian kernel.
   cat("Progress: ");
-  for (kk in seq(length=K)) {
+  for (kk in seq_len(K)) {
     if (progress && kk %% 100 == 0)
       cat(kk, ", ", sep="");
 
@@ -87,7 +87,7 @@ setMethodS3("smoothWSA", "matrix", function(Y, x, w=NULL, kernel=gaussKernel, sd
       wM[nas] <- 0;
 
     wMR <- rowSums(wM);
-    keep <- whichVector(wMR > 0);
+    keep <- which(wMR > 0);
     rm(wMR);
     if (length(keep) > 0) {
       wM <- wM[keep,,drop=FALSE];

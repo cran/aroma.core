@@ -53,13 +53,13 @@ setConstructorS3("HaarSegModel", function(cesTuple=NULL, ..., breaksFdrQ=0.0001)
 
 
 setMethodS3("getAsteriskTags", "HaarSegModel", function(this, ...) {
-  NextMethod("getAsteriskTags", this, ..., tag="HAAR");
+  NextMethod("getAsteriskTags", tag="HAAR");
 }, protected=TRUE)
 
 
 setMethodS3("getFitFunction", "HaarSegModel", function(this, ...) {
   segmentByHaarSeg;
-});
+}, protected=TRUE)
 
 
 ##############################################################################

@@ -7,7 +7,7 @@
 # T_i' = M_i' - R'
 #
 # => w*T = w*M + w*R = M' + w*R
-setMethodS3("colGaussianSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)), w=NULL, xOut=x, sd=1, censorSd=3, na.rm=FALSE, ..., verbose=FALSE) {
+setMethodS3("colGaussianSmoothing", "matrix", function(Y, x=seq_len(nrow(Y)), w=NULL, xOut=x, sd=1, censorSd=3, na.rm=FALSE, ..., verbose=FALSE) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -81,7 +81,7 @@ setMethodS3("colGaussianSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)),
     # Weights centered around x[kk]
     xDiff <- (x-xOut[kk]);
     if (isCensored) {
-      keep <- whichVector(abs(xDiff) <= censorThreshold);
+      keep <- which(abs(xDiff) <= censorThreshold);
 
       # Nothing to do?
       if (length(keep) == 0) {
@@ -106,7 +106,7 @@ setMethodS3("colGaussianSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)),
     }
 
     # Fix: Smoothing over a window with all missing values give zeros, not NA.
-    idxs <- whichVector(value == 0);
+    idxs <- which(value == 0);
     if (length(idxs) > 0) {
       # Are these real zeros or missing values?
       Y2 <- Y2[idxs,,drop=FALSE];

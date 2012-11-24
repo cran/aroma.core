@@ -44,7 +44,7 @@ setConstructorS3("AromaGenomeTextFile", function(...) {
 
 
 setMethodS3("readDataFrame", "AromaGenomeTextFile", function(this, ..., colClassPatterns=c("*"="NULL", chromosome="character", nbrOfBases="integer", nbrOfGenes="integer")) {
-  NextMethod("readDataFrame", this, colClassPatterns=colClassPatterns, ...);
+  NextMethod("readDataFrame", colClassPatterns=colClassPatterns);
 })
 
 
@@ -68,7 +68,7 @@ setMethodS3("readDataFrame", "AromaGenomeTextFile", function(this, ..., colClass
 ##   verbose && enter(verbose, "Translating chromosome names");
 ##   chromosomes <- row.names(data);
 ##   map <- c("X"=23, "Y"=24, "Z"=25);  # AD HOC; only for the human genome
-##   for (kk in seq(along=map)) {
+##   for (kk in seq_along(map)) {
 ##     chromosomes <- gsub(names(map)[kk], map[kk], chromosomes, fixed=TRUE);
 ##   }
 ##   row.names(data) <- chromosomes;
@@ -128,7 +128,7 @@ setMethodS3("findByGenome", "AromaGenomeTextFile", function(static, genome, tags
   verbose && exit(verbose);
 
   pathname;
-}, static=TRUE)
+}, static=TRUE, protected=TRUE)
 
 
 setMethodS3("byGenome", "AromaGenomeTextFile", function(static, genome, ..., mustExist=TRUE, verbose=FALSE) {

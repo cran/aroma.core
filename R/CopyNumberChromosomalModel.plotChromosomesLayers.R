@@ -89,7 +89,7 @@ setMethodS3("plotChromosomesLayers", "CopyNumberChromosomalModel", function(this
     verbose && enter(verbose, sprintf("Plotting chromosome %02d [%.2fMB]", chromosome, widthMb));
 
     tryCatch({
-      for (zz in seq(along=zooms)) {
+      for (zz in seq_along(zooms)) {
         zoom <- zooms[zz];
     
         # Create the pathname to the file
@@ -142,7 +142,7 @@ setMethodS3("plotChromosomesLayers", "CopyNumberChromosomalModel", function(this
   verbose && exit(verbose);
 
   invisible();
-}) # plotChromosomesLayers()
+}, protected=TRUE) # plotChromosomesLayers()
 
 
 
@@ -183,7 +183,7 @@ setMethodS3("plotAxesLayers", "CopyNumberChromosomalModel", function(this, path=
     path <- filePath(getParent(path), "axes,chrLayer");
     path <- Arguments$getWritablePath(path);
   }
-  mkdirs(path);
+  path <- Arguments$getWritablePath(path);
 
 
   plotChromosomesLayers(this, FUN=function(..., zoom, unit, nbrOfBases, pixelsPerMb, verbose=FALSE) {
@@ -199,7 +199,7 @@ setMethodS3("plotAxesLayers", "CopyNumberChromosomalModel", function(this, path=
       drawXAxisRuler(xrange=c(0,nbrOfBases)/10^unit, ticksBy=ticksBy); 
     });
   }, path=path, ...);
-}) # plotAxesLayers()
+}, protected=TRUE) # plotAxesLayers()
 
 
 setMethodS3("plotGridHorizontalLayers", "CopyNumberChromosomalModel", function(this, path=NULL, cnLevels=c(1/2,1,3/2), col="blue", lty=2, ...) {
@@ -207,9 +207,8 @@ setMethodS3("plotGridHorizontalLayers", "CopyNumberChromosomalModel", function(t
   if (is.null(path)) {
     path <- getReportPath(this);
     path <- filePath(getParent(path), "gridH,chrLayer");
-    path <- Arguments$getWritablePath(path);
   }
-  mkdirs(path);
+  path <- Arguments$getWritablePath(path);
 
   plotChromosomesLayers(this, FUN=function(..., verbose=FALSE) {
     verbose && enter(verbose, "Plotting transparent image");
@@ -222,7 +221,7 @@ setMethodS3("plotGridHorizontalLayers", "CopyNumberChromosomalModel", function(t
       }
     });
   }, path=path, ...);
-}) # plotGridHorizontalLayers()
+}, protected=TRUE) # plotGridHorizontalLayers()
 
 
 
@@ -231,9 +230,8 @@ setMethodS3("plotCytobandLayers", "CopyNumberChromosomalModel", function(this, p
   if (is.null(path)) {
     path <- getReportPath(this);
     path <- filePath(getParent(path), "cytoband,chrLayer");
-    path <- Arguments$getWritablePath(path);
   }
-  mkdirs(path);
+  path <- Arguments$getWritablePath(path);
 
   plotChromosomesLayers(this, FUN=function(..., chromosome, unit=unit, verbose=FALSE) {
     suppressWarnings({
@@ -244,11 +242,7 @@ setMethodS3("plotCytobandLayers", "CopyNumberChromosomalModel", function(this, p
       drawCytoband(this, chromosome=chromosome, unit=unit);
     });
   }, path=path, ...);
-}) # plotCytobandLayers()
-
-
-
-
+}, protected=TRUE) # plotCytobandLayers()
 
 
 

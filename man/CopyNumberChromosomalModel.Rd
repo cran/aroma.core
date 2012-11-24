@@ -34,7 +34,7 @@ extends \emph{\link[aroma.core]{ChromosomalModel}}\cr
   This \emph{abstract} class represents a copy-number model.
  }
 
- \usage{CopyNumberChromosomalModel(cesTuple=NULL, refTuple=NULL, calculateRatios=TRUE, tags="*", genome="Human", ...)}
+ \usage{CopyNumberChromosomalModel(cesTuple=NULL, refTuple=NULL, calculateRatios=TRUE, tags="*", genome="Human", maxNAFraction=1/5, ...)}
 
  \arguments{
    \item{cesTuple}{A \code{\link{CopyNumberDataSetTuple}}.}
@@ -47,6 +47,8 @@ extends \emph{\link[aroma.core]{ChromosomalModel}}\cr
    }
    \item{tags}{A \code{\link[base]{character}} \code{\link[base]{vector}} of tags.}
    \item{genome}{A \code{\link[base]{character}} string specifying what genome is process.}
+   \item{maxNAFraction}{A \code{\link[base]{double}} in [0,1] indicating how many non-finite
+     signals are allowed in the sanity checks of the data.}
    \item{...}{Optional arguments that may be used by some of the
       subclass models.}
  }
@@ -54,28 +56,20 @@ extends \emph{\link[aroma.core]{ChromosomalModel}}\cr
  \section{Fields and Methods}{
   \bold{Methods:}\cr
 \tabular{rll}{
- \tab \code{clearCache} \tab  -\cr
  \tab \code{\link[aroma.core:extractRawCopyNumbers.CopyNumberChromosomalModel]{extractRawCopyNumbers}} \tab Extracts relative copy numbers.\cr
  \tab \code{\link[aroma.core:fit.CopyNumberChromosomalModel]{fit}} \tab Fits the model.\cr
  \tab \code{getChromosomeLength} \tab  -\cr
  \tab \code{getNames} \tab  -\cr
- \tab \code{getReferenceSetTuple} \tab  -\cr
+ \tab \code{getReference} \tab  -\cr
  \tab \code{isPaired} \tab  -\cr
- \tab \code{plotAxesLayers} \tab  -\cr
- \tab \code{plotChromosomesLayers} \tab  -\cr
- \tab \code{plotCytobandLayers} \tab  -\cr
- \tab \code{plotFitLayers} \tab  -\cr
- \tab \code{plotGridHorizontalLayers} \tab  -\cr
- \tab \code{plotRawCopyNumbers} \tab  -\cr
- \tab \code{plotSampleLayers} \tab  -\cr
 }
 
 
  \bold{Methods inherited from ChromosomalModel}:\cr
-as.character, clearCache, fit, getAlias, getAromaGenomeTextFile, getAsteriskTags, getChipType, getChipTypes, getChromosomes, getFullName, getFullNames, getGenome, getGenomeData, getGenomeFile, getListOfAromaUgpFiles, getName, getNames, getParentPath, getPath, getReportPath, getRootPath, getSets, getSetTuple, getTags, indexOf, nbrOfArrays, nbrOfChipTypes, setGenome
+as.character, fit, getAlias, getAromaGenomeTextFile, getAsteriskTags, getChipType, getChipTypes, getChromosomes, getFullName, getFullNames, getGenome, getGenomeData, getGenomeFile, getListOfAromaUgpFiles, getName, getNames, getParentPath, getPath, getReportPath, getRootPath, getSets, getSetTuple, getTags, indexOf, nbrOfArrays, nbrOfChipTypes, setGenome
 
  \bold{Methods inherited from Object}:\cr
-asThis, getChecksum, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, registerFinalizer, save
+asThis, $, $<-, [[, [[<-, as.character, attach, attachLocally, clearCache, clearLookupCache, clone, detach, equals, extend, finalize, gc, getEnvironment, getFieldModifier, getFieldModifiers, getFields, getInstantiationTime, getStaticInstance, hasField, hashCode, ll, load, objectSize, print, registerFinalizer, save, print
 
 
  }

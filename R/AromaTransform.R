@@ -48,7 +48,7 @@ setConstructorS3("AromaTransform", function(dataSet=NULL, tags="*", ..., .reqSet
   }
 
 
-  this <- extend(Object(), "AromaTransform", 
+  this <- extend(Object(), c("AromaTransform", uses("ParametersInterface")),
     .tags = tags,
     .inputDataSet = dataSet,
     "cached:.outputDataSet" = NULL
@@ -58,19 +58,6 @@ setConstructorS3("AromaTransform", function(dataSet=NULL, tags="*", ..., .reqSet
 
   this;
 }, abstract=TRUE)
-
-
-setMethodS3("clearCache", "AromaTransform", function(this, ...) {
-  # Clear all cached values.
-  # /AD HOC. clearCache() in Object should be enough! /HB 2007-01-16
-  for (ff in c(".outputDataSet")) {
-    this[[ff]] <- NULL;
-  }
-
-  # Then for this object
-  NextMethod(generic="clearCache", object=this, ...);
-}, private=TRUE)
-
 
 
 
@@ -96,13 +83,39 @@ setMethodS3("getAsteriskTags", "AromaTransform", function(this, ...) {
   tags <- name;
 
   tags;
-}, private=TRUE)
+}, protected=TRUE)
 
 
+###########################################################################/**
+# @RdocMethod getRootPath
+#
+# @title "Gets the root path of the output directory"
+#
+# \description{
+#  @get "title" that is returned by @seemethod "getPath".
+#  A root path is a directory in the current working directory.
+# }
+#
+# @synopsis
+#
+# \arguments{
+#   \item{...}{Not used.}
+# }
+#
+# \value{
+#  Returns a @character string.
+# }
+#
+# @author
+#
+# \seealso{
+#   @seemethod "getPath".
+#   @seeclass
+# }
+#*/###########################################################################
 setMethodS3("getRootPath", "AromaTransform", function(this, ...) {
   sprintf("pp%s", capitalize(class(this)[1]));
-}, private=TRUE)
-
+})
 
 
 setMethodS3("as.character", "AromaTransform", function(x, ...) {
@@ -118,17 +131,16 @@ setMethodS3("as.character", "AromaTransform", function(x, ...) {
   s <- c(s, sprintf("Asterisk ('*') tags: %s", getAsteriskTags(this, collapse=",")));
   s <- c(s, sprintf("Output tags: %s", paste(getTags(this), collapse=",")));
   s <- c(s, sprintf("Number of files: %d (%.2fMB)", 
-                           nbrOfFiles(ds), getFileSize(ds)/1024^2));
+                           length(ds), getFileSize(ds)/1024^2));
   s <- c(s, sprintf("Platform: %s", getPlatform(ds)));
   s <- c(s, sprintf("Chip type: %s", getChipType(ds)));
-  params <- paste(getParametersAsString(this), collapse=", ");
-  s <- c(s, sprintf("Algorithm parameters: (%s)", params));
+  s <- c(s, sprintf("Algorithm parameters: %s", getParametersAsString(this)));
   s <- c(s, sprintf("Output path: %s", getPath(this)));
   s <- c(s, sprintf("Is done: %s", isDone(this)));
   s <- c(s, sprintf("RAM: %.2fMB", objectSize(this)/1024^2));
   class(s) <- "GenericSummary";
   s;
-}, private=TRUE)
+}, protected=TRUE)
 
 
 ###########################################################################/**
@@ -256,33 +268,13 @@ setMethodS3("getFullName", "AromaTransform", function(this, ...) {
 
 
 
-setMethodS3("getParametersAsString", "AromaTransform", function(this, ...) {
-  params <- getParameters(this, expand=FALSE);
-  params <- trim(capture.output(str(params)))[-1];
-  params <- gsub("^[$][ ]*", "", params);
-  params <- gsub(" [ ]*", " ", params);
-  params <- gsub("[ ]*:", ":", params);
-  params;
-}, private=TRUE)
-
-
-
-setMethodS3("getParameters", "AromaTransform", function(this, ...) {
-  NULL;
-}, private=TRUE)
-
-
-
-
 ###########################################################################/**
 # @RdocMethod getPath
 #
-# @title "Gets the path of the output data set"
+# @title "Gets the path of the output directory"
 #
 # \description{
 #  @get "title".
-#  If non-existing, then the directory is created.
-#  Windows Shortcut links are recognized.
 # }
 #
 # @synopsis
@@ -294,6 +286,10 @@ setMethodS3("getParameters", "AromaTransform", function(this, ...) {
 #
 # \value{
 #  Returns a @character string.
+# }
+#
+# \details{
+#   Windows Shortcut links are recognized.
 # }
 #
 # @author
@@ -316,21 +312,19 @@ setMethodS3("getPath", "AromaTransform", function(this, create=TRUE, ...) {
   chipType <- getChipType(ds, fullname=FALSE);
 
   # The full path
-  path <- filePath(rootPath, fullname, chipType, expandLinks="any");
+  path <- filePath(rootPath, fullname, chipType);
+
+  # Create path?
+  if (create) {
+    path <- Arguments$getWritablePath(path);
+  } else {
+    path <- Arguments$getReadablePath(path, mustExist=FALSE);
+  }
 
   # Verify that it is not the same as the input path
   inPath <- getPath(getInputDataSet(this));
   if (getAbsolutePath(path) == getAbsolutePath(inPath)) {
     throw("The generated output data path equals the input data path: ", path, " == ", inPath);
-  }
-
-  # Create path?
-  if (create) {
-    if (!isDirectory(path)) {
-      mkdirs(path);
-      if (!isDirectory(path))
-        throw("Failed to create output directory: ", path);
-    }
   }
 
   path;
@@ -416,7 +410,7 @@ setMethodS3("isDone", "AromaTransform", function(this, ..., verbose=FALSE) {
                                                   verbose=less(verbose,5));
   verbose && exit(verbose);
 
-  (nbrOfFiles(dsOut) == length(fullnames));
+  (length(dsOut) == length(fullnames));
 })
 
 
@@ -484,7 +478,7 @@ setMethodS3("getOutputDataSet0", "AromaTransform", function(this, pattern=NULL, 
     className <- class(ds)[1];
     verbose && cat(verbose, "Using the same class name as the input data set.");
   }
-  verbose && enter(verbose, "Class: ", className);
+  verbose && cat(verbose, "Class: ", className);
 
   path <- getPath(this);
   verbose && cat(verbose, "Path: ", path);
@@ -618,22 +612,22 @@ setMethodS3("getOutputDataSet", "AromaTransform", function(this, ..., incomplete
   verbose && exit(verbose);
 
 
-  if (nbrOfFiles(dsOut) == nbrOfFiles) {
+  if (length(dsOut) == nbrOfFiles) {
     verbose && cat(verbose, "Output data set is complete (matches the expected data set)");
     # Sanity check
     stopifnot(identical(getFullNames(dsOut), fullnames));
     this$.outputDataSet <- dsOut;
-  } else if (nbrOfFiles(dsOut) < nbrOfFiles) {
+  } else if (length(dsOut) < nbrOfFiles) {
     verbose && cat(verbose, "Too few output files: ", 
-                                 nbrOfFiles(dsOut), " < ", nbrOfFiles);
+                                 length(dsOut), " < ", nbrOfFiles);
     # Return incomplete data set?
     if (!incomplete) {
       verbose && cat(verbose, "Ignoring incomplete output data set.");
       dsOut <- NULL;
     }
-  } else if (nbrOfFiles(dsOut) > nbrOfFiles) {
+  } else if (length(dsOut) > nbrOfFiles) {
     throw("Too many output files identified: ", 
-                                 nbrOfFiles(dsOut), " > ", nbrOfFiles);
+                                 length(dsOut), " > ", nbrOfFiles);
   }
 
   verbose && exit(verbose);
@@ -679,6 +673,10 @@ setMethodS3("process", "AromaTransform", abstract=TRUE);
 
 ############################################################################
 # HISTORY:
+# 2012-11-21
+# o Added Rdoc for getRootPath().
+# 2012-11-20
+# o CLEANUP: Now AromaTransform extends the ParametersInterface.
 # 2009-06-08
 # o BUG FIX: getOutputDataSet() of AromaTransform failed to identify the
 #   output files if (and only if) a filename translator was applied to

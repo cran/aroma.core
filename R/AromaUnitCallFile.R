@@ -32,8 +32,8 @@ setMethodS3("allocate", "AromaUnitCallFile", function(static, ..., types=c("inte
   nbrOfBits <- 8*sizes[1];
   valueForNA <- as.integer(2^nbrOfBits-1);
 
-  allocate.AromaUnitSignalBinaryFile(static, types=types, sizes=sizes, signed=signed, defaults=valueForNA, ...);
-}, static=TRUE)
+  NextMethod("allocate", types=types, sizes=sizes, signed=signed, defaults=valueForNA);
+}, static=TRUE, protected=TRUE)
 
 
 setMethodS3("findUnitsTodo", "AromaUnitCallFile", function(this, units=NULL, ..., force=FALSE, verbose=FALSE) {
@@ -61,7 +61,7 @@ setMethodS3("findUnitsTodo", "AromaUnitCallFile", function(this, units=NULL, ...
   valueForNA <- as.integer(2^nbrOfBits-1);
   isNA <- (calls == valueForNA);
 
-  units <- whichVector(isNA);
+  units <- which(isNA);
   rm(isNA);
   verbose && exit(verbose);
 
@@ -70,20 +70,20 @@ setMethodS3("findUnitsTodo", "AromaUnitCallFile", function(this, units=NULL, ...
 
 
 setMethodS3("extractMatrix", "AromaUnitCallFile", function(this, ...) {
-  data <- NextMethod("extractMatrix", ...);
+  data <- NextMethod("extractMatrix");
 
   hdr <- readHeader(this)$dataHeader;
   nbrOfBits <- 8*hdr$sizes[1];
 
   # Missing values
   valueForNA <- as.integer(2^nbrOfBits-1);
-  isNA <- whichVector(data == valueForNA);
+  isNA <- which(data == valueForNA);
   naValue <- as.integer(NA);
   data[isNA] <- naValue;
 
   # Not called
   valueForNC <- as.integer(2^nbrOfBits-2);
-  isNaN <- whichVector(data == valueForNC);
+  isNaN <- which(data == valueForNC);
   nanValue <- as.double(NaN);
   data[isNaN] <- nanValue;
  
@@ -102,15 +102,15 @@ setMethodS3("extractCallArray", "AromaUnitCallFile", function(this, units=NULL, 
   nanValue <- as.double(NaN);
 
   res <- NULL;
-  for (cc in seq(length=nbrOfColumns(this))) {  
+  for (cc in seq_len(nbrOfColumns(this))) {  
     values <- extractMatrix(this, units=units, column=cc, drop=TRUE, ...);
 
     # Missing values
-    isNA <- whichVector(values == valueForNA);
+    isNA <- which(values == valueForNA);
     values[isNA] <- naValue;
 
     # Not called
-    isNaN <- whichVector(values == valueForNC);
+    isNaN <- which(values == valueForNC);
     values[isNaN] <- nanValue;
 
     # Allocate return object?

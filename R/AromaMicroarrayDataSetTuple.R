@@ -54,19 +54,15 @@ setMethodS3("as.character", "AromaMicroarrayDataSetTuple", function(x, ...) {
 setMethodS3("indexOf", "AromaMicroarrayDataSetTuple", function(this, arrays=NULL, ...) {
   # Argument 'arrays':
   if (is.numeric(arrays)) {
-    n <- nbrOfFiles(this);
+    n <- length(this);
     arrays <- Arguments$getIndices(arrays, max=n);
   } else {
-    arrays <- NextMethod("indexOf", this, arrays, onMissing="error", ...);
+    arrays <- NextMethod("indexOf", arrays, onMissing="error");
   }
 
   arrays;
-})
+}, protected=TRUE)
 
-
-setMethodS3("nbrOfArrays", "AromaMicroarrayDataSetTuple", function(this, ...) {
-  nbrOfFiles(this, ...);
-})
 
 setMethodS3("getAsteriskTags", "AromaMicroarrayDataSetTuple", function(this, ...) {
   "";
@@ -213,7 +209,7 @@ setMethodS3("getChipTypes", "AromaMicroarrayDataSetTuple", function(this, fullna
 
 
 setMethodS3("getSets", "AromaMicroarrayDataSetTuple", function(this, ...) {
-  res <- NextMethod("getSets", this, ...);
+  res <- NextMethod("getSets");
   # Name sets by their chip types
   chipTypes <- sapply(res, FUN=getChipType);
   chipTypes <- gsub(",monocell", "", chipTypes);
@@ -223,7 +219,7 @@ setMethodS3("getSets", "AromaMicroarrayDataSetTuple", function(this, ...) {
 
 
 
-setMethodS3("byPath", "AromaMicroarrayDataSetTuple", abstract=TRUE, static=TRUE);
+setMethodS3("byPath", "AromaMicroarrayDataSetTuple", abstract=TRUE, static=TRUE, protected=TRUE)
 
 
 

@@ -40,7 +40,7 @@ setMethodS3("as.character", "AromaUnitSignalBinaryFile", function(x, ...) {
   # To please R CMD check
   this <- x;
 
-  s <- NextMethod("as.character", ...);
+  s <- NextMethod("as.character");
   class <- class(s);
 
   s <- c(s, sprintf("Platform: %s", getPlatform(this)));
@@ -48,7 +48,7 @@ setMethodS3("as.character", "AromaUnitSignalBinaryFile", function(x, ...) {
 
   class(s) <- class;
   s;
-})
+}, protected=TRUE)
 
 
 setMethodS3("fromFile", "AromaUnitSignalBinaryFile", function(static, filename, path=NULL, ..., verbose=FALSE, .checkArgs=TRUE) {
@@ -69,7 +69,7 @@ setMethodS3("fromFile", "AromaUnitSignalBinaryFile", function(static, filename, 
   res <- newInstance(static, filename=pathname, path=NULL, ...);
 
   res;
-})
+}, protected=TRUE)
 
 
 
@@ -89,7 +89,7 @@ setMethodS3("nbrOfUnits", "AromaUnitSignalBinaryFile", function(this, ...) {
 })
 
 
-setMethodS3("allocate", "AromaUnitSignalBinaryFile", function(static, ..., platform, chipType, types="double", sizes=4, signed=TRUE, footer=list()) {
+setMethodS3("allocate", "AromaUnitSignalBinaryFile", function(static, ..., platform, chipType, types="double", sizes=4L, signed=TRUE, footer=list()) {
   # Argument 'platform':
   platform <- Arguments$getCharacter(platform, length=c(1,1));
 
@@ -97,9 +97,7 @@ setMethodS3("allocate", "AromaUnitSignalBinaryFile", function(static, ..., platf
   chipType <- Arguments$getCharacter(chipType, length=c(1,1));
 
   # Create tabular binary file
-  res <- allocate.AromaTabularBinaryFile(static, generic="allocate", ...,
-                                  types=types, sizes=sizes, signeds=signed);
-
+  res <- NextMethod("allocate", types=types, sizes=sizes, signeds=signed);
 
   # Write attributes to footer
   attrs <- list(
@@ -111,17 +109,17 @@ setMethodS3("allocate", "AromaUnitSignalBinaryFile", function(static, ..., platf
   writeFooter(res, footer);
 
   res;
-}, static=TRUE)
+}, static=TRUE, protected=TRUE)
 
 
 
 setMethodS3("readDataFrame", "AromaUnitSignalBinaryFile", function(this, units=NULL, ..., rows=units) {
-  NextMethod("readDataFrame", this, rows=rows, ...);
+  NextMethod("readDataFrame", rows=rows);
 })
 
 
 setMethodS3("extractMatrix", "AromaUnitSignalBinaryFile", function(this, units=NULL, rows=units, ...) {
-  NextMethod("extractMatrix", rows=rows, ...);  
+  NextMethod("extractMatrix", rows=rows);  
 })
 
 
@@ -278,7 +276,7 @@ setMethodS3("allocateFromUnitNamesFile", "AromaUnitSignalBinaryFile", function(s
   unf <- Arguments$getInstanceOf(unf, "UnitAnnotationDataFile");
 
   allocateFromUnitAnnotationDataFile(static, udf=unf, ...);
-})
+}, static=TRUE, protected=TRUE)
 
 setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitSignalBinaryFile", function(static, udf, ...) {
   # Argument 'udf':
@@ -289,7 +287,7 @@ setMethodS3("allocateFromUnitAnnotationDataFile", "AromaUnitSignalBinaryFile", f
   nbrOfRows <- nbrOfUnits(udf);
   
   allocate(static, ..., nbrOfRows=nbrOfRows, platform=platform, chipType=chipType);
-}, static=TRUE)
+}, static=TRUE, protected=TRUE)
 
 
 setMethodS3("getAromaUgpFile", "AromaUnitSignalBinaryFile", function(this, ..., validate=FALSE, force=FALSE) {

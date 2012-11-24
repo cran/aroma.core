@@ -100,9 +100,9 @@ setMethodS3("as.data.frame", "SegmentedGenomicSignalsInterface", function(x, ...
   this <- x;
 
   if (inherits(this, "RichDataFrame")) {
-    df <- NextMethod("as.data.frame", this, virtual=virtual, ...);
+    df <- NextMethod("as.data.frame", virtual=virtual);
   } else {
-    df <- NextMethod("as.data.frame", this, ...);
+    df <- NextMethod("as.data.frame");
     if (virtual) {
       df$state <- getStates(this, x=df$x);
     }
@@ -124,23 +124,23 @@ setMethodS3("getVirtualField", "SegmentedGenomicSignalsInterface", function(this
     if (key == "state") {
       value <- getStates(this, ...);
     } else {
-      value <- NextMethod("getVirtualField", this, key=key, ...);
+      value <- NextMethod("getVirtualField", key=key);
     }
   }
 
   value;
-})
+}, protected=TRUE)
 
 setMethodS3("getVirtualLocusFields", "SegmentedGenomicSignalsInterface", function(this, ...) {
   if (inherits(this, "RichDataFrame")) {
     fields <- getVirtualColumnNames(this, ...);
   } else {
-    fields <- NextMethod("getVirtualLocusFields", this, ...);
+    fields <- NextMethod("getVirtualLocusFields");
     fields <- c(fields, "state");
     fields <- unique(fields);
   }
   fields;
-})
+}, protected=TRUE)
 
 
 setMethodS3("extractSubsetByState", "SegmentedGenomicSignalsInterface", function(this, states, ...) {
@@ -162,7 +162,7 @@ setMethodS3("extractSubsetByState", "SegmentedGenomicSignalsInterface", function
 
   # Subset
   keep <- is.element(signalStates, states);
-  keep <- whichVector(keep);
+  keep <- which(keep);
 
   # Extract this subset
   extractSubset(this, keep, ...);
@@ -210,7 +210,7 @@ setMethodS3("kernelSmoothingByState", "SegmentedGenomicSignalsInterface", functi
   # Identify states of target loci
   statesOut <- getStates(this, x=xOut);
 
-  for (ss in seq(along=uniqueStates)) {
+  for (ss in seq_along(uniqueStates)) {
     state <- uniqueStates[ss];
     verbose && enter(verbose, sprintf("State #%d ('%d') of %d", 
                                       ss, state, length(uniqueStates)));
@@ -221,7 +221,7 @@ setMethodS3("kernelSmoothingByState", "SegmentedGenomicSignalsInterface", functi
     } else {
       keep <- (states == state);
     }
-    keep <- whichVector(keep);
+    keep <- which(keep);
     statesSS <- states[keep];
     ySS <- y[keep];
     xSS <- x[keep];
@@ -232,7 +232,7 @@ setMethodS3("kernelSmoothingByState", "SegmentedGenomicSignalsInterface", functi
     } else {
       keep <- (statesOut == state);
     }
-    keep <- whichVector(keep);
+    keep <- which(keep);
     xOutSS <- xOut[keep];
 
     verbose && enter(verbose, "Kernel smoothing");
@@ -365,7 +365,7 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
     # Adding ordering along genome
     gs <- clone(this);
     gs <- sort(gs);
-    gs$xOrder <- seq(length=nbrOfLoci(gs));
+    gs$xOrder <- seq_len(nbrOfLoci(gs));
   } else {
     gs <- this;
   }
@@ -376,7 +376,7 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Binning (target) state by state
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  for (ss in seq(along=uniqueStates)) {
+  for (ss in seq_along(uniqueStates)) {
     state <- uniqueStates[ss];
     verbose && enter(verbose, sprintf("State #%d ('%d') of %d", 
                                         ss, state, length(uniqueStates)));
@@ -385,7 +385,7 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
     # Identify target loci with this state
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     verbose && enter(verbose, "Extracting subset of (target) loci with this signal state");
-    idxsOut <- whichVector(is.element(statesOut, state));
+    idxsOut <- which(is.element(statesOut, state));
     resSS <- extractSubset(res, idxsOut, verbose=less(verbose,50));
     verbose && print(verbose, resSS);
     xOutSS <- getPositions(resSS);
@@ -494,11 +494,11 @@ setMethodS3("binnedSmoothingByState", "SegmentedGenomicSignalsInterface", functi
 
 
 setMethodS3("plot", "SegmentedGenomicSignalsInterface", function(x, ..., col=getStateColors(x)) {
-  NextMethod("plot", ..., col=col);
+  NextMethod("plot", col=col);
 })
 
 setMethodS3("points", "SegmentedGenomicSignalsInterface", function(x, ..., col=getStateColors(x)) {
-  NextMethod("points", ..., col=col);
+  NextMethod("points", col=col);
 })
 
 

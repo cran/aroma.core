@@ -1,9 +1,19 @@
 /****************************************************************
  * ArrayExplorer()
  *
- * Author: Henrik Bengtsson, hb@stat.berkeley.edu
+ * Author: Henrik Bengtsson, henrik.bengtsson@aroma-project.org
  ****************************************************************/
 function ArrayExplorer() {
+  /************************************************************************
+   * Generic methods
+   ************************************************************************/
+  this.version = "3.5"
+
+  this.error = function(msg) {
+    console.log("ArrayExplorer v" + this.version + " ERROR: " + msg);
+  }
+
+
   /************************************************************************
    * Methods for setting up chip types, samples, color maps & scales
    ************************************************************************/
@@ -20,7 +30,6 @@ function ArrayExplorer() {
       updateLabel('chipTypeLabel', s);
     }
   }
-
 
   this.setSamples = function(samples) {
     this.samples = samples;
@@ -214,6 +223,32 @@ function ArrayExplorer() {
 
 
   /************************************************************************
+   * Misc.
+   ************************************************************************/
+  this.getYOfImage2d = function() {
+    var y = findXY(this.image2d.image).y;
+
+    /* Sanity check */
+    if (isNaN(y)) {
+      this.error("Failed to infer 'y' of 'image2d': " + y);
+    }
+
+    return(y);
+  }
+
+  this.getClientHeight = function() {
+    var vp = findViewport();
+    var dh = vp.height;
+    /* Sanity check */
+    if (isNaN(dh)) {
+      this.error("Failed to infer 'height' of client: " + dh);
+    }
+    return(dh);
+  }
+
+
+
+  /************************************************************************
    * Main
    ************************************************************************/
   this.samples = new Array();
@@ -298,10 +333,13 @@ function ArrayExplorer() {
   }
 
   this.update = function() {
-    var y = findXY(this.image2d.image).y;
-    var dh = document.body.clientHeight;
-    var dh = window.innerHeight;
+    var y = this.getYOfImage2d();
+    var dh = this.getClientHeight();
     var h = dh - y - 16;
+    /* Sanity check */
+    if (h < 0) {
+      this.error("Trying to set 'height' of 'image2d' to a negative value: " + h + " (=dh-y-16=" + dh + "-" + y + "-16)");
+    }
     this.image2d.container.style.height = h + 'px';
     var ar = this.image2d.getAspectRatio();
     this.nav2d.setRelDimension(1/this.scale, 1/this.scale/ar);
@@ -322,10 +360,14 @@ function ArrayExplorer() {
     this.setScales(new Array('0.5', '1', '2', '4', '8', '16', '32'));
     this.setColorMaps(new Array('gray'));
 
-    var y = findXY(this.image2d.image).y;
-    var dh = document.body.clientHeight;
-    var h = (dh - y - 12) + 'px';
-    this.image2d.container.style.height = h;
+    var y = this.getYOfImage2d();
+    var dh = this.getClientHeight();
+    var h = (dh - y - 12);
+    /* Sanity check */
+    if (h < 0) {
+      this.error("Trying to set 'height' of 'image2d' to a negative value: " + h + " (=dh-y-12=" + dh + "-" + y + "-12)");
+    }
+    this.image2d.container.style.height = h + "px";
 
     this.setChipType(this.chipTypes[0]);
     this.setSample(this.samples[0]);
@@ -338,12 +380,19 @@ function ArrayExplorer() {
 
 /****************************************************************
  HISTORY:
+ 2012-10-21
+ o Now utilizing new findViewport() to get the height (and
+   width) of the browser window.
+ 2012-10-18
+ o ROBUSTNESS: Now ArrayExplorer asserts that inferred height
+   of 'image2d' and height of the client are valid.  If not,
+   an informative alert() error is reported.
  2012-03-06
  o Now update() also updates the navigator, which may be needed
    if the windows was resized.
  o Now ArrayExplorer v3.4 works with at least Chrome 18, 
    Firefox 10, Internet Explorer 9, and Opera 11.61.
- o BUG FIX: Now update() uses 'window.innerHeigh' instead of
+ o BUG FIX: Now update() uses 'window.innerHeight' instead of
    'document.body.clientHeight' to infer the maximum height
    the loaded image should have in order to fill to the bottom.
  o ROBUSTIFICATION: updateImage() no longer tries to load

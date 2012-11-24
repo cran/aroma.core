@@ -78,7 +78,7 @@
 # @keyword robust
 # @keyword univar 
 #*/###########################################################################
-setMethodS3("colBinnedSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)), w=NULL, xOut=NULL, xOutRange=NULL, from=min(x, na.rm=TRUE), to=max(x, na.rm=TRUE), by=NULL, length.out=length(x), na.rm=TRUE, FUN="median", ..., verbose=FALSE) {
+setMethodS3("colBinnedSmoothing", "matrix", function(Y, x=seq_len(nrow(Y)), w=NULL, xOut=NULL, xOutRange=NULL, from=min(x, na.rm=TRUE), to=max(x, na.rm=TRUE), by=NULL, length.out=length(x), na.rm=TRUE, FUN="median", ..., verbose=FALSE) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -256,6 +256,20 @@ setMethodS3("colBinnedSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)), w
   x0 <- xOutRange[,1L, drop=TRUE];
   x1 <- xOutRange[,2L, drop=TRUE];
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  # Special cases?
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#  if (identical(FUN, colWeightedMeans) && is.null(w) && require("matrixStats")) {
+#    bx <- ...
+#    for (cc in seq_len(ncol(Y))) {
+#      ys <- matrixStats::binMeans(Y[,cc], x, bx=bx, na.rm=na.rm, count=(cc == 1L));
+#      if (cc == 1L) {
+#        counts <- attr(ys, "count");
+#      }
+#      Ys[,cc] <- ys;
+#    } # for (cc ...)
+#  }
+
   verbose && cat(verbose, "Summary of bin widths:");
   verbose && print(verbose, summary(x1-x0));
 
@@ -268,7 +282,7 @@ setMethodS3("colBinnedSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)), w
       verbose && cat(verbose, kk);
 
     # Identify data points within the bin
-    keep <- whichVector(x0[kk] <= x & x < x1[kk]);
+    keep <- which(x0[kk] <= x & x < x1[kk]);
     nKK <- length(keep);
     counts[kk] <- nKK;
 
@@ -288,7 +302,7 @@ setMethodS3("colBinnedSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)), w
     value <- FUN(YBin, w=wBin, na.rm=na.rm);
 
     # Fix: Smoothing over a window with all missing values give zeros, not NA.
-    idxs <- whichVector(value == 0);
+    idxs <- which(value == 0);
     if (length(idxs) > 0) {
       # Are these real zeros or missing values?
       YBin <- YBin[idxs,,drop=FALSE];

@@ -38,9 +38,9 @@ setMethodS3("getDefaultExtension", "AromaCellCpgFile", function(static, ...) {
 }, static=TRUE)
 
 
-setMethodS3("getColumnNames", "AromaCellCpgFile", function(this, ...) {
+setMethodS3("getDefaultColumnNames", "AromaCellCpgFile", function(this, ...) {
   c("cpgDensity");
-})
+}, protected=TRUE)
 
 
 
@@ -138,7 +138,7 @@ setMethodS3("updateCpgs", "AromaCellCpgFile", function(this, cells=NULL, scores,
   # Optimize
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Remove duplicated 'cells'
-  keep <- whichVector(!duplicated(cells));
+  keep <- which(!duplicated(cells));
   cells <- cells[keep];
   scores <- scores[keep];
   rm(keep);
@@ -188,12 +188,8 @@ setMethodS3("allocate", "AromaCellCpgFile", function(static, ..., nbrOfCells, pl
     footer
   );
 
-  res <- allocate.AromaMicroarrayTabularBinaryFile(static, 
-                 nbrOfRows=nbrOfCells, ..., 
-                 types="double", sizes=4, footer=footer);
-
-  res;
-}, static=TRUE)
+  NextMethod("allocate", nbrOfRows=nbrOfCells, types="double", sizes=4L, footer=footer);
+}, static=TRUE, protected=TRUE)
 
 
 

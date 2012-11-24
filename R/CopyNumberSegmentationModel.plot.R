@@ -98,9 +98,10 @@ setMethodS3("plot", "CopyNumberSegmentationModel", function(x, xlim=NULL, ..., p
   # Output path
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # The report path
-  if (is.null(path))
+  if (is.null(path)) {
     path <- getReportPath(this);
-  mkdirs(path);
+  }
+  path <- Arguments$getWritablePath(path);
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Setup the PNG device
@@ -170,7 +171,7 @@ setMethodS3("plot", "CopyNumberSegmentationModel", function(x, xlim=NULL, ..., p
     
       verbose && enter(verbose, sprintf("Plotting %s for chromosome %02d [%.2fMB]", arrayName, chromosome, widthMb));
   
-      for (zz in seq(along=zooms)) {
+      for (zz in seq_along(zooms)) {
         zoom <- zooms[zz];
   
         # Create the pathname to the file

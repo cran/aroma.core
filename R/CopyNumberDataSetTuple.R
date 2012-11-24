@@ -3,7 +3,7 @@ setMethodS3("getAverageFile", "AromaMicroarrayDataSet", abstract=TRUE);
 # AD HOC. This is currently only implemented in the AffymetrixCelFile class,
 # but should be implemented by others too, alternatively be replaced by
 # a "better" method. /HB 2009-11-18.
-setMethodS3("getXAM", "AromaMicroarrayDataFile", abstract=TRUE);
+setMethodS3("getXAM", "AromaMicroarrayDataFile", protected=TRUE, abstract=TRUE);
 
 
 setConstructorS3("CopyNumberDataFile", function(...) {
@@ -19,7 +19,7 @@ setMethodS3("hasAlleleBFractions", "CopyNumberDataFile", abstract=TRUE);
 setMethodS3("hasStrandiness", "CopyNumberDataFile", abstract=TRUE);
 
 
-setMethodS3("getNumberOfFilesAveraged", "CopyNumberDataFile", abstract=TRUE);
+setMethodS3("getNumberOfFilesAveraged", "CopyNumberDataFile", protected=TRUE, abstract=TRUE);
 
 
 setConstructorS3("CopyNumberDataSet", function(...) {
@@ -31,7 +31,7 @@ setMethodS3("as.CopyNumberDataSet", "CopyNumberDataSet", function(this, ...) {
 })
 
 setMethodS3("hasAlleleBFractions", "CopyNumberDataSet", function(this, ...) {
-  if (nbrOfFiles(this) == 0) {
+  if (length(this) == 0) {
     throw("Cannot infer hasAlleleBFractions(). No data files: ", getFullName(this));
   }
   df <- getFile(this, 1);
@@ -39,7 +39,7 @@ setMethodS3("hasAlleleBFractions", "CopyNumberDataSet", function(this, ...) {
 })
 
 setMethodS3("hasStrandiness", "CopyNumberDataSet", function(this, ...) {
-  if (nbrOfFiles(this) == 0) {
+  if (length(this) == 0) {
     throw("Cannot infer hasStrandiness(). No data files: ", getFullName(this));
   }
   df <- getFile(this, 1);

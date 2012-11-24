@@ -28,9 +28,8 @@ setConstructorS3("AromaUnitSignalBinarySet", function(...) {
 
 
 setMethodS3("findByName", "AromaUnitSignalBinarySet", function(static, ..., chipType=NULL) {
-  # NextMethod() does not work here.
-  findByName.GenericDataFileSet(static, ..., subdirs=chipType);
-}, static=TRUE) 
+  NextMethod("findByName", subdirs=chipType);
+}, static=TRUE, protected=TRUE) 
 
 
 setMethodS3("byName", "AromaUnitSignalBinarySet", function(static, name, tags=NULL, ..., chipType=NULL, paths=NULL, pattern="[.]asb$") {
@@ -56,7 +55,7 @@ setMethodS3("validate", "AromaUnitSignalBinarySet", function(this, ...) {
     throw("The located ", class(this)[1], " contains files with different chip types: ", paste(chipTypes, collapse=", "));
   }
 
-  NextMethod("validate", this, ...);
+  NextMethod("validate");
 }, protected=TRUE)
 
 

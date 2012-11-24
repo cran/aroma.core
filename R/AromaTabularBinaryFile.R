@@ -46,7 +46,7 @@ setMethodS3("as.character", "AromaTabularBinaryFile", function(x, ...) {
   # To please R CMD check
   this <- x;
 
-  s <- NextMethod("as.character", ...);
+  s <- NextMethod("as.character");
   class <- class(s);
 
   s <- c(s, sprintf("File format: v%d", readHeader(this)$fileVersion));
@@ -63,19 +63,7 @@ setMethodS3("as.character", "AromaTabularBinaryFile", function(x, ...) {
 
   class(s) <- class;
   s;
-})
-
-
-setMethodS3("clearCache", "AromaTabularBinaryFile", function(this, ...) {
-  # Clear all cached values.
-  for (ff in c(".hdr", ".ftr")) {
-    this[[ff]] <- NULL;
-  }
-
-  # Then for this object
-  NextMethod(generic="clearCache", object=this, ...); 
-}, private=TRUE)
-
+}, protected=TRUE)
 
 
 setMethodS3("setAttributesByTags", "AromaTabularBinaryFile", function(this, ...) {
@@ -83,9 +71,9 @@ setMethodS3("setAttributesByTags", "AromaTabularBinaryFile", function(this, ...)
 }, protected=TRUE)
 
  
-setMethodS3("getColumnNames", "AromaTabularBinaryFile", function(this, ...) {
-  as.character(seq(length=nbrOfColumns(this)));
-})
+setMethodS3("getDefaultColumnNames", "AromaTabularBinaryFile", function(this, ...) {
+  as.character(seq_len(nbrOfColumns(this)));
+}, protected=TRUE)
 
 
 setMethodS3("dimnames<-", "AromaTabularBinaryFile", function(x, value) {
@@ -93,7 +81,7 @@ setMethodS3("dimnames<-", "AromaTabularBinaryFile", function(x, value) {
   this <- x;
 
   throw("Dimension names of an ", class(this)[1], " are read only.");
-}, createGeneric=FALSE, appendVarArgs=FALSE)
+}, createGeneric=FALSE, appendVarArgs=FALSE, protected=TRUE)
 
 
 setMethodS3("readHeader", "AromaTabularBinaryFile", function(this, con=NULL, ..., force=FALSE) {
@@ -147,14 +135,14 @@ setMethodS3("readHeader", "AromaTabularBinaryFile", function(this, con=NULL, ...
     sizes <- Arguments$getIntegers(sizes, range=c(1,8));
     ok <- (sizes %in% c(1,2,4,8));
     if (any(!ok)) {
-      cc <- whichVector(!ok);
+      cc <- which(!ok);
       throw("File format error. Detect one or more columns with invalid byte sizes, i.e. not in {1,2,4,8}: ", paste(paste(cc, sizes[cc], sep=":"), collapse=", "));
     }
 
     # Assert that 'raw' columns are only of size one
     nok <- (sizes[types == "raw"] != 1);
     if (any(nok)) {
-      cc <- whichVector(nok);
+      cc <- which(nok);
       throw("File format error. Detect one or more columns of data type 'raw' but of size different from one: ", paste(paste(cc, sizes[cc], sep=":"), collapse=", "));
     }
 
@@ -479,9 +467,9 @@ setMethodS3("readDataFrame", "AromaTabularBinaryFile", function(this, rows=NULL,
   # Argument 'rows':
   rownames <- NULL;
   if (is.null(rows)) {
-    rows <- seq(length=hdr$nbrOfRows);
+    rows <- seq_len(hdr$nbrOfRows);
   } else if (is.logical(rows)) {
-    rows <- whichVector(rows);
+    rows <- which(rows);
     rows <- Arguments$getIndices(rows, max=hdr$nbrOfRows);
     if (retRowNames) {
       rownames <- as.character(rows);
@@ -497,9 +485,9 @@ setMethodS3("readDataFrame", "AromaTabularBinaryFile", function(this, rows=NULL,
 
   # Argument 'columns':
   if (is.null(columns)) {
-    columns <- seq(length=hdr$nbrOfColumns);
+    columns <- seq_len(hdr$nbrOfColumns);
   } else if (is.logical(columns)) {
-    columns <- whichVector(columns);
+    columns <- which(columns);
     columns <- Arguments$getIndices(columns, max=hdr$nbrOfColumns);
   } else {
     columns <- Arguments$getIndices(columns, max=hdr$nbrOfColumns);
@@ -642,9 +630,9 @@ setMethodS3("updateDataColumn", "AromaTabularBinaryFile", function(this, rows=NU
 
     # Argument 'rows':
     if (is.null(rows)) {
-      rows <- seq(length=hdr$nbrOfRows);
+      rows <- seq_len(hdr$nbrOfRows);
     } else if (is.logical(rows)) {
-      rows <- whichVector(rows);
+      rows <- which(rows);
       rows <- Arguments$getIndices(rows, max=hdr$nbrOfRows);
     } else {
       rows <- Arguments$getIndices(rows, max=hdr$nbrOfRows);
@@ -719,7 +707,7 @@ setMethodS3("updateDataColumn", "AromaTabularBinaryFile", function(this, rows=NU
 
     msgL <- msgH <- NULL;
 
-    idxs <- whichVector(values < range[1]);
+    idxs <- which(values < range[1]);
     nL <- length(idxs);
     if (nL > 0) {
       rangeL <- range(values[idxs], na.rm=TRUE);
@@ -727,7 +715,7 @@ setMethodS3("updateDataColumn", "AromaTabularBinaryFile", function(this, rows=NU
                                        nL, rangeL[1], rangeL[2]);
       values[idxs] <- range[1];
     }
-    idxs <- whichVector(values > range[2]);
+    idxs <- which(values > range[2]);
     nH <- length(idxs);
     if (nH > 0) {
       rangeH <- range(values[idxs], na.rm=TRUE);
@@ -810,9 +798,9 @@ setMethodS3("updateData", "AromaTabularBinaryFile", function(this, rows=NULL, co
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Argument 'rows':
   if (is.null(rows)) {
-    rows <- seq(length=hdr$nbrOfRows);
+    rows <- seq_len(hdr$nbrOfRows);
   } else if (is.logical(rows)) {
-    rows <- whichVector(rows);
+    rows <- which(rows);
     rows <- Arguments$getIndices(rows, max=hdr$nbrOfRows);
   } else {
     rows <- Arguments$getIndices(rows, max=hdr$nbrOfRows);
@@ -821,9 +809,9 @@ setMethodS3("updateData", "AromaTabularBinaryFile", function(this, rows=NULL, co
 
   # Argument 'columns':
   if (is.null(columns)) {
-    columns <- seq(length=hdr$nbrOfColumns);
+    columns <- seq_len(hdr$nbrOfColumns);
   } else if (is.logical(columns)) {
-    columns <- whichVector(columns);
+    columns <- which(columns);
     columns <- Arguments$getIndices(columns, max=hdr$nbrOfColumns);
   } else {
     columns <- Arguments$getIndices(columns, max=hdr$nbrOfColumns);
@@ -1008,7 +996,7 @@ setMethodS3("allocate", "AromaTabularBinaryFile", function(static, filename, pat
   sizes <- Arguments$getIntegers(sizes, range=c(1,8));
   ok <- (sizes %in% c(1,2,4,8));
   if (any(!ok)) {
-    cc <- whichVector(!ok);
+    cc <- which(!ok);
     throw("Cannot allocate/create file. Detect one or more columns with invalid byte sizes, i.e. not in {1,2,4,8}: ", paste(paste(cc, sizes[cc], sep=":"), collapse=", "));
   }
   sizes <- rep(sizes, length.out=nbrOfColumns);
@@ -1031,7 +1019,7 @@ setMethodS3("allocate", "AromaTabularBinaryFile", function(static, filename, pat
   # Argument 'defaults':
   defaults <- rep(defaults, length.out=nbrOfColumns);
   defaults <- as.list(defaults);
-  for (kk in seq(along=defaults)) {
+  for (kk in seq_along(defaults)) {
     storage.mode(defaults[[kk]]) <- types[kk];
   }
 
@@ -1128,7 +1116,7 @@ setMethodS3("allocate", "AromaTabularBinaryFile", function(static, filename, pat
   writeDataHeader(con=con, nbrOfRows=nbrOfRows, types=types, sizes=sizes, signeds=signeds);
 
   # Write empty data, column by column
-  for (cc in seq(length=nbrOfColumns)) {
+  for (cc in seq_len(nbrOfColumns)) {
     size <- sizes[cc];
     type <- types[cc];
     signed <- signeds[cc];
@@ -1158,7 +1146,7 @@ setMethodS3("allocate", "AromaTabularBinaryFile", function(static, filename, pat
   
   # Return
   res;
-}, static=TRUE)
+}, static=TRUE, protected=TRUE)
 
 
 
@@ -1210,7 +1198,7 @@ setMethodS3("[[", "AromaTabularBinaryFile", function(this, i) {
     throw("Argument 'i' must be a single value: ", length(i));
 
   readDataFrame(this, columns=i)[[1]];
-})
+}, protected=TRUE)
 
 
 
@@ -1236,7 +1224,7 @@ setMethodS3("summary", "AromaTabularBinaryFile", function(object, ...) {
   nbrOfColumns <- nbrOfColumns(this);
 
   # Get the summaries (as matrices; less work for us, more for R)
-  res <- base::lapply(seq(length=nbrOfColumns), FUN=function(cc) {
+  res <- base::lapply(seq_len(nbrOfColumns), FUN=function(cc) {
     s <- summary(this[,cc,drop=FALSE], ...);
   })
 
@@ -1258,13 +1246,13 @@ setMethodS3("summary", "AromaTabularBinaryFile", function(object, ...) {
   unames <- unique(unlist(names, use.names=FALSE));
   emptyName <- paste(rep(" ", nchar(unames[1])+1), collapse="");
 
-  for (kk in seq(along=res)) {
+  for (kk in seq_along(res)) {
     s <- res[[kk]];
     emptyStr <- paste(rep(" ", nchar(s[[1]])), collapse="");
     thisNames <- names[[kk]];
     idx <- match(unames, thisNames);
     s <- s[idx];
-    nok <- whichVector(is.na(idx));
+    nok <- which(is.na(idx));
     s[nok] <- emptyStr;
     thisNames <- paste(thisNames, ":", sep="");
     thisNames[nok] <- emptyName;
@@ -1286,7 +1274,7 @@ setMethodS3("lapply", "AromaTabularBinaryFile", function(X, FUN, ...) {
   this <- X;
 
   nbrOfColumns <- nbrOfColumns(this);
-  res <- base::lapply(seq(length=nbrOfColumns), FUN=function(cc) {
+  res <- base::lapply(seq_len(nbrOfColumns), FUN=function(cc) {
     FUN(this[[cc]], ...);
   });
 
@@ -1298,7 +1286,8 @@ setMethodS3("colStats", "AromaTabularBinaryFile", function(this, FUN, ...) {
   res <- lapply(this, FUN=FUN, ...);
   res <- unlist(res, use.names=FALSE);
   res;
-})
+}, protected=TRUE)
+
 
 setMethodS3("colSums", "AromaTabularBinaryFile", function(x, ...) {
   colStats(x, FUN=sum, ...);
@@ -1389,7 +1378,6 @@ setMethodS3("importFrom", "AromaTabularBinaryFile", function(this, srcFile, ...)
 # o Now allocate() takes argument 'footer' as well.
 # 2008-05-16
 # o Added readColumns().
-# o Removed deprecated readData().
 # o Inherits from GenericTabularFile.
 # 2008-05-11
 # o Added extractMatrix() with returns a matrix with one column.  This
