@@ -36,6 +36,8 @@
 # @keyword internal
 #*/###########################################################################
 setMethodS3("downloadPackagePatch", "default", function(pkgName, version=NULL, url=NULL, apply=TRUE, rootPath="~/.Rpatches", pkgVer=NULL, ..., verbose=FALSE) {
+##  .Deprecated(msg="downloadPackagePatch() is deprecated without alternatives.");
+
   require("R.utils") || stop("Package not loaded: R.utils");
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -103,7 +105,7 @@ setMethodS3("downloadPackagePatch", "default", function(pkgName, version=NULL, u
   verbose && cat(verbose, "Patch URL: ", patchUrl);
 
   path <- file.path(rootPath, pkgName, version);
-  mkdirs(path);
+  path <- Arguments$getWritablePath(path);
   verbose && cat(verbose, "Download directory: ", path);
 
   verbose && cat(verbose, "Downloading ", length(files), " file(s):");
@@ -123,7 +125,7 @@ setMethodS3("downloadPackagePatch", "default", function(pkgName, version=NULL, u
   }
 
   invisible(pathnames);
-}) # downloadPackagePatch()
+}, deprecated=TRUE) # downloadPackagePatch()
 
 
 ############################################################################

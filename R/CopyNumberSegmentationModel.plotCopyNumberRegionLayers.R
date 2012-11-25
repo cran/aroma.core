@@ -3,9 +3,8 @@ setMethodS3("plotCopyNumberRegionLayers", "CopyNumberSegmentationModel", functio
   if (is.null(path)) {
     path <- getReportPath(this);
     path <- filePath(getParent(path), "rawCNs,sampleLayer");
-    path <- Arguments$getWritablePath(path);
   }
-  mkdirs(path);
+  path <- Arguments$getWritablePath(path);
 
   # Get chip type (used to annotate the plot)
   chipType <- getChipType(this);
@@ -22,8 +21,7 @@ setMethodS3("plotCopyNumberRegionLayers", "CopyNumberSegmentationModel", functio
       drawLevels(cnRegions, lwd=lwd, col=col, xScale=1/10^unit);
     });
   }, path=path, ...);
-}) # plotCopyNumberRegions()
-
+}, protected=TRUE) # plotCopyNumberRegions()
 
 
 

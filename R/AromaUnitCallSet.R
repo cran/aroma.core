@@ -28,15 +28,15 @@ setConstructorS3("AromaUnitCallSet", function(...) {
 
 
 setMethodS3("findByName", "AromaUnitCallSet", function(static, ..., paths="callData/") {
-  findByName.AromaUnitSignalBinarySet(static, ..., paths=paths);
-}, static=TRUE) 
+  NextMethod("findByName", paths=paths);
+}, static=TRUE, protected=TRUE)
 
 
 setMethodS3("byPath", "AromaUnitCallSet", function(static, ..., pattern=".*[.]acf$") {
   suppressWarnings({
-    byPath.GenericDataFileSet(static, ..., pattern=pattern);
+    NextMethod("byPath", pattern=pattern);
   })
-})
+}, static=TRUE, protected=TRUE)
 
 
 setMethodS3("findUnitsTodo", "AromaUnitCallSet", function(this, ...) {
@@ -48,13 +48,13 @@ setMethodS3("findUnitsTodo", "AromaUnitCallSet", function(this, ...) {
 
 setMethodS3("extractCallArray", "AromaUnitCallSet", function(this, ..., drop=FALSE) {
   res <- NULL;
-  for (kk in seq(length=nbrOfFiles(this))) {  
+  for (kk in seq_along(this)) {  
     df <- getFile(this, kk);
     values <- extractCalls(df, ..., drop=FALSE);
 
     if (is.null(res)) {
       dim <- dim(values);
-      dim[length(dim)] <- nbrOfFiles(this);
+      dim[length(dim)] <- length(this);
       res <- array(values[1], dim=dim);
     }
 

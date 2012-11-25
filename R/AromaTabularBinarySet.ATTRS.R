@@ -20,7 +20,7 @@ setMethodS3("setAttributesByTags", "AromaTabularBinarySet", function(this, tags=
   # Split tags
   tags <- Arguments$getTags(tags, collapse=NULL);
 
-  newAttrs <- NextMethod("setAttributesByTags", this, tags=tags, ...);
+  newAttrs <- NextMethod("setAttributesByTags", tags=tags);
 
   # Parse XY, XX, XXX etc tags
   values <- grep("^X*Y*$", tags, value=TRUE);
@@ -88,7 +88,7 @@ setMethodS3("setAttributesBySampleAnnotationFile", "AromaTabularBinarySet", func
 
     # Typically the below only applies to one sample
     verbose && cat(verbose, "Applies to ", length(appliesTo), " sample(s).");
-    for (kk in seq(along=appliesTo)) { 
+    for (kk in seq_along(appliesTo)) { 
       idx <- appliesTo[kk];
       verbose && cat(verbose, "Sample: ", names(appliesTo)[kk]);
 

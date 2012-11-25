@@ -27,15 +27,15 @@ setConstructorS3("UnitAnnotationDataFile", function(...) {
 })
 
 setMethodS3("getChipType", "UnitAnnotationDataFile", function(...) {
-  NextMethod("getChipType", ...);
+  NextMethod("getChipType");
 })
 
 setMethodS3("getPlatform", "UnitAnnotationDataFile", function(...) {
-  NextMethod("getPlatform", ...);
+  NextMethod("getPlatform");
 })
 
 setMethodS3("nbrOfUnits", "UnitAnnotationDataFile", function(...) {
-  NextMethod("nbrOfUnits", ...);
+  NextMethod("nbrOfUnits");
 })
 
 setMethodS3("getDefaultExtension", "UnitAnnotationDataFile", function(static, ...) {
@@ -109,7 +109,7 @@ setMethodS3("byChipType", "UnitAnnotationDataFile", function(static, chipType, t
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   verbose && enter(verbose, "Scanning for a valid file");
 
-  for (kk in seq(along=pathnames)) {
+  for (kk in seq_along(pathnames)) {
     pathname <- pathnames[kk];
     verbose && enter(verbose, "File #", kk, " (", pathname, ")");
 

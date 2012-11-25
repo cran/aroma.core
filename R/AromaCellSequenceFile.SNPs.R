@@ -70,8 +70,8 @@ setMethodS3("getSnpPositions", "AromaCellSequenceFile", function(this, cells, ..
   # Identify the *last* difference
   naValue <- as.integer(NA);
   pos <- rep(naValue, times=ncol(cells));
-  for (pp in seq(length=probeLength)) {
-    idxs <- whichVector(seqsA[,pp] != seqsB[,pp]);
+  for (pp in seq_len(probeLength)) {
+    idxs <- which(seqsA[,pp] != seqsB[,pp]);
     pos[idxs] <- pp;
   }
   rm(idxs, pp);
@@ -104,9 +104,6 @@ setMethodS3("getSnpShifts", "AromaCellSequenceFile", function(this, ...) {
 
 
 setMethodS3("getSnpNucleotides", "AromaCellSequenceFile", function(this, cells, shifts=0, ..., verbose=FALSE) {
-  # For rowCollapse()
-  require("matrixStats") || throw("Package not loaded: matrixStats");
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -173,11 +170,11 @@ setMethodS3("getSnpNucleotides", "AromaCellSequenceFile", function(this, cells, 
   naValue <- as.character(NA);
   seqs <- rep(naValue, times=length(cells));
   dim(seqs) <- dim(cells);
-  for (pp in seq(along=uPos)) {
+  for (pp in seq_along(uPos)) {
     snpPosition <- uPos[pp];
 
     # Cells to read
-    idxs <- whichVector(pos == snpPosition);
+    idxs <- which(pos == snpPosition);
     cellsPP <- cells[,idxs,drop=FALSE];
 
     # Sequence positions to read
@@ -282,12 +279,12 @@ setMethodS3("groupBySnpNucleotides", "AromaCellSequenceFile", function(this, cel
 
   res <- vector("list", length(pairsToBuild)+1);
   names(res) <- c(pairsToBuild, "missing");
-  for (kk in seq(along=uniquePairs)) {
+  for (kk in seq_along(uniquePairs)) {
     pair <- uniquePairs[kk];
     verbose && enter(verbose, sprintf("Pair %d ('%s') of %d", 
                                           kk, pair, length(uniquePairs)));
 
-    idxs <- whichVector(pairNames == pair);
+    idxs <- which(pairNames == pair);
     verbose && cat(verbose, "Matching pairs:");
     verbose && str(verbose, idxs);
     cellsKK <- cells[,idxs,drop=FALSE];
@@ -309,13 +306,13 @@ setMethodS3("groupBySnpNucleotides", "AromaCellSequenceFile", function(this, cel
     verbose && exit(verbose);
   } # for (kk ...)
 
-  idxs <- whichVector(is.na(pairNames));
+  idxs <- which(is.na(pairNames));
   cellsKK <- cells[,idxs,drop=FALSE];
   if (length(cellsKK) > 0)
     res[["missing"]] <- cellsKK;
   rm(idxs, cellsKK);
 
-  for (kk in seq(along=res)) {
+  for (kk in seq_along(res)) {
     cells <- res[[kk]];
     pair <- names(res)[kk];
     if (pair == "missing") {

@@ -38,7 +38,7 @@ setMethodS3("as.character", "AromaMicroarrayTabularBinaryFile", function(x, ...)
   # To please R CMD check
   this <- x;
 
-  s <- NextMethod("as.character", ...);
+  s <- NextMethod("as.character");
   class <- class(s);
 
   s <- c(s, sprintf("Platform: %s", getPlatform(this)));
@@ -48,7 +48,7 @@ setMethodS3("as.character", "AromaMicroarrayTabularBinaryFile", function(x, ...)
 
   class(s) <- class;
   s;
-})
+}, protected=TRUE)
 
 
 setMethodS3("getFilenameExtension", "AromaMicroarrayTabularBinaryFile", static=TRUE, abstract=TRUE);
@@ -200,7 +200,7 @@ setMethodS3("findByChipType", "AromaMicroarrayTabularBinaryFile", function(stati
     pathname <- do.call("findAnnotationDataByChipType", args=args);
     if (!is.null(pathname)) {
       # ..and expand it
-      pathname <- filePath(pathname, expandLinks="any");
+      pathname <- Arguments$getReadablePathname(pathname, mustExist=FALSE);
       if (!isFile(pathname))
         pathname <- NULL;
     }
@@ -214,8 +214,7 @@ setMethodS3("findByChipType", "AromaMicroarrayTabularBinaryFile", function(stati
 
 
 setMethodS3("allocate", "AromaMicroarrayTabularBinaryFile", function(static, platform=footer$platform, chipType=footer$chipType, footer=list(), ...) {
-  # S3 NextMethod() does not work here
-  res <- allocate.AromaTabularBinaryFile(static, ...);
+  res <- NextMethod("allocate");
 
   # Write attributes to footer
   attrs <- list(platform=platform, chipType=chipType);
@@ -225,7 +224,7 @@ setMethodS3("allocate", "AromaMicroarrayTabularBinaryFile", function(static, pla
   writeFooter(res, footer);
 
   res;
-}, static=TRUE)
+}, static=TRUE, protected=TRUE)
 
 
 

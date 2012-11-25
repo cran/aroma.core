@@ -1,14 +1,25 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # IMPORTS
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+importFrom("R.methodsS3", "setMethodS3")
+importFrom("R.methodsS3", "throw")
+import("R.oo")
+
 ##import("utils") # Not yet, because there is a conflict with
 ##                # timestamp() exported by R.utils.
 ##importFrom("utils", packageDescription)
-
 import("R.utils")
-##importFrom(R.utils, cat)
-
 import("R.rsp")
+import("matrixStats")
+
+
+importFrom("R.cache", "loadCache")
+importFrom("R.cache", "saveCache")
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Additional imports
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+importFrom("PSCBS", "plotTracksManyChromosomes");
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -21,3 +32,12 @@ export(.Machine)
 # Export all public methods, that is, those without a preceeding dot
 # in their names.
 exportPattern("^[^\\.]")
+
+
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# DECLARATIONS
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+S3method("getParameters", "ParametersInterface");
+S3method("getParameterSets", "ParametersInterface");
+S3method("getParametersAsString", "ParametersInterface");

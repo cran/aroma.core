@@ -35,7 +35,7 @@ setMethodS3("fit2d", "matrix", function(M, MARGIN=1, spar=0.7, h=20, ...) {
     }
     
     # Fit smooth curve (1d)
-    ok <- whichVector(is.finite(Mb));
+    ok <- which(is.finite(Mb));
     fit <- robustSmoothSpline(x[ok], Mb[ok], spar=spar);
     rm(ok);
     Mp <- predict(fit, x=x)$y;
@@ -58,7 +58,7 @@ setMethodS3("norm2d", "matrix", function(M, MARGIN=c(1,2), spar=0.7, h=20, ...) 
   h <- rep(h, length.out=n);
 
   Mn <- M;
-  for (kk in seq(length=n)) {
+  for (kk in seq_len(n)) {
     mu <- fit2d(Mn, MARGIN=MARGIN[kk], spar=spar[kk], h=h[kk], ...);
     Mn <- Mn-mu;
   }

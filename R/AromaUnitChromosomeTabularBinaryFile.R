@@ -12,16 +12,6 @@ setConstructorS3("AromaUnitChromosomeTabularBinaryFile", function(...) {
 }, abstract=TRUE)
 
 
-setMethodS3("clearCache", "AromaUnitChromosomeTabularBinaryFile", function(this, ...) {
-  # Clear all cached values.
-  for (ff in c(".memoryCache")) {
-    this[[ff]] <- NULL;
-  }
-
-  # Then for this object
-  NextMethod(generic="clearCache", object=this, ...); 
-}, private=TRUE) 
-
 
 setMethodS3("getGenomeVersion", "AromaUnitChromosomeTabularBinaryFile", function(this, ...) {
   tags <- getTags(this, ...);
@@ -34,11 +24,11 @@ setMethodS3("getGenomeVersion", "AromaUnitChromosomeTabularBinaryFile", function
 setMethodS3("getFilenameExtension", "AromaUnitChromosomeTabularBinaryFile", abstract=TRUE);
 
 
-setMethodS3("getColumnNames", "AromaUnitChromosomeTabularBinaryFile", abstract=TRUE);
+setMethodS3("getDefaultColumnNames", "AromaUnitChromosomeTabularBinaryFile", abstract=TRUE);
 
 
 setMethodS3("indexOfColumn", "AromaUnitChromosomeTabularBinaryFile", function(this, name, ...) {
-  cc <- whichVector(getColumnNames(this) == name);
+  cc <- which(getColumnNames(this) == name);
   cc <- Arguments$getIndex(cc);
   cc;
 }, protected=TRUE)
@@ -66,7 +56,7 @@ setMethodS3("getChromosomes", "AromaUnitChromosomeTabularBinaryFile", function(t
 })
 
 
-setMethodS3("readDataFrame", "AromaUnitChromosomeTabularBinaryFile", function(this, ..., verbose=FALSE) {
+setMethodS3("readDataFrame", "AromaUnitChromosomeTabularBinaryFile", function(this, rows=units, ..., units=NULL, verbose=FALSE) {
   # Argument 'verbose':
   verbose <- Arguments$getVerbose(verbose);
   if (verbose) {
@@ -74,13 +64,13 @@ setMethodS3("readDataFrame", "AromaUnitChromosomeTabularBinaryFile", function(th
     on.exit(popState(verbose));
   }
 
-  data <- NextMethod("readDataFrame", this, ..., verbose=less(verbose));
+  data <- NextMethod("readDataFrame", rows=rows, verbose=less(verbose));
 
   if (nrow(data) > 0) {
     verbose && enter(verbose, "Converting zeros to NAs");
     # Interpret zeros as NAs
     if (ncol(data) > 0) {
-      for (cc in seq(length=ncol(data))) {
+      for (cc in seq_len(ncol(data))) {
         nas <- (!is.na(data[,cc]) & (data[,cc] == 0));
         data[nas,cc] <- NA;
       }
@@ -111,8 +101,8 @@ setMethodS3("getUnitsOnChromosomes", "AromaUnitChromosomeTabularBinaryFile", fun
   allChromosomes <- getChromosomes(this, .chromosomes=data);
 
   res <- vector("list", length(chromosomes));
-  for (cc in seq(along=chromosomes)) {
-    units <- whichVector(data == chromosomes[cc]);
+  for (cc in seq_along(chromosomes)) {
+    units <- which(data == chromosomes[cc]);
     res[[cc]] <- units;
   } # for (cc ...)
 
@@ -148,7 +138,7 @@ setMethodS3("getUnitsOnChromosome", "AromaUnitChromosomeTabularBinaryFile", func
 setMethodS3("extractByChromosome", "AromaUnitChromosomeTabularBinaryFile", function(this, chromosomes=getChromosomes(this), ...) {
   unitsList <- getUnitsOnChromosomes(this, chromosomes=chromosomes, unlist=FALSE);
   data <- readDataFrame(this, ...);
-  data <- cbind(unit=seq(length=nrow(data)), data);
+  data <- cbind(unit=seq_len(nrow(data)), data);
   lapply(unitsList, FUN=function(units) {
     data[units,,drop=FALSE];
   });
@@ -187,14 +177,21 @@ setMethodS3("allocate", "AromaUnitChromosomeTabularBinaryFile", function(static,
   );
 
   # Allocate file
-  allocate.AromaMicroarrayTabularBinaryFile(static, ..., footer=footer);
-}, static=TRUE)
+  NextMethod("allocate", footer=footer);
+}, static=TRUE, protected=TRUE)
 
 
 
 
 ############################################################################
 # HISTORY:
+# 2012-11-08
+# o BUG FIX: readDataFrame() must accept argument 'rows', so in order
+#   to also support alias argument 'units', we now do 'rows=units' and
+#   'units=NULL'.
+# 2012-10-31
+# o Added argument 'units' to readDataFrame() for 
+#   AromaUnitChromosomeTabularBinaryFile.
 # 2011-03-03
 # o ROBUSTNESS: Added a return contract/sanity check asserting that
 #   getUnitsOnChromosomes() truly returns valid 'unit' indices.

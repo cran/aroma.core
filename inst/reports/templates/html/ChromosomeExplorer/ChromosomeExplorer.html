@@ -3,20 +3,20 @@
 
 <html>
 <head>
-<title>Chromosome Explorer v3.4</title>
+<title>Chromosome Explorer v3.5</title>
 <link rel="icon" type="image/ico" href="../../favicon.ico">
 <link media="screen" type="text/css" rel="StyleSheet" href="../../includes/css/R.css">
 <link media="screen" type="text/css" rel="StyleSheet" href="../../includes/css/rsp.css">
 <link media="screen" type="text/css" rel="StyleSheet" href="../../includes/css/figures.css"> 
-<link media="screen" type="text/css" rel="StyleSheet" href="../../includes/css/ChromosomeExplorer3.4.css"> 
-<script src="../../includes/js/require.js"></script>
+<link media="screen" type="text/css" rel="StyleSheet" href="../../includes/css/ChromosomeExplorer.css"> 
+<script type="text/javascript" src="../../includes/js/require.js"></script>
 </head>
 
 <body onload="onPageLoad();">
 <table width="100%" border="0" cellpadding="2" cellspacing="0" style="margin: 0px; border: none; border-bottom: 2px solid black;">
 <tr valign="bottom">
 <td align="left">
-<big>Chromosome Explorer v3.4</big>
+<big>Chromosome Explorer v3.5</big>
 <small><small>(&copy; 2006-2012 Henrik Bengtsson)</small></small>
 </td>
 <td align="right">
@@ -68,8 +68,8 @@ Chromosomes: <span id="chromosomes">?</span>
  </td>
  <td style="border: solid 1px #000000;">
   <div id="navigator">
-   <div id="navigatorArea" title="Drag"></div>
    <img id="navigatorImage" src="../../includes/images/indicator.gif" alt="Navigator" title="Click">
+   <div id="navigatorArea" title="Drag"></div>
   </div>
  </td>
 </tr>
@@ -88,7 +88,6 @@ Chromosomes: <span id="chromosomes">?</span>
 <table width="100%" border="0" cellpadding="2" cellspacing="0">
 <tr valign="top">
 <td align="left">
-</small></small>
 <small><small>
 Identified regions: <a id="cnrUrl" href=""></a>
 <!--
@@ -105,14 +104,14 @@ Image URL: <a id="imageUrl" href="" target="otherWindow"></a>
 </table>
 <div id="webcutsLabel" style="position:absolute; width:auto; height:auto; right:0px; top:0px; border: solid; border-width: 1px; border-color: black; background-color:lightgreen; font-size: x-small; visibility: hidden;"><small></small></div>
 </body>
-<script>
+<script type="text/javascript">
 var explorer = null;
 function onPageLoad() {
   require.config({
     paths: {
       "Webcuts": "../../includes/js/Webcuts",
       "domUtils": "../../includes/js/domUtils",
-      "ChromosomeExplorer": "../../includes/js/ChromosomeExplorer3.4/ChromosomeExplorer",
+      "ChromosomeExplorer": "../../includes/js/ChromosomeExplorer/ChromosomeExplorer",
       "setupExplorer": "setupExplorer"
     }
   });

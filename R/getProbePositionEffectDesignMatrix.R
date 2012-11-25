@@ -60,7 +60,7 @@ setMethodS3("getProbePositionEffectDesignMatrix", "raw", function(seqs, B=NULL, 
     gc <- gc();
   }
 
-  for (bb in seq(along=factors)) {
+  for (bb in seq_along(factors)) {
     verbose && enter(verbose, sprintf("Factor #%d ('%s') of %d", 
                                bb, names(factors)[bb], length(factors)));
 
@@ -69,7 +69,7 @@ setMethodS3("getProbePositionEffectDesignMatrix", "raw", function(seqs, B=NULL, 
       verbose && enter(verbose, sprintf("Position #%d of %d", pp, P));
 
       # Identify sequences with factor 'bb' in position 'pp'
-      idxs <- whichVector(seqs[,pp] == factors[bb]);
+      idxs <- which(seqs[,pp] == factors[bb]);
 #      verbose && cat(verbose, "Matching sequences:");
 #      verbose && str(verbose, idxs);
 
@@ -135,8 +135,8 @@ setMethodS3("getProbePositionEffectDesignMatrix", "character", function(seqs, ..
   names(map) <- c(NA, "A", "C", "G", "T");
   values <- map[2:5];
   from <- charToRaw(paste(names(values), collapse=""));
-  for (kk in seq(along=values)) {
-    idxs <- whichVector(seqs == from[kk]);
+  for (kk in seq_along(values)) {
+    idxs <- which(seqs == from[kk]);
     seqs[idxs] <- values[kk];
   }
   seqs[seqs > map[length(map)]] <- as.raw(0);

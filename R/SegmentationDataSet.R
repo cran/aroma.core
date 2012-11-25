@@ -8,7 +8,7 @@ setMethodS3("getDefaultFullName", "SegmentationDataSet", function(this, ...) {
   path <- getPath(this);
   path <- getParent(path);
   basename(path);
-})
+}, protected=TRUE)
 
 
 setMethodS3("getChipType", "SegmentationDataSet", function(this, ...) {
@@ -21,12 +21,12 @@ setMethodS3("as.character", "SegmentationDataSet", function(x, ...) {
   # To please R CMD check
   this <- x;
 
-  s <- NextMethod("as.character", this, ...);
+  s <- NextMethod("as.character");
   class <- class(s);
 
   s <- c(s, sprintf("Chip type(s): %s", getChipType(this)));
 
-  nf <- nbrOfFiles(this);
+  nf <- length(this);
 
   snames <- getSampleNames(this);
   ns <- length(snames);
@@ -45,11 +45,11 @@ setMethodS3("as.character", "SegmentationDataSet", function(x, ...) {
 
   class(s) <- class;
   s;
-})
+}, protected=TRUE)
 
 
 
-setMethodS3("byPath", "SegmentationDataSet", abstract=TRUE, static=TRUE);
+setMethodS3("byPath", "SegmentationDataSet", abstract=TRUE, static=TRUE, protected=TRUE);
 
 
 
@@ -57,7 +57,7 @@ setMethodS3("getReferenceNames", "SegmentationDataSet", function(this, ..., forc
   referenceNames <- this$.referenceNames;
   if (force || is.null(referenceNames)) {
     referenceNames <- c();
-    for (kk in seq(this)) {
+    for (kk in seq_along(this)) {
       df <- getFile(this, kk);
       referenceNames <- c(referenceNames, getReferenceName(df));
     }
@@ -75,7 +75,7 @@ setMethodS3("getSampleNames", "SegmentationDataSet", function(this, ..., force=F
   sampleNames <- this$.sampleNames;
   if (force || is.null(sampleNames)) {
     sampleNames <- c();
-    for (kk in seq(this)) {
+    for (kk in seq_along(this)) {
       df <- getFile(this, kk);
       sampleNames <- c(sampleNames, getSampleName(df));
     }
@@ -94,12 +94,12 @@ setMethodS3("getChromosomes", "SegmentationDataSet", function(this, ..., force=F
 
   if (force || is.null(chromosomes)) {
     chromosomes <- logical(100);
-    for (kk in seq(this)) {
+    for (kk in seq_along(this)) {
       df <- getFile(this, kk);
       chromosome <- getChromosome(df);
       chromosomes[chromosome] <- TRUE;
     }
-    chromosomes <- whichVector(chromosomes);
+    chromosomes <- which(chromosomes);
     this$.chromosomes <- chromosomes;
   }
 
@@ -113,9 +113,9 @@ setMethodS3("extractByReferenceName", "SegmentationDataSet", function(this, refe
 
   names <- sapply(this, getReferenceName);
   keep <- is.element(names, referenceName);
-  idxs <- whichVector(keep);
+  idxs <- which(keep);
   extract(this, idxs, ...);
-})
+}, protected=TRUE)
 
 
 setMethodS3("extractBySampleName", "SegmentationDataSet", function(this, sampleName, ...) {
@@ -124,9 +124,9 @@ setMethodS3("extractBySampleName", "SegmentationDataSet", function(this, sampleN
 
   names <- sapply(this, getSampleName);
   keep <- is.element(names, sampleName);
-  idxs <- whichVector(keep);
+  idxs <- which(keep);
   extract(this, idxs, ...);
-})
+}, protected=TRUE)
 
 
 
@@ -145,7 +145,7 @@ setMethodS3("extractCopyNumberRegions", "SegmentationDataSet", function(this, ..
 
   verbose && enter(verbose, "Extracting segmentations");
   res <- list();
-  for (kk in seq(this)) {
+  for (kk in seq_along(this)) {
     df <- getFile(this, kk);
     verbose && enter(verbose, sprintf("Segmentation #%d of %d", kk, length(this)));
     resKK <- extractCopyNumberRegions(df, ...);
@@ -160,7 +160,7 @@ setMethodS3("extractCopyNumberRegions", "SegmentationDataSet", function(this, ..
     verbose && str(verbose, sampleNames);
     uSampleNames <- unique(sampleNames);
     resT <- list();
-    for (ii in seq(along=uSampleNames)) {
+    for (ii in seq_along(uSampleNames)) {
       sampleName <- uSampleNames[ii];
       verbose && enter(verbose, sprintf("Sample #%d ('%s') of %d", ii, sampleName, length(uSampleNames)));
       idxs <- which(sampleNames == sampleName);

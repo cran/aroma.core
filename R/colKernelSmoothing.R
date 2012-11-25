@@ -63,7 +63,7 @@
 # @keyword robust
 # @keyword univar 
 #*/###########################################################################
-setMethodS3("colKernelSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)), w=NULL, xOut=x, kernel=c("gaussian", "uniform"), h, censorH=3, na.rm=TRUE, robust=FALSE, ..., verbose=FALSE) {
+setMethodS3("colKernelSmoothing", "matrix", function(Y, x=seq_len(nrow(Y)), w=NULL, xOut=x, kernel=c("gaussian", "uniform"), h, censorH=3, na.rm=TRUE, robust=FALSE, ..., verbose=FALSE) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -168,7 +168,7 @@ setMethodS3("colKernelSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)), w
     # Weights centered around x[kk]
     xDiff <- (x-xOut[kk]);
     if (isCensored) {
-      keep <- whichVector(abs(xDiff) <= censorThreshold);
+      keep <- which(abs(xDiff) <= censorThreshold);
       # Nothing to do?
       if (length(keep) == 0) {
         next;
@@ -197,7 +197,7 @@ setMethodS3("colKernelSmoothing", "matrix", function(Y, x=seq(length=nrow(Y)), w
     }
 
     # Fix: Smoothing over a window with all missing values give zeros, not NA.
-    idxs <- whichVector(value == 0);
+    idxs <- which(value == 0);
     if (length(idxs) > 0) {
       # Are these real zeros or missing values?
       Y2 <- Y2[idxs,,drop=FALSE];

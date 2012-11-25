@@ -1,6 +1,130 @@
 Package: aroma.core
 ===================
 
+Version: 2.7.0 [2012-11-24]
+o Bumped version for CRAN submission.
+o Bumped up package dependencies.
+o No updates.
+o Package passes all redundancy tests.
+
+
+Version: 2.6.16 [2012-11-21]
+o Now getParametersAsString() handles sets of parameters as well.
+o Added getParameterSets() to ParametersInterface.
+
+
+Version: 2.6.15 [2012-11-21]
+o Added ParametersInterface.
+o DOCUMENTATION: Hiding more internal methods from the help indices.
+
+
+Version: 2.6.14 [2012-11-18]
+o CLEANUP: Dropped getHeaderParameters() for TextUnitNamesFile, which
+  is now done by getHeader() of TabularTextFile.
+o CLEANUP: Now using getName() instead of deprecated getLabel().
+o CLEANUP: Package only depends on digest indirectly via R.cache.
+o CLEANUP: Moved internal .assertDigest() to R.cache.
+
+
+Version: 2.6.13 [2012-11-13]
+o CLEANUP: Properly declared all cached fields, making it possible
+  to remove nearly all clearCache() implementations because the one
+  for Object takes does the job.
+o CLEANUP: The RSP template for ChromosomeExplorer's setupExplorer.js
+  had a duplicated entry.
+
+
+Version: 2.6.12 [2012-11-12]
+o CLEANUP: Now seq_along(x) instead of seq(along=x) everywhere.
+  Similarly, seq(ds) where 'ds' is GenericDataFileSet is now
+  replaced by seq_along(ds).  Likewise, seq_len(x) replaces 
+  seq(length=x), and length(ds) replaces nbrOfFiles(ds).
+
+
+Version: 2.6.11 [2012-11-08]
+o Renamed getColumnNames() to getDefaultColumnNames() for all
+  classes inheriting from GenericTabularFile, because of the
+  new ColumnNamesInterface interface.
+o CRAN POLICY: Made a few of the examples faster.  Also made
+  some of the system tests faster.
+
+
+Version: 2.6.10 [2012-11-05]
+o CLEANUP: Replaced all whichVector() with which(), because the
+  latter is now the fastest again.
+
+
+Version: 2.6.9 [2012-10-31]
+o Added argument 'units' to readDataFrame() for 
+  AromaUnitChromosomeTabularBinaryFile.
+
+
+Version: 2.6.8 [2012-10-29]
+o CLEANUP: Now using Arguments$get(Read|Writ)ablePath() instead of
+  filePath(..., expandLinks="any"). 
+
+
+Version: 2.6.7 [2012-10-21]
+o Added argument 'maxNAFraction' to CopyNumberChromosomalModel, which
+  is now the prefer place to specify it, instead of to fit() etc.
+o Now CopyNumberChromosomalModel() accepts references of type
+  "none", "constant(1)", "constant(2)", and "median", where "none"
+  and "constant(1)" are identical, "constant(2)" uses reference signals
+  that are exactly 2, and "median" uses reference signals are equals
+  the robust average across all samples.  For backward compatibility,
+  NULL is still supported, which equals "median".
+o ROBUSTNESS: Now using Arguments$getWritablePath() everywhere instead
+  of mkdirs(), because the former will do a better job in creating
+  and asserting directories on slow shared file systems, and when it
+  fails it gives a more informative error message.
+o BUG FIX: Scrolling in the ChromosomeExplorer by dragging the 
+  navigator bar was broken.
+
+
+Version: 2.6.6 [2012-10-18]
+o It is no longer possible to have different *versions* of ArrayExplorer
+  and ChromosomeExplorer under the same reports/ directory structure.
+  If you wish to keep old Explorer reports, rename those reports/ 
+  root directories.
+o ROBUSTNESS/BUG FIX: Some of the HTML and CSS errors in ArrayExplorer
+  and ChromosomeExplorer that were detected by the W3's online validation 
+  services were correct.
+o BUG FIX: A few errors in the Javascript of ArrayExplorer has been
+  corrected. It also does a better job of inferring the height of the
+  displayed spatial image.  Thanks Laurent Malvert (ID Business Solutions
+  Ltd; IDBS) for the report, troubleshooting and suggestions on this.
+
+
+Version: 2.6.5 [2012-10-17]
+o ROBUSTNESS: Now all static Object methods that calls "next" methods,
+  utilizes NextMethod(), which became possible with R.oo v1.10.0.
+
+
+Version: 2.6.4 [2012-10-16]
+o ROBUSTNESS/BUG FIX: No longer passing '...' to NextMethod(), cf.
+  R-devel thread 'Do *not* pass '...' to NextMethod() - it'll do it 
+  for you; missing documentation, a bug or just me?' on Oct 16, 2012.
+
+
+Version: 2.6.3 [2012-10-14]
+o Added AromaUnitGcContentFile (from aroma.affymetrix).
+o CLEANUP: Removed several defunct/obsolete methods and made
+  deprecated methods defunct/obsolete. 
+
+
+Version: 2.6.2 [2012-10-11]
+o Now aroma.core imports R.methodsS3 and R.oo.
+  This solves issues such as trim() being overridden by ditto 
+  from the IRanges package, iff loaded.
+
+
+Version: 2.6.1 [2012-09-14]
+o Added exportAromaUnitPscnBinarySet() for a list.
+o BUG FIX: exportAromaUnitPscnBinarySet() for AromaUnitTotalCnBinarySet
+  would throw an error if the files of the exported data set was
+  ordered in a non-lexicographic order.
+
+
 Version: 2.6.0 [2012-09-05]
 o Submitted to CRAN.
 o The package passes all redundancy tests.

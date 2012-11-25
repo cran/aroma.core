@@ -69,10 +69,6 @@
   calculateChromosomeStatistics
   calculateChromosomeStatistics.CopyNumberChromosomalModel
   calculateRatios calculateRatios.CopyNumberChromosomalModel
-  clearCache.AromaTabularBinaryFile clearCache.AromaTransform
-  clearCache.AromaUnitChromosomeTabularBinaryFile
-  clearCache.AromaUnitTabularBinaryFile clearCache.ChromosomalModel
-  clearCache.CopyNumberChromosomalModel clearCache.TextUnitNamesFile
   cnRange cnRange.RawCopyNumbers colGaussianSmoothing
   colGaussianSmoothing.matrix colMeans colMeans.AromaTabularBinaryFile
   colMeans.default colMedians.AromaTabularBinaryFile colorize
@@ -217,7 +213,7 @@
   getGenomeVersion.AromaUnitChromosomeTabularBinaryFile
   getHeaderParameters getHeaderParameters.TextUnitNamesFile getImage
   getImage.matrix getIncludePath getIncludePath.Explorer
-  getInputDataSet getLabel.AromaMicroarrayDataFile
+  getInputDataSet 
   getListOfAromaUgpFiles getListOfAromaUgpFiles.ChromosomalModel
   getListOfChipEffectSets getListOfChipEffectSets.ChromosomalModel
   getListOfUnitNamesFiles
@@ -238,10 +234,10 @@
   getOutputDataSet0 getOutputDataSet0.AromaTransform getOutputFiles
   getOutputFiles.AromaTransform getPairedNames
   getPairedNames.CopyNumberChromosomalModel getParallelSafe
-  getParallelSafe.Explorer getParameters.AromaTransform
-  getParametersAsString getParametersAsString.AromaTransform
+  getParallelSafe.Explorer 
+  getParametersAsString 
   getParentPath getParentPath.ChromosomalModel getPath.ChromosomalModel
-  getPath.ChromosomeExplorer getPath.Explorer getPatterns
+  getPath.ChromosomeExplorer getPatterns
   getPatterns.SampleAnnotationFile getPhysicalPositions
   getPhysicalPositions.RawCopyNumbers getPlatform
   getPlatform.AromaMicroarrayDataFile
@@ -262,8 +258,8 @@
   getRefSetTuple getRefSetTuple.CopyNumberChromosomalModel getRegions
   getRegions.CopyNumberSegmentationModel getReportPath
   getReportPath.ChromosomalModel getReportPathPattern
-  getReportPathPattern.Explorer getRootPath getRootPath.AromaTransform
-  getRootPath.ChromosomalModel getRootPath.Explorer getSampleLabels
+  getReportPathPattern.Explorer getRootPath
+  getRootPath.ChromosomalModel getSampleLabels
   getSampleLabels.ChromosomeExplorer getSampleLayerName
   getSampleLayerName.Explorer getSampleLayerPrefix
   getSampleLayerPrefix.Explorer getSets.AromaMicroarrayDataSetTuple
@@ -402,7 +398,7 @@
   setAttributesByTags.AromaTabularBinaryFile setAttributeXY
   setAttributeXY.AromaMicroarrayDataFile setCytoband
   setCytoband.ChromosomeExplorer setGenome setGenome.ChromosomalModel
-  setLabel.AromaMicroarrayDataFile setLocusFields
+ setLocusFields
   setLocusFields.RawGenomicSignals setName.RawGenomicSignals
   setParallelSafe setParallelSafe.Explorer setRam setRam.AromaSettings
   setReportPathPattern setReportPathPattern.Explorer setSigma
@@ -641,7 +637,25 @@ hasTotalCopyNumberRatios.AromaUnitPscnBinaryFile
 writeDataFrame.AromaUnitPscnBinarySet
 exportAromaUnitPscnBinarySet
 exportAromaUnitPscnBinarySet.AromaUnitTotalCnBinarySet
+exportAromaUnitPscnBinarySet.list
 downloadAll downloadAll.AromaRepository listFiles
 clearCache.AromaRepository
 findAnnotationDataByChipType.AromaRepository
 downloadUGC downloadUGC.AromaRepository
+AromaUnitGcContentFile  getColumnNames.AromaUnitGcContentFile
+  getExtensionPattern.AromaUnitGcContentFile
+  getFilenameExtension.AromaUnitGcContentFile 
+AromaUgcFile
+getReference getReference.CopyNumberChromosomalModel
+setReference setReference.CopyNumberChromosomalModel
+getMaxNAFraction getMaxNAFraction.CopyNumberChromosomalModel
+getDefaultColumnNames.AromaCellCpgFile
+getDefaultColumnNames.AromaCellPositionFile
+getDefaultColumnNames.AromaCellSequenceFile
+getDefaultColumnNames.AromaTabularBinaryFile
+getDefaultColumnNames.AromaUflFile
+getDefaultColumnNames.AromaUgpFile
+getDefaultColumnNames.AromaUnitChromosomeTabularBinaryFile
+getDefaultColumnNames.AromaUnitGcContentFile
+getDefaultColumnNames.AromaUnitPscnBinaryFile
+getParameterSets getParameterSets.ParametersInterface

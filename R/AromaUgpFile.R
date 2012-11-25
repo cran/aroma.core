@@ -20,9 +20,10 @@ setMethodS3("getExtensionPattern", "AromaUgpFile", function(static, ...) {
   "[.](ugp)$";
 }, static=TRUE, protected=TRUE)
 
-setMethodS3("getColumnNames", "AromaUgpFile", function(this, ...) {
+setMethodS3("getDefaultColumnNames", "AromaUgpFile", function(this, ...) {
   c("chromosome", "position");
-})
+}, protected=TRUE)
+
 
 setMethodS3("getPositions", "AromaUgpFile", function(this, units=NULL, ...) {
   # It is possible to pass NULL as an index here.
@@ -37,7 +38,7 @@ setMethodS3("getUnitsOnChromosome", "AromaUgpFile", function(this, ..., region=N
   if (!is.null(region)) {
   }
 
-  units <- NextMethod("getUnitsOnChromosome", this, ...);
+  units <- NextMethod("getUnitsOnChromosome");
 
   # Subset by regions
   if (!is.null(region)) {
@@ -57,9 +58,8 @@ setMethodS3("getUnitsOnChromosome", "AromaUgpFile", function(this, ..., region=N
 # BEGIN: File I/O
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 setMethodS3("allocate", "AromaUgpFile", function(static, ...) {
-  allocate.AromaUnitChromosomeTabularBinaryFile(static,
-                   types=rep("integer",2), sizes=c(1,4), ...);
-}, static=TRUE)
+  NextMethod("allocate", types=rep("integer", times=2), sizes=c(1,4));
+}, static=TRUE, protected=TRUE)
 
 
 
@@ -100,7 +100,7 @@ setMethodS3("importFromGenericTabularFile", "AromaUgpFile", function(this, src, 
   unfUnits <- match(data[,1], unfUnitNames);
 
   # Exclude units that are not in the annotation unit names file
-  keep <- whichVector(!is.na(unfUnits));
+  keep <- which(!is.na(unfUnits));
   unfUnits <- unfUnits[keep];
   if (length(unfUnits) == 0) {
     warning("None of the imported unit names match the ones in the annotation unit names file ('", getPathname(unf), "'). Is the correct file ('", getPathname(src), "'), being imported?");
@@ -116,7 +116,7 @@ setMethodS3("importFromGenericTabularFile", "AromaUgpFile", function(this, src, 
   # Convert chromosome strings to integers
   if (!is.integer(data[,1])) {
     map <- c(X=23, Y=24, Z=25);
-    for (kk in seq(along=map)) {
+    for (kk in seq_along(map)) {
       data[,1] <- gsub(names(map)[kk], map[kk], data[,1]);
     }
     suppressWarnings({
@@ -192,7 +192,7 @@ setMethodS3("getUnitsAt", "AromaUgpFile", function(this, chromosomes, region=NUL
   allChromosomes <- getChromosomes(this, .chromosomes=data);
 
   keep <- !is.na(data) & (data %in% chromosomes);
-  idxs <- whichVector(keep);
+  idxs <- which(keep);
 
   if (!is.null(region)) {
     data <- this[idxs,2,drop=TRUE];

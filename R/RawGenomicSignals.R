@@ -122,13 +122,13 @@ setMethodS3("as.character", "RawGenomicSignals", function(x, ...) {
   class(s) <- class;
 
   s;
-}, private=TRUE) 
+}, protected=TRUE)
 
 
 
 setMethodS3("print", "RawGenomicSignals", function(x, ...) {
   print(as.character(x));
-})
+}, protected=TRUE)
 
 
 setMethodS3("getSignalColumnNames", "RawGenomicSignals", function(this, translate=TRUE, ...) {
@@ -137,11 +137,11 @@ setMethodS3("getSignalColumnNames", "RawGenomicSignals", function(this, translat
     names <- translateColumnNames(this, names);
   }
   names;
-})
+}, protected=TRUE)
 
 setMethodS3("getSignalColumnName", "RawGenomicSignals", function(this, ...) {
-  getSignalColumnNames(this, ...)[1];
-})
+  getSignalColumnNames(this, ...)[1L];
+}, protected=TRUE)
 
 
 setMethodS3("nbrOfLoci", "RawGenomicSignals", function(this, na.rm=FALSE, ...) {
@@ -203,7 +203,7 @@ setMethodS3("extractSubset", "RawGenomicSignals", function(this, subset, ...) {
   stopifnot(nbrOfLoci(res) == length(subset));
 
   res;
-}) # extractSubset()
+}, protected=TRUE) # extractSubset()
 
 
 
@@ -229,10 +229,10 @@ setMethodS3("extractRegion", "RawGenomicSignals", function(this, region, chromos
   assertOneChromosome(rgs);
 
   x <- getPositions(rgs);
-  keep <- whichVector(region[1] <= x & x <= region[2]);
+  keep <- which(region[1] <= x & x <= region[2]);
 
   extractSubset(rgs, keep);
-}) # extractRegion()
+}, protected=TRUE) # extractRegion()
 
 
 
@@ -295,7 +295,7 @@ setMethodS3("extractRegions", "RawGenomicSignals", function(this, regions, chrom
   chromosome <- this$chromosome;
   x <- getPositions(this);
   keep <- rep(FALSE, times=length(x));
-  for (rr in seq(length=nrow(regions))) {
+  for (rr in seq_len(nrow(regions))) {
     region <- unlist(regions[rr,], use.names=TRUE);
     chr <- region["chromosome"];
     start <- region["start"];
@@ -307,7 +307,7 @@ setMethodS3("extractRegions", "RawGenomicSignals", function(this, regions, chrom
   keep <- which(keep);
 
   extractSubset(this, keep);
-}) # extractRegions()
+}, protected=TRUE) # extractRegions()
 
 
 setMethodS3("extractChromosomes", "RawGenomicSignals", function(this, chromosomes=NULL, ...) {
@@ -327,7 +327,7 @@ setMethodS3("extractChromosomes", "RawGenomicSignals", function(this, chromosome
   keep <- which(keep);
 
   extractSubset(this, keep);
-}) # extractChromosomes()
+}, protected=TRUE) # extractChromosomes()
 
 
 setMethodS3("extractChromosome", "RawGenomicSignals", function(this, chromosome, ...) {
@@ -335,11 +335,11 @@ setMethodS3("extractChromosome", "RawGenomicSignals", function(this, chromosome,
   chromosome <- Arguments$getChromosome(chromosome);
 
   extractChromosomes(this, chromosomes=chromosome, ...);  
-}) # extractChromosome()
+}, protected=TRUE) # extractChromosome()
 
 
 
-setMethodS3("extractRawGenomicSignals", "default", abstract=TRUE);
+setMethodS3("extractRawGenomicSignals", "default", abstract=TRUE, protected=TRUE);
 
 
 
@@ -351,7 +351,7 @@ setMethodS3("getPositions", "RawGenomicSignals", function(this, ...) {
 
   x <- this$x;
   if (is.null(x)) {
-    x <- seq(length=nbrOfLoci(this));
+    x <- seq_len(nbrOfLoci(this));
   }
   x;
 })
@@ -426,7 +426,7 @@ setMethodS3("as.data.frame", "RawGenomicSignals", function(x, ..., sort=FALSE) {
     this <- sort(this, ...);
   }
 
-  NextMethod("as.data.frame", this, ...);
+  NextMethod("as.data.frame");
 })
 
 
@@ -441,7 +441,7 @@ setMethodS3("getDefaultLocusFields", "RawGenomicSignals", function(this, transla
   defFields <- colnames(data);
 
   defFields;
-}) # getDefaultLocusFields()
+}, protected=TRUE) # getDefaultLocusFields()
 
 
 
@@ -449,7 +449,7 @@ setMethodS3("getLocusFields", "RawGenomicSignals", function(this, ...) {
   fields <- c(getDefaultLocusFields(this, ...), getVirtualColumnNames(this, ...));
   fields <- unique(fields);
   fields;
-}) # getLocusFields()
+}, protected=TRUE) # getLocusFields()
 
 
 setMethodS3("sort", "RawGenomicSignals", function(x, ...) {
@@ -600,7 +600,7 @@ setMethodS3("binnedSmoothing", "RawGenomicSignals", function(this, fields=NULL, 
     # Smoothing y and x (and w).
     Y <- cbind(dataY, x=x, w=weights);
     verbose && summary(verbose, Y);
-    xRank <- seq(length=nrow(Y));
+    xRank <- seq_len(nrow(Y));
     verbose && cat(verbose, "Positions (ranks):");
     verbose && str(verbose, xRank);
     verbose && cat(verbose, "Arguments:");
@@ -820,7 +820,7 @@ setMethodS3("binnedSmoothingByField", "RawGenomicSignals", function(this, field,
   if (byCount) {
     # Adding ordering along genome
     gs <- sort(this);
-    gs$xOrder <- seq(length=nbrOfLoci(gs));
+    gs$xOrder <- seq_len(nbrOfLoci(gs));
   } else {
     gs <- this;
   }
@@ -831,7 +831,7 @@ setMethodS3("binnedSmoothingByField", "RawGenomicSignals", function(this, field,
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Binning (target) stratified by field
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  for (ss in seq(along=setOfValuesOut)) {
+  for (ss in seq_along(setOfValuesOut)) {
     byValue <- setOfValuesOut[ss];
     verbose && enter(verbose, sprintf("Value #%d (%s == '%s') of %d", 
                                         ss, field, byValue, length(setOfValuesOut)));
@@ -842,7 +842,7 @@ setMethodS3("binnedSmoothingByField", "RawGenomicSignals", function(this, field,
     # Identify target loci with this byValue
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     verbose && enter(verbose, "Extracting subset of (target) loci for this value");
-    idxsOut <- whichVector(is.element(byValuesOut, byValue));
+    idxsOut <- which(is.element(byValuesOut, byValue));
     resSS <- extractSubset(res, idxsOut, verbose=less(verbose,50));
     verbose && print(verbose, resSS);
     xOutSS <- getPositions(resSS);
@@ -863,7 +863,7 @@ setMethodS3("binnedSmoothingByField", "RawGenomicSignals", function(this, field,
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     verbose && enter(verbose, "Extracting subset of (source) loci with this signal value");
     byValues <- gs[[field]];
-    idxsSS <- whichVector(is.element(byValues, byValue));
+    idxsSS <- which(is.element(byValues, byValue));
     gsSS <- extractSubset(gs, idxsSS);
     verbose && print(verbose, gsSS);
     # Sanity check
@@ -904,7 +904,7 @@ setMethodS3("binnedSmoothingByField", "RawGenomicSignals", function(this, field,
         verbose && cat(verbose, "Fields:");
         verbose && print(verbose, fieldsT);
 
-        for (ff in seq(along=fieldsT)) {
+        for (ff in seq_along(fieldsT)) {
           field <- fieldsT[ff];
           verbose && enter(verbose, sprintf("Field #%d ('%s') of %d", ff, field, length(fieldsT)));
           values <- gsSS[[field]];
@@ -979,7 +979,7 @@ setMethodS3("binnedSmoothingByField", "RawGenomicSignals", function(this, field,
   verbose && exit(verbose);
 
   res;
-}) # binnedSmoothingByField()
+}, protected=TRUE) # binnedSmoothingByField()
 
 
 

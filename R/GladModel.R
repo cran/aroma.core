@@ -66,7 +66,7 @@ setConstructorS3("GladModel", function(cesTuple=NULL, ...) {
 
 setMethodS3("getFitFunction", "GladModel", function(this, ...) {
   segmentByGLAD;
-});
+}, protected=TRUE)
 
 
 setMethodS3("writeRegions", "GladModel", function(this, arrays=NULL, format=c("xls", "wig"), digits=3, ..., oneFile=TRUE, skip=TRUE, verbose=FALSE) {
@@ -92,7 +92,7 @@ setMethodS3("writeRegions", "GladModel", function(this, arrays=NULL, format=c("x
   arrayNames <- getNames(this);
 
   path <- getPath(this);
-  mkdirs(path);
+  path <- Arguments$getWritablePath(path);
 
   if (oneFile) {
     filename <- sprintf("%s,regions.%s", fullname, format); 
@@ -104,7 +104,7 @@ setMethodS3("writeRegions", "GladModel", function(this, arrays=NULL, format=c("x
   }
 
   res <- list();
-  for (aa in seq(along=arrays)) {
+  for (aa in seq_along(arrays)) {
     array <- arrays[aa];
     name <- arrayNames[array];
     verbose && enter(verbose, sprintf("Array #%d ('%s') of %d", 
@@ -144,7 +144,7 @@ setMethodS3("writeRegions", "GladModel", function(this, arrays=NULL, format=c("x
           df <- df[-tooLong,];
           df <- rbind(df, dfXtra);
           rm(dfXtra);
-          row.names(df) <- seq(length=nrow(df));
+          row.names(df) <- seq_len(nrow(df));
         }
         verbose && exit(verbose);
         # Make sure the items are ordered correctly
@@ -159,7 +159,7 @@ setMethodS3("writeRegions", "GladModel", function(this, arrays=NULL, format=c("x
       }
   
       # Apply digits
-      for (cc in seq(length=ncol(df))) {
+      for (cc in seq_len(ncol(df))) {
         value <- df[,cc];
         if (is.double(value)) {
           df[,cc] <- round(value, digits=digits);
@@ -222,6 +222,12 @@ ylim <- c(-1,1);
 
 ##############################################################################
 # HISTORY:
+# 2012-10-21
+# o ROBUSTNESS: Now using Arguments$getWritablePath() instead of mkdirs()
+#   whereever applicable.  Soon, when Arguments$getWritablePath() will
+#   assert that (i) the requested path exists/or created, and (ii) allowing
+#   for small delay between creating the path and testing for it's existance
+#   on slow file systems.
 # 2009-05-16
 # o Added getFitFunction().  Removed fitOne().
 # 2007-09-04

@@ -139,13 +139,6 @@
 \alias{calculateChromosomeStatistics.CopyNumberChromosomalModel}
 \alias{calculateRatios}
 \alias{calculateRatios.CopyNumberChromosomalModel}
-\alias{clearCache.AromaTabularBinaryFile}
-\alias{clearCache.AromaTransform}
-\alias{clearCache.AromaUnitChromosomeTabularBinaryFile}
-\alias{clearCache.AromaUnitTabularBinaryFile}
-\alias{clearCache.ChromosomalModel}
-\alias{clearCache.CopyNumberChromosomalModel}
-\alias{clearCache.TextUnitNamesFile}
 \alias{cnRange}
 \alias{cnRange.RawCopyNumbers}
 \alias{colGaussianSmoothing}
@@ -432,7 +425,6 @@
 \alias{getIncludePath}
 \alias{getIncludePath.Explorer}
 \alias{getInputDataSet}
-\alias{getLabel.AromaMicroarrayDataFile}
 \alias{getListOfAromaUgpFiles}
 \alias{getListOfAromaUgpFiles.ChromosomalModel}
 \alias{getListOfChipEffectSets}
@@ -472,14 +464,11 @@
 \alias{getPairedNames.CopyNumberChromosomalModel}
 \alias{getParallelSafe}
 \alias{getParallelSafe.Explorer}
-\alias{getParameters.AromaTransform}
 \alias{getParametersAsString}
-\alias{getParametersAsString.AromaTransform}
 \alias{getParentPath}
 \alias{getParentPath.ChromosomalModel}
 \alias{getPath.ChromosomalModel}
 \alias{getPath.ChromosomeExplorer}
-\alias{getPath.Explorer}
 \alias{getPatterns}
 \alias{getPatterns.SampleAnnotationFile}
 \alias{getPhysicalPositions}
@@ -519,9 +508,7 @@
 \alias{getReportPathPattern}
 \alias{getReportPathPattern.Explorer}
 \alias{getRootPath}
-\alias{getRootPath.AromaTransform}
 \alias{getRootPath.ChromosomalModel}
-\alias{getRootPath.Explorer}
 \alias{getSampleLabels}
 \alias{getSampleLabels.ChromosomeExplorer}
 \alias{getSampleLayerName}
@@ -805,7 +792,6 @@
 \alias{setCytoband.ChromosomeExplorer}
 \alias{setGenome}
 \alias{setGenome.ChromosomalModel}
-\alias{setLabel.AromaMicroarrayDataFile}
 \alias{setLocusFields}
 \alias{setLocusFields.RawGenomicSignals}
 \alias{setName.RawGenomicSignals}
@@ -1283,6 +1269,7 @@
 \alias{writeDataFrame.AromaUnitPscnBinarySet}
 \alias{exportAromaUnitPscnBinarySet}
 \alias{exportAromaUnitPscnBinarySet.AromaUnitTotalCnBinarySet}
+\alias{exportAromaUnitPscnBinarySet.list}
 \alias{downloadAll}
 \alias{downloadAll.AromaRepository}
 \alias{listFiles}
@@ -1290,6 +1277,28 @@
 \alias{findAnnotationDataByChipType.AromaRepository}
 \alias{downloadUGC}
 \alias{downloadUGC.AromaRepository}
+\alias{AromaUnitGcContentFile}
+\alias{getColumnNames.AromaUnitGcContentFile}
+\alias{getExtensionPattern.AromaUnitGcContentFile}
+\alias{getFilenameExtension.AromaUnitGcContentFile}
+\alias{AromaUgcFile}
+\alias{getReference}
+\alias{getReference.CopyNumberChromosomalModel}
+\alias{setReference}
+\alias{setReference.CopyNumberChromosomalModel}
+\alias{getMaxNAFraction}
+\alias{getMaxNAFraction.CopyNumberChromosomalModel}
+\alias{getDefaultColumnNames.AromaCellCpgFile}
+\alias{getDefaultColumnNames.AromaCellPositionFile}
+\alias{getDefaultColumnNames.AromaCellSequenceFile}
+\alias{getDefaultColumnNames.AromaTabularBinaryFile}
+\alias{getDefaultColumnNames.AromaUflFile}
+\alias{getDefaultColumnNames.AromaUgpFile}
+\alias{getDefaultColumnNames.AromaUnitChromosomeTabularBinaryFile}
+\alias{getDefaultColumnNames.AromaUnitGcContentFile}
+\alias{getDefaultColumnNames.AromaUnitPscnBinaryFile}
+\alias{getParameterSets}
+\alias{getParameterSets.ParametersInterface}
 
 \description{
   This page contains aliases for all "non-documented" objects that

@@ -100,7 +100,7 @@ setMethodS3("writeDataFrame", "AromaUnitTabularBinaryFile", function(this, filen
   columns <- Arguments$getCharacters(columns);
 
   # Expand asterisk columns
-  idxs <- whichVector(columns == "*");
+  idxs <- which(columns == "*");
   if (length(idxs) > 0) {
     columns[idxs] <- paste(fields, collapse="\t");
     columns <- strsplit(columns, split="\t", fixed=TRUE);
@@ -240,7 +240,7 @@ setMethodS3("writeDataFrame", "AromaUnitTabularBinaryFile", function(this, filen
   verbose && exit(verbose);
 
   # For each data column
-  for (cc in seq(length=nbrOfColumns)) {
+  for (cc in seq_len(nbrOfColumns)) {
     values <- data[,cc, drop=TRUE];
 
     # Exporting all missing values as "NA" (not NaN).

@@ -86,26 +86,10 @@ setMethodS3("as.character", "ChromosomalModel", function(x, ...) {
 }, protected=TRUE)
 
 
-setMethodS3("clearCache", "ChromosomalModel", function(this, ...) {
-  # Clear all cached values.
-  # /AD HOC. clearCache() in Object should be enough! /HB 2007-01-16
-  for (ff in c()) {
-    this[[ff]] <- NULL;
-  }
-
-  if (!is.null(this$.cesTuple)) {
-    clearCache(this$.cesTuple);
-  }
-
-  # Then for this object
-  NextMethod(generic="clearCache", object=this, ...);
-})
-
-
 setMethodS3("getRootPath", "ChromosomalModel", function(this, ...) {
   tag <- getAsteriskTags(this)[1];
   sprintf("%sData", tolower(tag));
-})
+}, protected=TRUE)
 
 
 setMethodS3("getParentPath", "ChromosomalModel", function(this, ...) {
@@ -116,18 +100,12 @@ setMethodS3("getParentPath", "ChromosomalModel", function(this, ...) {
   fullname <- getFullName(this);
 
   # The full path
-  path <- filePath(rootPath, fullname, expandLinks="any");
-
-  # Create path?
-  if (!isDirectory(path)) {
-    mkdirs(path);
-    if (!isDirectory(path)) {
-      throw("Failed to create directory: ", path);
-    }
-  }
+  path <- filePath(rootPath, fullname);
+  path <- Arguments$getWritablePath(path);
 
   path;
-})
+}, protected=TRUE)
+
 
 setMethodS3("getPath", "ChromosomalModel", function(this, ...) {
   path <- getParentPath(this, ...);
@@ -136,15 +114,8 @@ setMethodS3("getPath", "ChromosomalModel", function(this, ...) {
   chipType <- getChipType(this);
 
   # The full path
-  path <- filePath(path, chipType, expandLinks="any");
-
-  # Create path?
-  if (!isDirectory(path)) {
-    mkdirs(path);
-    if (!isDirectory(path)) {
-      throw("Failed to create output directory: ", path);
-    }
-  }
+  path <- filePath(path, chipType);
+  path <- Arguments$getWritablePath(path);
 
   path;
 })
@@ -165,7 +136,8 @@ setMethodS3("getReportPath", "ChromosomalModel", function(this, ...) {
   set <- getSetTag(this);
 
   # The report path
-  path <- filePath(rootPath, name, tags, chipType, set, expandLinks="any");
+  path <- filePath(rootPath, name, tags, chipType, set);
+  path <- Arguments$getWritablePath(path);
 
   path;
 }, protected=TRUE)
@@ -275,7 +247,7 @@ setMethodS3("getListOfAromaUgpFiles", "ChromosomalModel", function(this, ..., ve
   verbose && exit(verbose);
 
   ugpList;
-})
+}, protected=TRUE)
 
 
 setMethodS3("getListOfUnitTypesFiles", "ChromosomalModel", function(this, ...) {
@@ -394,7 +366,7 @@ setMethodS3("getFullNames", "ChromosomalModel", function(this, ...) {
 setMethodS3("getTableOfArrays", "ChromosomalModel", function(this, ...) {
   tuple <- getSetTuple(this);
   getTableOfArrays(tuple, ...);
-}, deprecated=TRUE)
+}, protected=TRUE, deprecated=TRUE)
 
 
 setMethodS3("indexOf", "ChromosomalModel", function(this, patterns=NULL, ..., onMissing=c("error", "NA")) {
@@ -665,7 +637,7 @@ setMethodS3("getGenomeData", "ChromosomalModel", function(this, ..., verbose=FAL
   verbose && enter(verbose, "Translating chromosome names");
   chromosomes <- row.names(data);
   map <- c("X"=23, "Y"=24, "Z"=25);
-  for (kk in seq(along=map)) {
+  for (kk in seq_along(map)) {
     chromosomes <- gsub(names(map)[kk], map[kk], chromosomes, fixed=TRUE);
   }
   row.names(data) <- chromosomes;
@@ -703,7 +675,7 @@ setMethodS3("getOutputSet", "ChromosomalModel", function(this, ..., verbose=FALS
   path <- getPath(this);
   verbose && cat(verbose, "Path: ", path);
   fs <- GenericDataFileSet$byPath(path, ...);
-  verbose && cat(verbose, "Number of matching files located: ", nbrOfFiles(fs));
+  verbose && cat(verbose, "Number of matching files located: ", length(fs));
   verbose && exit(verbose);
 
   verbose && enter(verbose, "Keep those with fullnames matching the input data set");
@@ -724,7 +696,7 @@ setMethodS3("getOutputSet", "ChromosomalModel", function(this, ..., verbose=FALS
 
   if (any(!keep)) {
     verbose && enter(verbose, "Extract subset of files");
-    keep <- whichVector(keep);
+    keep <- which(keep);
     verbose && cat(verbose, "Keeping indices:");
     verbose && str(verbose, keep);
     fs <- extract(fs, keep);
@@ -743,12 +715,12 @@ setMethodS3("getOutputSet", "ChromosomalModel", function(this, ..., verbose=FALS
 
 setMethodS3("getAlias", "ChromosomalModel", function(this, ...) {
   this$.alias;
-})
+}, protected=TRUE)
 
 
 setMethodS3("getArrays", "ChromosomalModel", function(this, ...) {
   getNames(this, ...);
-}, deprecated=TRUE)
+}, protected=TRUE, deprecated=TRUE)
 
 
 

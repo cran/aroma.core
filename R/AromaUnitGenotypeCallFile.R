@@ -28,8 +28,8 @@ setConstructorS3("AromaUnitGenotypeCallFile", function(...) {
 
 
 setMethodS3("allocate", "AromaUnitGenotypeCallFile", function(static, ..., types=c("integer", "integer")) { 
-  allocate.AromaUnitCallFile(static, ..., types=types);
-}, static=TRUE)
+  NextMethod("allocate", types=types);
+}, static=TRUE, protected=TRUE)
 
 
 setMethodS3("isHomozygous", "AromaUnitGenotypeCallFile", function(this, ..., drop=FALSE) {
@@ -38,7 +38,7 @@ setMethodS3("isHomozygous", "AromaUnitGenotypeCallFile", function(this, ..., dro
   dim <- dim(calls);
 
   counts <- integer(dim[1]);
-  for (cc in seq(length=dim[2])) {
+  for (cc in seq_len(dim[2])) {
     counts <- counts + (calls[,cc,1] > 0);
   }
   rm(calls);
@@ -125,7 +125,7 @@ setMethodS3("extractGenotypeMatrix", "AromaUnitGenotypeCallFile", function(this,
   verbose && cat(verbose, "isGenotype:")
   verbose && str(verbose, isGenotype)
 ;
-  idxs <- whichVector(isGenotype[,1] & isGenotype[,2]);
+  idxs <- which(isGenotype[,1] & isGenotype[,2]);
   rm(isGenotype);
   if (length(idxs) > 0) {
     verbose && cat(verbose, "Genotypes identified: ", length(idxs));
@@ -136,10 +136,10 @@ setMethodS3("extractGenotypeMatrix", "AromaUnitGenotypeCallFile", function(this,
       allele <- c("A", "B")[jj];
       callsJJ <- calls[idxs,jj];
       uCalls <- sort(unique(callsJJ));
-      for (uu in seq(along=uCalls)) {
+      for (uu in seq_along(uCalls)) {
         count <- uCalls[uu];
         callsUU <- paste(rep(allele, times=count), collapse="");
-        idxsUU <- whichVector(callsJJ == count);
+        idxsUU <- which(callsJJ == count);
         resT[idxsUU] <- paste(resT[idxsUU], callsUU, sep="");
       } # for (uu ...)
       rm(callsJJ, idxsUU, uCalls);
@@ -154,14 +154,14 @@ setMethodS3("extractGenotypeMatrix", "AromaUnitGenotypeCallFile", function(this,
 
   # NoCall:s
   valueOnFile <- as.integer(maxValue+1);
-  idxs <- whichVector(calls[,1] == valueOnFile);
+  idxs <- which(calls[,1] == valueOnFile);
   if (length(idxs) > 0) {
      verbose && cat(verbose, "NoCalls identified: ", length(idxs));
      res[idxs] <- noCallValue;
   }
 
   # The remaining are "NA":s
-  idxs <- whichVector(is.na(res));
+  idxs <- which(is.na(res));
   if (length(idxs) > 0) {
     verbose && cat(verbose, "Missing calls identified: ", length(idxs));
     res[idxs] <- naValue;
@@ -415,16 +415,6 @@ setMethodS3("updateGenotypes", "AromaUnitGenotypeCallFile", function(this, units
   invisible(this);
 })
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-# DEPRECATED
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-setMethodS3("isHomozygote", "AromaUnitGenotypeCallFile", function(...) {
-  isHomozygous(...);
-}, private=TRUE, deprecated=TRUE)
-
-setMethodS3("isHeterozygote", "AromaUnitGenotypeCallFile", function(...) {
-  isHeterozygous(...);
-}, private=TRUE, deprecated=TRUE)
 
 
 ############################################################################

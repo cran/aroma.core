@@ -44,7 +44,7 @@ setMethodS3("as.character", "CopyNumberRegions", function(x, ...) {
   s <- c(s, sprintf("RAM: %.2fMB", objectSize(this)/1024^2));
   class(s) <- "GenericSummary";
   s;
-}, private=TRUE) 
+}, protected=TRUE)
 
 
 setMethodS3("nbrOfRegions", "CopyNumberRegions", function(this, ...) {
@@ -139,13 +139,13 @@ setMethodS3("applyRows", "CopyNumberRegions", function(this, FUN, ...) {
   if (nrow(data) > 0) {
     o <- order(data[,"chromosome"], data[,"start"]);
     data <- data[o,,drop=FALSE];
-    for (kk in seq(length=nrow(data))) {  
+    for (kk in seq_len(nrow(data))) {  
       res[[kk]] <- FUN(data[kk,,drop=FALSE], ...);
     }
   }
 
   res;
-})
+}, protected=TRUE)
 
 
 setMethodS3("drawLevels", "CopyNumberRegions", function(this, col="red", lwd=2, lty=1, xScale=1e-6, yScale=1, ...) {

@@ -30,11 +30,6 @@ setConstructorS3("RawCopyNumbers", function(cn=NULL, ...) {
 })
 
 
-setMethodS3("getPhysicalPositions", "RawCopyNumbers", function(this, ...) {
-  getPositions(this, ...);
-}, protected=TRUE, deprecated=TRUE)
-
-
 setMethodS3("getSignals", "RawCopyNumbers", function(this, ...) {
   this$cn;
 })
@@ -85,7 +80,7 @@ setMethodS3("extractRawCopyNumbers", "RawCopyNumbers", function(this, ..., logBa
 
 
 setMethodS3("plot", "RawCopyNumbers", function(x, ..., ylim=c(0,5), ylab="Copy number") {
-  NextMethod("plot", x, ..., ylim=ylim, ylab=ylab);
+  NextMethod("plot", ylim=ylim, ylab=ylab);
 })
 
 

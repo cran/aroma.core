@@ -48,10 +48,10 @@ setMethodS3("hasStrandiness", "AromaUnitPscnBinaryFile", function(this, ...) {
   FALSE;
 })
  
-setMethodS3("getColumnNames", "AromaUnitPscnBinaryFile", function(this, ...) {
+setMethodS3("getDefaultColumnNames", "AromaUnitPscnBinaryFile", function(this, ...) {
  stopifnot(nbrOfColumns(this) == 2L);
  c("total", "fracB");
-})
+}, protected=TRUE)
 
 
 setMethodS3("extractRawCopyNumbers", "AromaUnitPscnBinaryFile", function(this, ..., logBase=2L, clazz=RawCopyNumbers) {
@@ -81,8 +81,7 @@ setMethodS3("allocate", "AromaUnitPscnBinaryFile", function(static, ..., platfor
   chipType <- Arguments$getCharacter(chipType, length=c(1,1));
 
   # Create tabular binary file
-  res <- allocate.AromaTabularBinaryFile(static, generic="allocate", ...,
-                                  types=types, sizes=sizes, signeds=signed);
+  res <- NextMethod("allocate", generic="allocate", types=types, sizes=sizes, signeds=signed);
 
 
   # Write attributes to footer
@@ -95,7 +94,7 @@ setMethodS3("allocate", "AromaUnitPscnBinaryFile", function(static, ..., platfor
   writeFooter(res, footer);
 
   res;
-}, static=TRUE)
+}, static=TRUE, protected=TRUE)
 
 
 ############################################################################

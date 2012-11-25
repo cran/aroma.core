@@ -36,17 +36,17 @@ setMethodS3("getExtensionPattern", "AromaCellSequenceFile", function(static, ...
 }, static=TRUE, protected=TRUE)
 
 
-setMethodS3("getColumnNames", "AromaCellSequenceFile", function(this, ...) {
-  c(sprintf("b%02d", seq(from=1, to=nbrOfColumns(this)-1)), "targetStrand");
-})
+setMethodS3("getDefaultColumnNames", "AromaCellSequenceFile", function(this, ...) {
+  c(sprintf("b%02d", seq_len(getProbeLength(this))), "targetStrand");
+}, protected=TRUE)
 
 
 setMethodS3("getProbeLength", "AromaCellSequenceFile", function(this, ...) {
-  as.integer(nbrOfColumns(this, ...) - 1);
+  as.integer(nbrOfColumns(this, ...) - 1L);
 })
 
 
-setMethodS3("readSequenceMatrix", "AromaCellSequenceFile", function(this, cells=NULL, positions=seq(length=getProbeLength(this)), drop=FALSE, what=c("character", "raw"), ..., verbose=FALSE) {
+setMethodS3("readSequenceMatrix", "AromaCellSequenceFile", function(this, cells=NULL, positions=seq_len(getProbeLength(this)), drop=FALSE, what=c("character", "raw"), ..., verbose=FALSE) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -90,7 +90,7 @@ setMethodS3("readSequenceMatrix", "AromaCellSequenceFile", function(this, cells=
   if (what == "character") {
     verbose && enter(verbose, "Coerce to a character matrix");
     res <- as.integer(res);
-    res <- res + as.integer(1);
+    res <- res + 1L;
     res <- names(map)[res];
     verbose && exit(verbose);
   }
@@ -113,7 +113,7 @@ setMethodS3("readSequenceMatrix", "AromaCellSequenceFile", function(this, cells=
 
 
 setMethodS3("readPairSequenceMatrix", "AromaCellSequenceFile", function(this, ...) {
-  readNeighborSequenceMatrix(this, nbrOfNeighbors=2, ...);
+  readNeighborSequenceMatrix(this, nbrOfNeighbors=2L, ...);
 })
 
 
@@ -211,7 +211,7 @@ setMethodS3("readNeighborSequenceMatrix", "AromaCellSequenceFile", function(this
 
   verbose && enter(verbose, "Identifying non-missing sequences");
   # Only need to calculate non-missing sequences
-  rr <- whichVector(seqs[,1] != as.raw(0), na.rm=FALSE);
+  rr <- which(seqs[,1] != as.raw(0));
   verbose && exit(verbose);
 
 
@@ -224,12 +224,12 @@ setMethodS3("readNeighborSequenceMatrix", "AromaCellSequenceFile", function(this
     zeroValue <- 1;  storage.mode(zeroValue) <- calcWhat;
     oneValue <- 1;  storage.mode(oneValue) <- calcWhat;
 
-    basis <- rev(4^(1:nbrOfNeighbors-1));
+    basis <- rev(4^(1:nbrOfNeighbors-1L));
     storage.mode(basis) <- calcWhat;
     verbose && cat(verbose, "Basis:");
     verbose && print(verbose, basis);
   
-    for (cc in 1:ncol(res)) {
+    for (cc in seq_len(ncol(res))) {
       verbose && enter(verbose, sprintf("Position #%d of %d", cc, ncol(res)));
 
       values <- seqs[rr,cc];
@@ -323,7 +323,7 @@ setMethodS3("readSequences", "AromaCellSequenceFile", function(this, ..., verbos
   verbose && enter(verbose, "Allocating sequence strings");
   # Identify non-missing sequences
   idxs <- (res[,1] != as.raw(0));
-  idxs <- whichVector(idxs, na.rm=FALSE);
+  idxs <- which(idxs);
 
   # Keep only those
   res <- res[idxs,,drop=FALSE];
@@ -356,11 +356,11 @@ setMethodS3("readSequences", "AromaCellSequenceFile", function(this, ..., verbos
   names(values) <- names(map);
   verbose && print(verbose, values);
 
-  for (kk in seq(along=map)) {
+  for (kk in seq_along(map)) {
     verbose && enter(verbose, sprintf("Value #%d of %d", kk, length(map)));
     verbose && cat(verbose, "Translation: 0x", map[kk], " -> 0x", values[kk]);
     idxsT <- (res == map[kk]);
-    idxsT <- whichVector(idxsT, na.rm=FALSE);
+    idxsT <- which(idxsT);
     verbose && cat(verbose, "Number of occurances: ", length(idxsT));
     res[idxsT] <- values[kk];
     verbose && exit(verbose);
@@ -416,7 +416,7 @@ setMethodS3("readTargetStrands", "AromaCellSequenceFile", function(this, cells=N
 
   # Read data
   verbose && enter(verbose, "Reading data frame");
-  column <- whichVector("targetStrand" == getColumnNames(this));
+  column <- which("targetStrand" == getColumnNames(this));
   res <- readDataFrame(this, rows=cells, columns=column, drop=TRUE, verbose=less(verbose, 5));
   verbose && str(verbose, res);
   verbose && exit(verbose);
@@ -429,7 +429,7 @@ setMethodS3("readTargetStrands", "AromaCellSequenceFile", function(this, cells=N
   if (what == "character") {
     verbose && enter(verbose, "Coerce to a character matrix");
     res <- as.integer(res);
-    res <- res + as.integer(1);
+    res <- res + 1L;
     res <- names(map)[res];
     verbose && exit(verbose);
   }
@@ -483,7 +483,7 @@ setMethodS3("updateTargetStrands", "AromaCellSequenceFile", function(this, cells
   # Optimize
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Remove duplicated 'cells'
-  keep <- whichVector(!duplicated(cells));
+  keep <- which(!duplicated(cells));
   cells <- cells[keep];
   strands <- strands[keep];
   rm(keep);
@@ -507,7 +507,7 @@ setMethodS3("updateTargetStrands", "AromaCellSequenceFile", function(this, cells
 
   if (what == "character") {
     # Coerce to a raw vector
-    rawStrands <- rep(as.raw(0), length(strands));
+    rawStrands <- rep(as.raw(0), times=length(strands));
     rawStrands[(strands %in% fKeys)] <- map["+"];
     rawStrands[(strands %in% rKeys)] <- map["-"];
     strands <- rawStrands;
@@ -520,7 +520,7 @@ setMethodS3("updateTargetStrands", "AromaCellSequenceFile", function(this, cells
 
 
 
-setMethodS3("updateSequenceMatrix", "AromaCellSequenceFile", function(this, cells=NULL, positions=seq(length=getProbeLength(this)), seqs, ...) {
+setMethodS3("updateSequenceMatrix", "AromaCellSequenceFile", function(this, cells=NULL, positions=seq_len(getProbeLength(this)), seqs, ...) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -534,7 +534,7 @@ setMethodS3("updateSequenceMatrix", "AromaCellSequenceFile", function(this, cell
   # Argument 'positions':
   nbrOfPositions <- getProbeLength(this);
   if (is.null(positions)) {
-    positions <- 1:nbrOfPositions;
+    positions <- seq_len(nbrOfPositions);
   } else {
     positions <- Arguments$getIndices(positions, max=nbrOfPositions);
   }
@@ -561,7 +561,7 @@ setMethodS3("updateSequenceMatrix", "AromaCellSequenceFile", function(this, cell
   # Optimize
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Remove duplicated 'cells'
-  keep <- whichVector(!duplicated(cells));
+  keep <- which(!duplicated(cells));
   cells <- cells[keep];
   seqs <- seqs[keep,,drop=FALSE];
   rm(keep);
@@ -591,7 +591,7 @@ setMethodS3("updateSequenceMatrix", "AromaCellSequenceFile", function(this, cell
     seqs <- charToRaw(seqs);
 
     # Remap
-    for (kk in seq(along=map)) {
+    for (kk in seq_along(map)) {
       # Source value
       value <- names(map)[kk];
 
@@ -601,7 +601,7 @@ setMethodS3("updateSequenceMatrix", "AromaCellSequenceFile", function(this, cell
       } else {
         idxs <- (seqs == value);
       }
-      idxs <- whichVector(idxs, na.rm=FALSE);
+      idxs <- which(idxs);
 
       # Update their values
       seqs[idxs] <- map[kk];
@@ -615,7 +615,7 @@ setMethodS3("updateSequenceMatrix", "AromaCellSequenceFile", function(this, cell
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Update data file
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-  for (kk in seq(length=ncol(seqs))) {
+  for (kk in seq_len(ncol(seqs))) {
     pp <- positions[kk];
     this[cells,pp] <- seqs[,kk];
   }
@@ -661,8 +661,8 @@ setMethodS3("updateSequences", "AromaCellSequenceFile", function(this, ..., seqs
   # Remap
   from <- charToRaw(" ACGT");
   to <- as.raw(0:4);
-  for (kk in 1:5) {
-    idxs <- whichVector(seqs == from[kk]);
+  for (kk in seq_len(5L)) {
+    idxs <- which(seqs == from[kk]);
     seqs[idxs] <- to[kk];
   }
   
@@ -703,7 +703,7 @@ setMethodS3("countBases", "AromaCellSequenceFile", function(this, bases=c("A", "
     zeroValue <- as.raw(0);
     naValue <- as.raw(255);
   } else {
-    zeroValue <- as.integer(0);
+    zeroValue <- 0L;
     naValue <- as.integer(NA);
   }
 
@@ -711,7 +711,7 @@ setMethodS3("countBases", "AromaCellSequenceFile", function(this, bases=c("A", "
   counts <- countBasesInternal(this, mode=mode, ...);
 
   # Identify missing sequences
-  isMissing <- whichVector(counts[,1] != zeroValue, na.rm=FALSE);
+  isMissing <- which(counts[,1] != zeroValue);
 
   # Keep only bases of interest
   counts <- counts[,bases,drop=FALSE];
@@ -734,7 +734,7 @@ setMethodS3("countBases", "AromaCellSequenceFile", function(this, bases=c("A", "
   counts;
 })
 
-setMethodS3("countBasesInternal", "AromaCellSequenceFile", function(this, cells=NULL, positions=seq(length=getProbeLength(this)), mode=c("integer", "raw"), ..., force=FALSE, verbose=FALSE) {
+setMethodS3("countBasesInternal", "AromaCellSequenceFile", function(this, cells=NULL, positions=seq_len(getProbeLength(this)), mode=c("integer", "raw"), ..., force=FALSE, verbose=FALSE) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
@@ -784,7 +784,7 @@ setMethodS3("countBasesInternal", "AromaCellSequenceFile", function(this, cells=
   # Optimize reading order?
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   if (is.null(cells)) {
-    cells <- 1:nbrOfCells;
+    cells <- seq_len(nbrOfCells);
     reorder <- FALSE;
   } else {
     srt <- sort(cells, method="quick", index.return=TRUE);
@@ -801,12 +801,12 @@ setMethodS3("countBasesInternal", "AromaCellSequenceFile", function(this, cells=
   if (mode == "raw") {
     zeroValue <- as.raw(0);
   } else {
-    zeroValue <- as.integer(0);
+    zeroValue <- 0L;
   }
   counts <- matrix(zeroValue, nrow=nbrOfCells, ncol=5);
 
   map <- NULL;
-  for (kk in seq(along=positions)) {
+  for (kk in seq_along(positions)) {
     pp <- positions[kk];
     verbose && enter(verbose, sprintf("Position #%d (%d) of %d", kk, pp, length(positions)));
     seqs <- readSequenceMatrix(this, cells=cells, positions=pp, what="raw", drop=TRUE, verbose=less(verbose, 20));
@@ -818,19 +818,19 @@ setMethodS3("countBasesInternal", "AromaCellSequenceFile", function(this, cells=
 
     # Add to counts
     verbose && enter(verbose, "Summing counts");
-    for (bb in seq(length=ncol(counts))) {
+    for (bb in seq_len(ncol(counts))) {
       verbose && enter(verbose, sprintf("Nucleotide #%d of %d", bb, ncol(counts)));
       idxs <- (seqs == map[bb]);
-      idxs <- whichVector(idxs, na.rm=FALSE);
+      idxs <- which(idxs);
 
       verbose && cat(verbose, "Increment:");
       countsBB <- counts[idxs,bb];
       if (mode == "raw") {
         countsBB <- as.integer(countsBB);
-        countsBB <- countsBB + as.integer(1);
+        countsBB <- countsBB + 1L;
         countsBB <- as.raw(countsBB);
       } else {
-        countsBB <- countsBB + as.integer(1);
+        countsBB <- countsBB + 1L;
       }
       counts[idxs,bb] <- countsBB;
       rm(idxs, countsBB);
@@ -885,15 +885,11 @@ setMethodS3("allocate", "AromaCellSequenceFile", function(static, ..., nbrOfCell
     footer
   );
 
-  probeLengths <- 25;
-  nbrOfColumns <- probeLengths+1;
-  res <- allocate.AromaMicroarrayTabularBinaryFile(static, 
-                 nbrOfRows=nbrOfCells, ..., 
-                 types=rep("raw", nbrOfColumns), sizes=rep(1,nbrOfColumns), 
-                                                            footer=footer);
+  probeLengths <- 25L;
+  nbrOfColumns <- probeLengths + 1L;
 
-  res;
-}, static=TRUE)
+  NextMethod("allocate", nbrOfRows=nbrOfCells, types=rep("raw", times=nbrOfColumns), sizes=rep(1L, times=nbrOfColumns), footer=footer);
+}, static=TRUE, protected=TRUE)
 
 
 

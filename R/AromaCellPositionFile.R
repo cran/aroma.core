@@ -42,9 +42,9 @@ setMethodS3("getExtensionPattern", "AromaCellPositionFile", function(static, ...
 }, static=TRUE, protected=TRUE)
 
 
-setMethodS3("getColumnNames", "AromaCellPositionFile", function(this, ...) {
+setMethodS3("getDefaultColumnNames", "AromaCellPositionFile", function(this, ...) {
   c("chromosome", "position");
-})
+}, protected=TRUE)
 
 
 
@@ -158,7 +158,7 @@ setMethodS3("updatePositions", "AromaCellPositionFile", function(this, cells=NUL
   # Optimize
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   # Remove duplicated 'cells'
-  keep <- whichVector(!duplicated(cells));
+  keep <- which(!duplicated(cells));
   cells <- cells[keep];
   scores <- scores[keep];
   rm(keep);
@@ -208,12 +208,8 @@ setMethodS3("allocate", "AromaCellPositionFile", function(static, ..., nbrOfCell
     footer
   );
 
-  res <- allocate.AromaMicroarrayTabularBinaryFile(static, 
-                 nbrOfRows=nbrOfCells, ..., 
-                 types=rep("integer",2), sizes=c(1,4), footer=footer);
-
-  res;
-}, static=TRUE)
+  NextMethod("allocate", nbrOfRows=nbrOfCells, types=rep("integer", times=2L), sizes=c(1L,4L), footer=footer);
+}, static=TRUE, protected=TRUE)
 
 
 

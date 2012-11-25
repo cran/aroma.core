@@ -28,20 +28,21 @@ setMethodS3("nbrOfEnzymes", "AromaUflFile", function(this, ...) {
 })
 
 
-setMethodS3("getColumnNames", "AromaUflFile", function(this, ...) {
+setMethodS3("getDefaultColumnNames", "AromaUflFile", function(this, ...) {
   nbrOfColumns <- nbrOfColumns(this);
-  names <- rep("length", nbrOfColumns);
+  names <- rep("length", times=nbrOfColumns);
   tags <- sprintf(".%02d", 1:nbrOfColumns);
   tags[1] <- "";
   names <- paste(names, tags, sep="");
   names;
-})
+}, protected=TRUE)
+
 
 setMethodS3("readDataFrame", "AromaUflFile", function(this, ...) {
-  data <- NextMethod("readDataFrame", this, ...);
+  data <- NextMethod("readDataFrame");
 
   # Interpret zeros as NAs
-  for (cc in seq(length=ncol(data))) {
+  for (cc in seq_len(ncol(data))) {
     nas <- (data[,cc] == 0);
     data[nas,cc] <- NA;
   }
@@ -129,10 +130,10 @@ setMethodS3("summaryOfUnits", "AromaUflFile", function(this, enzymeLabels=paste(
   verbose && enter(verbose, "Building (unit, enzyme) classes");
   unitSets <- vector("list", length(unitClasses))
   names(unitSets) <- names(unitClasses);
-  for (ii in seq(along=unitClasses)) {
+  for (ii in seq_along(unitClasses)) {
     unitSet <- vector("list", length(enzymeClasses))
     names(unitSet) <- names(enzymeClasses)
-    for (jj in seq(along=enzymeClasses)) {
+    for (jj in seq_along(enzymeClasses)) {
       units <- intersect(unitClasses[[ii]], enzymeClasses[[jj]])
       unitSet[[jj]] <- units
     }
@@ -162,9 +163,8 @@ setMethodS3("allocate", "AromaUflFile", function(static, ..., nbrOfEnzymes=1, ty
   # Argument 'nbrOfEnzymes':
   nbrOfEnzymes <- Arguments$getInteger(nbrOfEnzymes, range=c(1,10));
 
-  # NextMethod() not supported here.
-  allocate.AromaUnitChromosomeTabularBinaryFile(static, types=types, sizes=sizes, ...);
-}, static=TRUE)
+  NextMethod("allocate", types=types, sizes=sizes);
+}, static=TRUE, protected=TRUE)
 
 
 
@@ -224,7 +224,7 @@ setMethodS3("importFromGenericTabularFile", "AromaUflFile", function(this, src, 
   }
 
   # Exclude units that are not in the annotation unit names file
-  keep <- whichVector(!is.na(units));
+  keep <- which(!is.na(units));
   data <- data[keep,, drop=FALSE];
   units <- units[keep];
   rm(keep);  # Not needed anymore
@@ -234,7 +234,7 @@ setMethodS3("importFromGenericTabularFile", "AromaUflFile", function(this, src, 
   }
 
   verbose && enter(verbose, "Updating UFL file");
-  for (cc in seq(length=nbrOfEnzymes)) {
+  for (cc in seq_len(nbrOfEnzymes)) {
     this[units,cc] <- data[,cc, drop=TRUE];
   }
   verbose && exit(verbose);
