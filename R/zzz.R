@@ -10,7 +10,7 @@
 ##getOption <- R.utils::getOption;
 ##lapply <- R.utils::lapply;
 append <- R.filesets::append;
-sapply <- R.filesets::sapply;
+##sapply <- R.filesets::sapply;
 
 ##.First.lib <- function(libname, pkgname) {
 .onAttach <- function(libname, pkgname) {
@@ -20,6 +20,5 @@ sapply <- R.filesets::sapply;
   # Setup package
   .setupAromaCore(pkg);
 
-  packageStartupMessage(getName(pkg), " v", getVersion(pkg), " (", 
-    getDate(pkg), ") successfully loaded. See ?", pkgname, " for help.");
+  startupMessage(pkg);
 }

@@ -48,6 +48,11 @@ setMethodS3("getAverageFile", "AromaUnitTotalCnBinarySet", function(this, name=N
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Argument 'this':
+  if (length(this) == 0L) {
+    throw("Cannot get average file. ", class(this)[1L], " is empty: ", getFullName(this));
+  }
+
   # Argument 'mean':
   if (is.character(mean)) {
     mean <- match.arg(mean);
@@ -97,7 +102,7 @@ setMethodS3("getAverageFile", "AromaUnitTotalCnBinarySet", function(this, name=N
   }
 
   # Argument 'indices':
-  df <- getFile(this, 1);
+  df <- getOneFile(this);
   nbrOfUnits <- nbrOfUnits(df);
   if (force) {
     if (identical(indices, "remaining")) {
@@ -244,7 +249,7 @@ setMethodS3("getAverageFile", "AromaUnitTotalCnBinarySet", function(this, name=N
   footer <- readFooter(res);
   params <- footer$params;
   if (length(params) == 0) {
-    srcFiles <- lapply(this, function(df) {
+    srcFiles <- lapply(this, FUN=function(df) {
       list(
         fullname = getFullName(df),
         fileSize = getFileSize(df),
@@ -279,7 +284,7 @@ setMethodS3("getAverageFile", "AromaUnitTotalCnBinarySet", function(this, name=N
     X <- matrix(naValue, nrow=length(idxs), ncol=nbrOfArrays);
     for (kk in arrays) {
       df <- getFile(this, kk);
-      X[,kk] <- df[idxs,1, drop=TRUE];
+      X[,kk] <- df[idxs,1L, drop=TRUE];
     }
     verbose && exit(verbose);
 

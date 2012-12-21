@@ -39,12 +39,13 @@
 # @author
 #*/###########################################################################
 setConstructorS3("AromaGenomeTextFile", function(...) {
-  extend(TabularTextFile(...), "AromaGenomeTextFile");
+  extend(TabularTextFile(...), c("AromaGenomeTextFile", 
+                                              uses("FileCacheKeyInterface")));
 })
 
 
-setMethodS3("readDataFrame", "AromaGenomeTextFile", function(this, ..., colClassPatterns=c("*"="NULL", chromosome="character", nbrOfBases="integer", nbrOfGenes="integer")) {
-  NextMethod("readDataFrame", colClassPatterns=colClassPatterns);
+setMethodS3("readDataFrame", "AromaGenomeTextFile", function(this, ..., colClasses=c("*"="NULL", chromosome="character", nbrOfBases="integer", nbrOfGenes="integer")) {
+  NextMethod("readDataFrame", colClasses=colClasses, ...);
 })
 
 
