@@ -329,7 +329,8 @@
   isPaired isPaired.CopyNumberChromosomalModel
   kernelSmoothing.RawGenomicSignals kernelSmoothingByState
   kernelSmoothingByState.SegmentedGenomicSignalsInterface
-  lapply.AromaTabularBinaryFile lapplyInChunks lapplyInChunks.numeric
+  colApply colApply.AromaTabularBinaryFile
+  lapplyInChunks lapplyInChunks.numeric
   library lines.CopyNumberOutliers lines.CopyNumberRegions
   lines.RawGenomicSignals listToXml listToXml.list locallyUnique
   locallyUnique.default log2abs log2center log2neg log2pos
@@ -528,7 +529,7 @@ loadAll loadAll.SampleAnnotationSet
   getAromaGenomeTextFile getAromaGenomeTextFile.ChromosomalModel
 getChromosomeLabels getChromosomeLabels.ChromosomeExplorer
 cat getOption
-append lapply sapply
+append lapply
   downloadACS downloadACS.AromaRepository downloadCDF
   downloadCDF.AromaRepository downloadChipTypeFile
   downloadProbeSeqsTXT downloadProbeSeqsTXT.AromaRepository downloadTXT
@@ -659,3 +660,4 @@ getDefaultColumnNames.AromaUnitChromosomeTabularBinaryFile
 getDefaultColumnNames.AromaUnitGcContentFile
 getDefaultColumnNames.AromaUnitPscnBinaryFile
 getParameterSets getParameterSets.ParametersInterface
+getCacheKey
