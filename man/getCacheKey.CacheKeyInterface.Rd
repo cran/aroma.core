@@ -9,9 +9,7 @@
 \name{getCacheKey.CacheKeyInterface}
 \alias{getCacheKey.CacheKeyInterface}
 \alias{CacheKeyInterface.getCacheKey}
-\alias{getCacheKey.CacheKeyInterface}
 \alias{getCacheKey,CacheKeyInterface-method}
-
 
 \title{Gets a list of cache key items}
 
@@ -20,7 +18,9 @@
  generate the cache key.
 }
 
-\usage{\method{getCacheKey}{CacheKeyInterface}(this, ...)}
+\usage{
+\method{getCacheKey}{CacheKeyInterface}(this, ...)
+}
 
 \arguments{
  \item{...}{Additional named arguments to be appended to the list
@@ -41,7 +41,7 @@
  override these items.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{CacheKeyInterface}}.

@@ -9,9 +9,7 @@
 \name{getRootPath.Explorer}
 \alias{getRootPath.Explorer}
 \alias{Explorer.getRootPath}
-\alias{getRootPath.Explorer}
 \alias{getRootPath,Explorer-method}
-
 
 \title{Gets the root path of the output directory}
 
@@ -20,7 +18,9 @@
  A root path is a directory in the current working directory.
 }
 
-\usage{\method{getRootPath}{Explorer}(this, ...)}
+\usage{
+\method{getRootPath}{Explorer}(this, ...)
+}
 
 \arguments{
   \item{...}{Not used.}
@@ -30,7 +30,7 @@
  Returns a \code{\link[base]{character}} string.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   \code{\link[aroma.core:getPath.Explorer]{*getPath}()}.

@@ -9,9 +9,7 @@
 \name{getInputDataSet.AromaTransform}
 \alias{getInputDataSet.AromaTransform}
 \alias{AromaTransform.getInputDataSet}
-\alias{getInputDataSet.AromaTransform}
 \alias{getInputDataSet,AromaTransform-method}
-
 
 \title{Gets the input data set}
 
@@ -19,7 +17,9 @@
  Gets the input data set that is to be (or has been) transformed.
 }
 
-\usage{\method{getInputDataSet}{AromaTransform}(this, ...)}
+\usage{
+\method{getInputDataSet}{AromaTransform}(this, ...)
+}
 
 \arguments{
   \item{...}{Not used.}
@@ -29,7 +29,7 @@
  Returns an \code{\link{AromaMicroarrayDataSet}}.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{AromaTransform}}.

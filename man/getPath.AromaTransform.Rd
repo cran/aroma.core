@@ -9,9 +9,7 @@
 \name{getPath.AromaTransform}
 \alias{getPath.AromaTransform}
 \alias{AromaTransform.getPath}
-\alias{getPath.AromaTransform}
 \alias{getPath,AromaTransform-method}
-
 
 \title{Gets the path of the output directory}
 
@@ -19,7 +17,9 @@
  Gets the path of the output directory.
 }
 
-\usage{\method{getPath}{AromaTransform}(this, create=TRUE, ...)}
+\usage{
+\method{getPath}{AromaTransform}(this, create=TRUE, ...)
+}
 
 \arguments{
   \item{create}{If \code{\link[base:logical]{TRUE}}, the path is created, otherwise not.}
@@ -34,7 +34,7 @@
   Windows Shortcut links are recognized.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{AromaTransform}}.

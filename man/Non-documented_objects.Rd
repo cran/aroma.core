@@ -841,6 +841,7 @@
 \alias{sqrtcenter}
 \alias{sqrtneg}
 \alias{sqrtpos}
+\alias{sqrtsign}
 \alias{stextChipType}
 \alias{stextChipType.character}
 \alias{stextLabel}
@@ -1313,7 +1314,7 @@
   The rest are deprecated methods.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 
 \keyword{documentation}

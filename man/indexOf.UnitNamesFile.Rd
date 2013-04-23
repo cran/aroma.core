@@ -9,9 +9,7 @@
 \name{indexOf.UnitNamesFile}
 \alias{indexOf.UnitNamesFile}
 \alias{UnitNamesFile.indexOf}
-\alias{indexOf.UnitNamesFile}
 \alias{indexOf,UnitNamesFile-method}
-
 
 \title{Gets the indices of units by their names}
 
@@ -19,7 +17,9 @@
  Gets the indices of units by their names.
 }
 
-\usage{\method{indexOf}{UnitNamesFile}(this, pattern=NULL, names=NULL, ...)}
+\usage{
+\method{indexOf}{UnitNamesFile}(this, pattern=NULL, names=NULL, ...)
+}
 
 \arguments{
   \item{pattern}{A pattern to be used for identifying unit names of
@@ -33,7 +33,7 @@
  in the underlying annotation chip type file.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   \code{\link[aroma.core:getUnitNames.UnitNamesFile]{*getUnitNames}()}.

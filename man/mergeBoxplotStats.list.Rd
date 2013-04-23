@@ -9,8 +9,6 @@
 
  \name{mergeBoxplotStats.list}
 \alias{mergeBoxplotStats.list}
-\alias{mergeBoxplotStats.list}
-
 
  \title{Merges a list of boxplot.stats() elements}
 
@@ -18,7 +16,9 @@
   Merges a list of boxplot.stats() elements.
  }
 
- \usage{\method{mergeBoxplotStats}{list}(stats, ...)}
+ \usage{
+\method{mergeBoxplotStats}{list}(stats, ...)
+}
 
  \arguments{
    \item{stats}{A \code{\link[base]{list}} of elements each in a format returned by
@@ -46,7 +46,7 @@ bxp(stats1b)
 
 }
 
- \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+ \author{Henrik Bengtsson}
 
 
 \keyword{methods}

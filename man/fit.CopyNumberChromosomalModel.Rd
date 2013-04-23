@@ -9,9 +9,7 @@
 \name{fit.CopyNumberChromosomalModel}
 \alias{fit.CopyNumberChromosomalModel}
 \alias{CopyNumberChromosomalModel.fit}
-\alias{fit.CopyNumberChromosomalModel}
 \alias{fit,CopyNumberChromosomalModel-method}
-
 
 \title{Fits the model}
 
@@ -19,7 +17,9 @@
  Fits the model.
 }
 
-\usage{\method{fit}{CopyNumberChromosomalModel}(...)}
+\usage{
+\method{fit}{CopyNumberChromosomalModel}(...)
+}
 
 \arguments{
   \item{...}{See subclasses.}
@@ -29,7 +29,7 @@
  See subclasses.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{CopyNumberChromosomalModel}}.

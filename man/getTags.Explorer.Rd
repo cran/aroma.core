@@ -9,9 +9,7 @@
 \name{getTags.Explorer}
 \alias{getTags.Explorer}
 \alias{Explorer.getTags}
-\alias{getTags.Explorer}
 \alias{getTags,Explorer-method}
-
 
 \title{Gets the tags of the explorer}
 
@@ -19,7 +17,9 @@
  Gets the tags of the explorer, which are the tags of the data set plus additional tags.
 }
 
-\usage{\method{getTags}{Explorer}(this, collapse=NULL, ...)}
+\usage{
+\method{getTags}{Explorer}(this, collapse=NULL, ...)
+}
 
 \arguments{
   \item{...}{Not used.}
@@ -29,7 +29,7 @@
  Returns a \code{\link[base]{character}} \code{\link[base]{vector}}.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{Explorer}}.

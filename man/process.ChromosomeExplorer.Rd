@@ -9,9 +9,7 @@
 \name{process.ChromosomeExplorer}
 \alias{process.ChromosomeExplorer}
 \alias{ChromosomeExplorer.process}
-\alias{process.ChromosomeExplorer}
 \alias{process,ChromosomeExplorer-method}
-
 
 \title{Generates image files, scripts and dynamic pages for the explorer}
 
@@ -19,7 +17,9 @@
  Generates image files, scripts and dynamic pages for the explorer.
 }
 
-\usage{\method{process}{ChromosomeExplorer}(this, arrays=NULL, chromosomes=NULL, ..., zooms=getZooms(this), layers=FALSE, verbose=FALSE)}
+\usage{
+\method{process}{ChromosomeExplorer}(this, arrays=NULL, chromosomes=NULL, ..., zooms=getZooms(this), layers=FALSE, verbose=FALSE)
+}
 
 \arguments{
   \item{arrays}{A \code{\link[base]{vector}} of arrays specifying which arrays to
@@ -34,7 +34,7 @@
  Returns nothing.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{ChromosomeExplorer}}.

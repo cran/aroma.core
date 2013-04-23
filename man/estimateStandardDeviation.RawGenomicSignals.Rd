@@ -10,9 +10,7 @@
 \name{estimateStandardDeviation.RawGenomicSignals}
 \alias{estimateStandardDeviation.RawGenomicSignals}
 \alias{RawGenomicSignals.estimateStandardDeviation}
-\alias{estimateStandardDeviation.RawGenomicSignals}
 \alias{estimateStandardDeviation,RawGenomicSignals-method}
-
 
 \title{Estimates the standard deviation of the raw Ys}
 
@@ -21,7 +19,9 @@
  or a first-order difference estimator.
 }
 
-\usage{\method{estimateStandardDeviation}{RawGenomicSignals}(this, field=NULL, method=c("diff", "direct"), estimator=c("mad", "sd"), na.rm=TRUE, weights=getWeights(this), ...)}
+\usage{
+\method{estimateStandardDeviation}{RawGenomicSignals}(this, field=NULL, method=c("diff", "direct"), estimator=c("mad", "sd"), na.rm=TRUE, weights=getWeights(this), ...)
+}
 
 \arguments{
   \item{field}{A \code{\link[base]{character}} specifying the field to estimate.}
@@ -39,7 +39,7 @@
  Returns a non-negative \code{\link[base]{numeric}} value.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   \code{\link[base]{diff}}(), \code{\link[stats]{sd}}, and \code{\link[stats]{mad}}.

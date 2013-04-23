@@ -9,9 +9,7 @@
 \name{getParameters.ParametersInterface}
 \alias{getParameters.ParametersInterface}
 \alias{ParametersInterface.getParameters}
-\alias{getParameters.ParametersInterface}
 \alias{getParameters,ParametersInterface-method}
-
 
 \title{Gets a list of parameters}
 
@@ -19,7 +17,9 @@
  Gets a list of parameters associated with the object.
 }
 
-\usage{\method{getParameters}{ParametersInterface}(this, ...)}
+\usage{
+\method{getParameters}{ParametersInterface}(this, ...)
+}
 
 \arguments{
  \item{...}{Not used.}
@@ -29,7 +29,7 @@
  Returns a named \code{\link[base]{list}}.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{ParametersInterface}}.

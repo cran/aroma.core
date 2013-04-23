@@ -9,9 +9,7 @@
 \name{setArrays.ChromosomeExplorer}
 \alias{setArrays.ChromosomeExplorer}
 \alias{ChromosomeExplorer.setArrays}
-\alias{setArrays.ChromosomeExplorer}
 \alias{setArrays,ChromosomeExplorer-method}
-
 
 \title{Sets the arrays}
 
@@ -19,7 +17,9 @@
  Sets the arrays to be processed by the explorer.
 }
 
-\usage{\method{setArrays}{ChromosomeExplorer}(this, ...)}
+\usage{
+\method{setArrays}{ChromosomeExplorer}(this, ...)
+}
 
 \arguments{
   \item{...}{Not used.}
@@ -29,7 +29,7 @@
  Returns a \code{\link[base]{character}} \code{\link[base]{vector}}.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{ChromosomeExplorer}}.

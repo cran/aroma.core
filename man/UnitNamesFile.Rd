@@ -35,7 +35,9 @@ extends \link[aroma.core]{UnitAnnotationDataFile}\cr
   a given chip type.
  }
 
- \usage{UnitNamesFile(...)}
+ \usage{
+UnitNamesFile(...)
+}
 
  \arguments{
    \item{...}{Arguments passed to \code{\link{UnitAnnotationDataFile}}.}
@@ -59,5 +61,5 @@ extend, print, uses
 
  }
 
- \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+ \author{Henrik Bengtsson}
 \keyword{classes}

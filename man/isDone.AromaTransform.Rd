@@ -9,9 +9,7 @@
 \name{isDone.AromaTransform}
 \alias{isDone.AromaTransform}
 \alias{AromaTransform.isDone}
-\alias{isDone.AromaTransform}
 \alias{isDone,AromaTransform-method}
-
 
 \title{Checks if the data set is processed or not}
 
@@ -19,7 +17,9 @@
  Checks if the data set is processed or not.
 }
 
-\usage{\method{isDone}{AromaTransform}(this, ..., verbose=FALSE)}
+\usage{
+\method{isDone}{AromaTransform}(this, ..., verbose=FALSE)
+}
 
 \arguments{
   \item{...}{Not used.}
@@ -30,7 +30,7 @@
  Returns \code{\link[base:logical]{TRUE}} if the data set is processed, otherwise \code{\link[base:logical]{FALSE}}.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{AromaTransform}}.
