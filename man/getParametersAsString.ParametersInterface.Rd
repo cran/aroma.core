@@ -9,9 +9,7 @@
 \name{getParametersAsString.ParametersInterface}
 \alias{getParametersAsString.ParametersInterface}
 \alias{ParametersInterface.getParametersAsString}
-\alias{getParametersAsString.ParametersInterface}
 \alias{getParametersAsString,ParametersInterface-method}
-
 
 \title{Gets the parameters as character}
 
@@ -19,7 +17,9 @@
  Gets the parameters as character.
 }
 
-\usage{\method{getParametersAsString}{ParametersInterface}(this, ..., collapse=c(", ", "; "), drop=TRUE)}
+\usage{
+\method{getParametersAsString}{ParametersInterface}(this, ..., collapse=c(", ", "; "), drop=TRUE)
+}
 
 \arguments{
  \item{...}{Arguments passed to \code{\link[aroma.core:getParameters.ParametersInterface]{*getParameters}()}.}
@@ -33,7 +33,7 @@
  Returns a \code{\link[base]{list}} of \code{\link[base]{character}} \code{\link[base]{vector}}s, or a \code{\link[base]{character}} \code{\link[base]{vector}}.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{ParametersInterface}}.

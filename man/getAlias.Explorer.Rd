@@ -9,9 +9,7 @@
 \name{getAlias.Explorer}
 \alias{getAlias.Explorer}
 \alias{Explorer.getAlias}
-\alias{getAlias.Explorer}
 \alias{getAlias,Explorer-method}
-
 
 \title{Gets the alias of the output set}
 
@@ -19,7 +17,9 @@
   Gets the alias of the output set.
 }
 
-\usage{\method{getAlias}{Explorer}(this, ...)}
+\usage{
+\method{getAlias}{Explorer}(this, ...)
+}
 
 \arguments{
  \item{...}{Not used.}
@@ -29,7 +29,7 @@
   Returns a \code{\link[base]{character}}, or \code{\link[base]{NULL}} if no alias is set.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   \code{\link[aroma.core:setAlias.Explorer]{*setAlias}()}.

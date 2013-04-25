@@ -9,9 +9,7 @@
 \name{getModel.ChromosomeExplorer}
 \alias{getModel.ChromosomeExplorer}
 \alias{ChromosomeExplorer.getModel}
-\alias{getModel.ChromosomeExplorer}
 \alias{getModel,ChromosomeExplorer-method}
-
 
 \title{Gets the model}
 
@@ -19,7 +17,9 @@
  Gets the model for which the explorer is displaying it results.
 }
 
-\usage{\method{getModel}{ChromosomeExplorer}(this, ...)}
+\usage{
+\method{getModel}{ChromosomeExplorer}(this, ...)
+}
 
 \arguments{
   \item{...}{Not used.}
@@ -29,7 +29,7 @@
  Returns a \code{\link{CopyNumberChromosomalModel}}.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{ChromosomeExplorer}}.

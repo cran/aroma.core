@@ -9,8 +9,6 @@
 
 \name{as.GrayscaleImage.matrix}
 \alias{as.GrayscaleImage.matrix}
-\alias{as.GrayscaleImage.matrix}
-
 
 \title{Creates a Grayscale (TrueColor) Image from a matrix file}
 
@@ -18,7 +16,9 @@
  Creates a Grayscale (TrueColor) Image from a matrix file.
 }
 
-\usage{\method{as.GrayscaleImage}{matrix}(z, transforms=NULL, interleaved=c("none", "h", "v", "auto"), scale=1, ..., verbose=FALSE)}
+\usage{
+\method{as.GrayscaleImage}{matrix}(z, transforms=NULL, interleaved=c("none", "h", "v", "auto"), scale=1, ..., verbose=FALSE)
+}
 
 \arguments{
   \item{z}{A KxN \code{\link[base]{matrix}}.}
@@ -35,7 +35,7 @@
   Returns a bitmap image object.
 }
 
-\author{Henrik Bengtsson and Ken Simpson.}
+\author{Henrik Bengtsson, Ken Simpson}
 
 \seealso{
   For more information see \code{\link{matrix}}.

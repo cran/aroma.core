@@ -9,9 +9,7 @@
 \name{getTags.AromaTransform}
 \alias{getTags.AromaTransform}
 \alias{AromaTransform.getTags}
-\alias{getTags.AromaTransform}
 \alias{getTags,AromaTransform-method}
-
 
 \title{Gets the tags of the output data set}
 
@@ -20,7 +18,9 @@
  of this transformation.
 }
 
-\usage{\method{getTags}{AromaTransform}(this, collapse=NULL, ...)}
+\usage{
+\method{getTags}{AromaTransform}(this, collapse=NULL, ...)
+}
 
 \arguments{
  \item{...}{Not used.}
@@ -30,7 +30,7 @@
  Returns a \code{\link[base]{character}} \code{\link[base]{vector}}.
 }
 
-\author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+\author{Henrik Bengtsson}
 
 \seealso{
   For more information see \code{\link{AromaTransform}}.

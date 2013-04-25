@@ -30,7 +30,9 @@ extends \link[R.oo]{Interface}\cr
 
  }
 
- \usage{ParametersInterface(...)}
+ \usage{
+ParametersInterface(...)
+}
 
  \arguments{
    \item{...}{Not used.}
@@ -50,5 +52,5 @@ extend, print, uses
 
  }
 
- \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+ \author{Henrik Bengtsson}
 \keyword{classes}

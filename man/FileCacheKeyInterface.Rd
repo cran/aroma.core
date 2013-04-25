@@ -32,7 +32,9 @@ extends \link[aroma.core]{CacheKeyInterface}\cr
 
  }
 
- \usage{FileCacheKeyInterface(...)}
+ \usage{
+FileCacheKeyInterface(...)
+}
 
  \arguments{
    \item{...}{Not used.}
@@ -54,7 +56,7 @@ extend, print, uses
 
  }
 
- \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+ \author{Henrik Bengtsson}
 
 
 \keyword{classes}

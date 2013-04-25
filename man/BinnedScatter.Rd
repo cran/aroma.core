@@ -30,7 +30,9 @@ extends list\cr
 
  }
 
- \usage{BinnedScatter(data=NULL, density=NULL, map=NULL, params=NULL)}
+ \usage{
+BinnedScatter(data=NULL, density=NULL, map=NULL, params=NULL)
+}
 
  \arguments{
    \item{data}{A Nx2 @numaric \code{\link[base]{matrix}}.}
@@ -87,7 +89,7 @@ for (kk in seq(along=rhos)) {
 }
 }
 
- \author{Henrik Bengtsson (\url{http://www.braju.com/R/})}
+ \author{Henrik Bengtsson}
 
  \seealso{
    The spatial density is estimated by internal functions of the
