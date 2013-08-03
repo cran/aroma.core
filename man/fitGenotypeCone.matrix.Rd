@@ -7,45 +7,45 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
- \name{fitGenotypeCone.matrix}
+\name{fitGenotypeCone.matrix}
 \alias{fitGenotypeCone.matrix}
 
- \title{Fits an affine transformation to allele A and allele B data}
+\title{Fits an affine transformation to allele A and allele B data}
 
- \description{
-  Fits an affine transformation to allele A and allele B data using robust estimators.
- }
+\description{
+ Fits an affine transformation to allele A and allele B data using robust estimators.
+}
 
- \usage{
+\usage{
 \method{fitGenotypeCone}{matrix}(y, flavor=c("sfit", "expectile"), ...)
 }
 
- \arguments{
-   \item{y}{A \code{\link[base]{numeric}} Nx2 \code{\link[base]{matrix}} with one column for each allele and
-      where N is the number of data points.}
-   \item{flavor}{A \code{\link[base]{character}} string specifying what model/algorithm
-      should be used to fit the genotype cone.}
-   \item{...}{Additional arguments passed to the internal fit \code{\link[base]{function}}.}
- }
+\arguments{
+  \item{y}{A \code{\link[base]{numeric}} Nx2 \code{\link[base]{matrix}} with one column for each allele and
+     where N is the number of data points.}
+  \item{flavor}{A \code{\link[base]{character}} string specifying what model/algorithm
+     should be used to fit the genotype cone.}
+  \item{...}{Additional arguments passed to the internal fit \code{\link[base]{function}}.}
+}
 
- \value{
-   Returns a named \code{\link[base]{list}} structure.
- }
+\value{
+  Returns a named \code{\link[base]{list}} structure.
+}
 
- \examples{
+\examples{
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Fit genotype cone based on available methods (==packages)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 flavors <- c("sfit", "expectile")
 keep <- sapply(flavors, FUN=require, character.only=TRUE)
 flavors <- flavors[keep]
-cat("Available fitting flavors:", paste(flavors, collapse=", "), "\n");
+cat("Available fitting flavors:", paste(flavors, collapse=", "), "\n")
 
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Simulate data (taken from the cfit.matrix() example of 'sfit')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-#set.seed(0xbeef);
+#set.seed(0xbeef)
 
 N <- 1000
 
@@ -88,20 +88,20 @@ for (kk in seq(along=alphas)) {
     fit <- fitGenotypeCone(Y, alpha=alphas[kk], flavor=flavor)
     radials(fit$M, lwd=3, col=cols[kk], lty=ifelse(flavor == "sfit", 1,2))
     drawApex(fit$M, col=cols[kk], pch=19, cex=2)
-    YN <- backtransformGenotypeCone(Y, fit=fit);
-    points(YN, col=cols[kk]);
+    YN <- backtransformGenotypeCone(Y, fit=fit)
+    points(YN, col=cols[kk])
   }
 }
 lines(x=c(0,0,2*lim[2]), y=c(2*lim[2],0,0), col="#aaaaaa", lwd=3, lty=3)
 }
 
- \author{Henrik Bengtsson}
+\author{Henrik Bengtsson}
 
- \seealso{
-  To backtransform data fitted using this method,
-  see \code{\link{backtransformGenotypeCone}}().
-  Internally, the \code{cfit()} function the \pkg{sfit} package is used.
- }
+\seealso{
+ To backtransform data fitted using this method,
+ see \code{\link{backtransformGenotypeCone}}().
+ Internally, the \code{cfit()} function the \pkg{sfit} package is used.
+}
 
 
 \keyword{methods}

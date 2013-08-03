@@ -1,6 +1,50 @@
 Package: aroma.core
 ===================
 
+Version: 2.10.0 [2013-08-03]
+o Bumped version for CRAN submission.
+o Updated package dependences.
+o Package passes all redundancy tests.
+
+
+Version: 2.9.7 [2013-07-20]
+o CLEANUP: Replaced all internal x11() with dev.new() calls.
+o CLEANUP: Moved more packages from Depends to Imports.
+o Updated package dependences.
+
+
+Version: 2.9.6 [2013-06-01]
+o Added findFilesTodo() for AromaTransform.
+
+
+Version: 2.9.5 [2013-05-30]
+o DOCUMENTATION: Now help("doCBS") documents all doCBS() methods.
+o Now it's possible to call aroma.core::doCBS() without loading package.
+o Turned doCBS() into a default method, cf. aroma.affymetrix::doRMA().
+
+
+Version: 2.9.4 [2013-05-25]
+o SPEEDUP: Replaced all rm() calls with NULL assignments.
+
+
+Version: 2.9.3 [2013-05-22]
+o CLEANUP: Now using getChecksum() instead of (internal)
+  R.filesets::digest2() with identical results.
+
+
+Version: 2.9.2 [2013-05-22]
+o BUG FIX: extractRawCopyNumbers() for CopyNumberChromosomalModel
+  would throw 'Error in UseMethod("getChecksum") : no applicable
+  method for 'getChecksum' applied to an object of class "list"'
+  if (and only if) R.cache package was not attached.
+  Thanks Yadav Sapkota at University of Alberta for reporting on this.
+
+
+Version: 2.9.1 [2013-05-20]
+o CRAN POLICY: Now all Rd \usage{} lines are at most 90 characters long.
+o CRAN POLICY: Now all Rd example lines are at most 100 characters long.
+
+
 Version: 2.9.0 [2013-04-23]
 o No updates.
 o Bumped version for CRAN submission.

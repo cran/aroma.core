@@ -930,9 +930,6 @@
 \alias{isCompatibleWith}
 \alias{isCompatibleWith.AromaPlatformInterface}
 \alias{getTags.Arguments}
-\alias{doCBS}
-\alias{doCBS.CopyNumberDataSet}
-\alias{doCBS.CopyNumberDataSetTuple}
 \alias{getOutputSet}
 \alias{getOutputSet.ChromosomalModel}
 \alias{setAttributesBy.AromaTabularBinarySet}
@@ -1301,6 +1298,11 @@
 \alias{getParameterSets}
 \alias{getParameterSets.ParametersInterface}
 \alias{getCacheKey}
+\alias{findFilesTodo}
+\alias{colMedians}
+\alias{getParameters}
+\alias{write}
+\alias{write.default}
 
 \description{
   This page contains aliases for all "non-documented" objects that
