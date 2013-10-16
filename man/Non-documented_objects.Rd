@@ -146,7 +146,6 @@
 \alias{colMeans}
 \alias{colMeans.AromaTabularBinaryFile}
 \alias{colMeans.default}
-\alias{colMedians.AromaTabularBinaryFile}
 \alias{colorize}
 \alias{colorize.Image}
 \alias{colStats}
@@ -739,7 +738,6 @@
 \alias{pointsSequence}
 \alias{pointsSequence.ProbePositionEffects}
 \alias{predict.ProbePositionEffects}
-\alias{process}
 \alias{readColumns.AromaTabularBinaryFile}
 \alias{readData}
 \alias{readData.SampleAnnotationFile}
@@ -1299,10 +1297,13 @@
 \alias{getParameterSets.ParametersInterface}
 \alias{getCacheKey}
 \alias{findFilesTodo}
-\alias{colMedians}
 \alias{getParameters}
 \alias{write}
 \alias{write.default}
+\alias{setChromosomes}
+\alias{getAlias}
+\alias{setAlias}
+\alias{process}
 
 \description{
   This page contains aliases for all "non-documented" objects that
