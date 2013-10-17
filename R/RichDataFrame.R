@@ -129,7 +129,7 @@ setMethodS3("getColumnNames", "RichDataFrame", function(this, virtual=TRUE, tran
 
 setMethodS3("names", "RichDataFrame", function(x) {
   getColumnNames(x);
-}, createGeneric=FALSE, appendVarArgs=FALSE) # names()
+}, appendVarArgs=FALSE)
 
 
 setMethodS3("hasColumns", "RichDataFrame", function(this, names, ...) {
@@ -704,8 +704,7 @@ setMethodS3("rbind", "RichDataFrame", function(..., deparse.level=1) {
   res <- setAttributes(res, attributes(this));
 
   res;
-}, createGeneric=FALSE) # rbind()
-
+}) # rbind()
 
 
 ############################################################################

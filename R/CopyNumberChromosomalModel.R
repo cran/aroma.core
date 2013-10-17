@@ -22,6 +22,8 @@
 #   }
 #   \item{tags}{A @character @vector of tags.}
 #   \item{genome}{A @character string specifying what genome is process.}
+#   \item{chromosomes}{(optional) A @vector specifying which chromosomes
+#    to process.}
 #   \item{maxNAFraction}{A @double in [0,1] indicating how many non-finite
 #     signals are allowed in the sanity checks of the data.}
 #   \item{...}{Optional arguments that may be used by some of the
@@ -39,7 +41,7 @@
 #
 # @author
 #*/###########################################################################
-setConstructorS3("CopyNumberChromosomalModel", function(cesTuple=NULL, refTuple=NULL, calculateRatios=TRUE, tags="*", genome="Human", maxNAFraction=1/5, ...) {
+setConstructorS3("CopyNumberChromosomalModel", function(cesTuple=NULL, refTuple=NULL, calculateRatios=TRUE, tags="*", genome="Human", chromosomes=NULL, maxNAFraction=1/5, ...) {
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -91,6 +93,7 @@ setConstructorS3("CopyNumberChromosomalModel", function(cesTuple=NULL, refTuple=
   if (!is.null(this$.cesTuple)) {
     # Validate genome
     gf <- getGenomeFile(this);
+    this <- setChromosomes(this, chromosomes);
   }
 
   this;
@@ -656,7 +659,7 @@ setMethodS3("getRawCnData", "CopyNumberChromosomalModel", function(this, ceList,
 
   # Argument 'maxNAFraction':
   if (!missing(maxNAFraction)) {
-    msg <- sprintf("Argument 'maxNAFraction' to getRawCnData() of CopyNumberChromosomalModel is deprecated. Instead, specify when setting up the %s object.", class(this)[1]);
+    msg <- sprintf("Argument 'maxNAFraction' to getRawCnData() of CopyNumberChromosomalModel is deprecated. Instead, specify when setting up the %s object.", class(this)[1L]);
     warning(msg);
   }
 
@@ -753,7 +756,7 @@ setMethodS3("getRawCnData", "CopyNumberChromosomalModel", function(this, ceList,
         } else {
           refTag <- getFullName(ref);
         }
-        throw(sprintf("Something is wrong with the copy-number ratios of sample '%s' relative to reference '%s' on chromosome %s. Too many non-finite values: %d (%.1f%% > %.1f%%) out of %d.", sampleTag, refTag, chromosome, n, 100*fraction, 100*maxNAFraction, nbrOfLoci));
+        throw(sprintf("Something is wrong with the copy-number ratios of sample '%s' relative to reference '%s' on chromosome %s. Too many non-finite values: %d (%.1f%% > %.1f%%) out of %d. If this is expected, you may adjust argument 'maxNAFraction' when setting up %s().", sampleTag, refTag, chromosome, n, 100*fraction, 100*maxNAFraction, nbrOfLoci, class(this)[1L]));
       }
       verbose && exit(verbose);
 
@@ -785,7 +788,7 @@ setMethodS3("getRawCnData", "CopyNumberChromosomalModel", function(this, ceList,
 str(ref);
 print(ref);
             ns <- getNumberOfFilesAveraged(ref, units=units0, verbose=verbose);
-stop("xxxxxxxxxxxxx");
+throw("xxxxxxxxxxxxx");
 
             # Sanity check
             stopifnot(length(ns) == length(units0));
@@ -1197,6 +1200,10 @@ setMethodS3("getChromosomeLength", "CopyNumberChromosomalModel", function(this, 
 
 ##############################################################################
 # HISTORY:
+# 2013-10-03
+# o HELP: Now the sanity-check error that CopyNumberChromosomalModel throws
+#   gives a more informative error message suggesting to adjust argument
+#   'maxNAFraction' when setting up the model.
 # 2012-11-17
 # o Now using getChecksum() instead of digest::digest().
 # 2012-10-21

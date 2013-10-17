@@ -7,8 +7,8 @@
 #  @get "title" from the package online reprocitory.
 #  By default, the patches are applied after being downloaded.
 # }
-# 
-# @synopsis 
+#
+# @synopsis
 #
 # \arguments{
 #   \item{pkgName}{The name of the package to be patched."}
@@ -36,16 +36,16 @@
 # @keyword internal
 #*/###########################################################################
 setMethodS3("downloadPackagePatch", "default", function(pkgName, version=NULL, url=NULL, apply=TRUE, rootPath="~/.Rpatches", pkgVer=NULL, ..., verbose=FALSE) {
-##  .Deprecated(msg="downloadPackagePatch() is deprecated without alternatives.");
-
-  require("R.utils") || stop("Package not loaded: R.utils");
+  .Deprecated(msg="downloadPackagePatch() is deprecated without alternatives.");
+  pkg <- "R.utils";
+  require(pkg, character.only=TRUE) || throw("Package not loaded: ", pkg);
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Validate arguments
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Argument 'pkgName':
-  require(pkgName, character.only=TRUE) || stop("Package not loaded: ", pkgName);
-  
+  require(pkgName, character.only=TRUE) || throw("Package not loaded: ", pkgName);
+
   # Argument 'rootPath':
   rootPath <- Arguments$getWritablePath(rootPath);
 
@@ -89,11 +89,11 @@ setMethodS3("downloadPackagePatch", "default", function(pkgName, version=NULL, u
     source(url, local=TRUE);
   }, error = function(ex) {
     cat("Failed to source: ", url, "\n", sep="");
-    stop(ex$message);
+    throw(ex$message);
   })
 
   if (is.null(files)) {
-    msg <- paste("No patches available for ", pkgName, " v", 
+    msg <- paste("No patches available for ", pkgName, " v",
                                               pkgVer, ".", sep="");
 #    verbose && cat(verbose, msg);
     cat(msg, "\n", sep="");
