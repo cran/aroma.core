@@ -74,8 +74,7 @@ setMethodS3("as.character", "ChromosomeExplorer", function(x, ...) {
   s <- c(s, sprintf("Number of arrays: %d", nbrOfArrays(this)));
   s <- c(s, sprintf("Path: %s", getPath(this)));
   s <- c(s, sprintf("RAM: %.2fMB", objectSize(this)/1024^2));
-  class(s) <- "GenericSummary";
-  s;
+  GenericSummary(s);
 }, protected=TRUE)
 
 
@@ -511,14 +510,10 @@ setMethodS3("updateSetupExplorerFile", "ChromosomeExplorer", function(this, ...,
 
   if (getParallelSafe(this)) {
     tryCatch({
-      pathname <- rspToHtml(pathname, path=NULL,
-                            outFile=outFile, outPath=outPath,
-                            overwrite=TRUE, envir=env);
+      js <- rfile(pathname, workdir=outPath, envir=env, postprocess=FALSE);
     }, error = function(ex) {})
   } else {
-    pathname <- rspToHtml(pathname, path=NULL,
-                          outFile=outFile, outPath=outPath,
-                          overwrite=TRUE, envir=env);
+    js <- rfile(pathname, workdir=outPath, envir=env, postprocess=FALSE);
   }
 
   verbose && exit(verbose);
@@ -526,7 +521,7 @@ setMethodS3("updateSetupExplorerFile", "ChromosomeExplorer", function(this, ...,
 
   verbose && exit(verbose);
 
-  invisible(pathname);
+  invisible(js);
 }, protected=TRUE) # updateSetupExplorerFile()
 
 
