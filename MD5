@@ -1,6 +1,6 @@
-724d795b2a9f2114f667f77738c9f3d7 *DESCRIPTION
+379e93c2656edc6a421bdf5d3e998253 *DESCRIPTION
 e57f73484838753cc99c65900351de89 *NAMESPACE
-215ada256e3edfcd09a17f7664412c2f *NEWS
+5b8b361b39e1465672486792516f38cc *NEWS
 5b3e0291bcc049d9ada9005162c5259a *R/000.R
 8c6efcf5c259ce2689b954c0dca24e21 *R/006.fixVarArgs.R
 9c7953e109b5f17e4c25dfc5e1907189 *R/008.BioC.R
@@ -90,7 +90,7 @@ a7c5201d351b16846d3af81ac1de85af *R/CopyNumberDataSetTuple.R
 cc393cee8d466f7619facb42bd6cd2c6 *R/CopyNumberRegions.EXT2.R
 13445d14a4b04994a491a39cd38ad333 *R/CopyNumberRegions.PLOT.R
 fdd727fceca4aac10a4feea0c0cd7b30 *R/CopyNumberRegions.R
-91f36fe4bf0c7e8780361ee66854374b *R/CopyNumberSegmentationModel.R
+9988041edeb8130f39cf86870f7b6e21 *R/CopyNumberSegmentationModel.R
 fb85f4ce1d1a9b71d387923715275ddd *R/CopyNumberSegmentationModel.plot.R
 ec59bd801e171bfa240bea9699693ac9 *R/CopyNumberSegmentationModel.plotCopyNumberRegionLayers.R
 64e2f924eb6e6083fa979f1ed336cd5e *R/DNAcopy.EXTS.R
