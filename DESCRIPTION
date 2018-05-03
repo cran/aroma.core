@@ -1,11 +1,11 @@
 Package: aroma.core
-Version: 3.1.2
-Depends: R (>= 3.1.2), R.utils (>= 2.5.0), R.filesets (>= 2.11.0),
+Version: 3.1.3
+Depends: R (>= 3.2.0), R.utils (>= 2.6.0), R.filesets (>= 2.12.1),
         R.devices (>= 2.15.1)
 DependsNote: BioC (>= 3.0)
-Imports: stats, utils, R.methodsS3 (>= 1.7.1), R.oo (>= 1.21.0),
-        R.cache (>= 0.12.0), R.rsp (>= 0.40.0), matrixStats (>=
-        0.52.2), RColorBrewer (>= 1.1-2), PSCBS (>= 0.62.0), listenv,
+Imports: stats, utils, R.methodsS3 (>= 1.7.1), R.oo (>= 1.22.0),
+        R.cache (>= 0.13.0), R.rsp (>= 0.42.0), matrixStats (>=
+        0.53.1), RColorBrewer (>= 1.1-2), PSCBS (>= 0.63.0), listenv,
         future
 Suggests: KernSmooth, png (>= 0.1-7), Cairo (>= 1.5-9), EBImage (>=
         4.8.3), preprocessCore (>= 1.28.0), aroma.light (>= 2.2.1),
@@ -15,7 +15,7 @@ SuggestsNote: BioC (>= 3.0), Recommended: aroma.light, DNAcopy, png,
         preprocessCore, sfit
 Additional_repositories: http://r-forge.r-project.org,
         https://henrikbengtsson.github.io/drat
-Date: 2018-04-23
+Date: 2018-04-29
 Title: Core Methods and Classes Used by 'aroma.*' Packages Part of the
         Aroma Framework
 Authors@R: c(
@@ -35,10 +35,10 @@ biocViews: Microarray, OneChannel, TwoChannel, MultiChannel,
         Preprocessing, QualityControl, aCGH, CopyNumberVariants
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2018-04-24 04:27:08 UTC; hb
+Packaged: 2018-05-01 01:26:32 UTC; hb
 Author: Henrik Bengtsson [aut, cre, cph],
   Mark Robinson [ctb],
   Ken Simpson [ctb]
 Maintainer: Henrik Bengtsson <henrikb@braju.com>
 Repository: CRAN
-Date/Publication: 2018-04-24 08:08:28 UTC
+Date/Publication: 2018-05-03 13:41:54 UTC
