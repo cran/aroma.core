@@ -1,11 +1,11 @@
 Package: aroma.core
-Version: 3.2.1
-Depends: R (>= 3.2.1), R.utils (>= 2.9.0), R.filesets (>= 2.13.0),
-        R.devices (>= 2.16.0)
-DependsNote: BioC (>= 3.0)
-Imports: stats, utils, R.methodsS3 (>= 1.7.1), R.oo (>= 1.23.0),
-        R.cache (>= 0.14.0), R.rsp (>= 0.43.2), matrixStats (>=
-        0.55.0), RColorBrewer (>= 1.1-2), PSCBS (>= 0.65.0), listenv,
+Version: 3.2.2
+Depends: R (>= 3.2.1), R.utils (>= 2.10.1), R.filesets (>= 2.14.0),
+        R.devices (>= 2.16.1)
+DependsNote: BioC (>= 3.2)
+Imports: stats, tools, utils, R.methodsS3 (>= 1.8.1), R.oo (>= 1.24.0),
+        R.cache (>= 0.14.0), R.rsp (>= 0.44.0), matrixStats (>=
+        0.57.0), RColorBrewer (>= 1.1-2), PSCBS (>= 0.65.0), listenv,
         future, BiocManager
 Suggests: KernSmooth, png (>= 0.1-7), Cairo (>= 1.5-9), EBImage (>=
         4.8.3), preprocessCore (>= 1.28.0), aroma.light (>= 2.2.1),
@@ -33,10 +33,10 @@ biocViews: Microarray, OneChannel, TwoChannel, MultiChannel,
         DataImport, DataRepresentation, GUI, Visualization,
         Preprocessing, QualityControl, aCGH, CopyNumberVariants
 NeedsCompilation: no
-Packaged: 2020-02-04 04:37:11 UTC; hb
+Packaged: 2021-01-03 01:11:05 UTC; hb
 Author: Henrik Bengtsson [aut, cre, cph],
   Mark Robinson [ctb],
   Ken Simpson [ctb]
 Maintainer: Henrik Bengtsson <henrikb@braju.com>
 Repository: CRAN
-Date/Publication: 2020-02-04 15:20:21 UTC
+Date/Publication: 2021-01-05 05:10:12 UTC
