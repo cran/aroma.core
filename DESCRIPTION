@@ -1,5 +1,5 @@
 Package: aroma.core
-Version: 3.2.2
+Version: 3.3.0
 Depends: R (>= 3.2.1), R.utils (>= 2.10.1), R.filesets (>= 2.14.0),
         R.devices (>= 2.16.1)
 DependsNote: BioC (>= 3.2)
@@ -13,8 +13,8 @@ Suggests: KernSmooth, png (>= 0.1-7), Cairo (>= 1.5-9), EBImage (>=
         expectile (>= 0.2.5), HaarSeg (>= 0.0.2), mpcbs (>= 1.1.1)
 SuggestsNote: BioC (>= 3.0), Recommended: aroma.light, DNAcopy, png,
         preprocessCore, sfit
-Additional_repositories: https://r-forge.r-project.org,
-        https://henrikbengtsson.github.io/drat
+Additional_repositories: https://henrikbengtsson.r-universe.dev,
+        https://r-forge.r-project.org
 Title: Core Methods and Classes Used by 'aroma.*' Packages Part of the
         Aroma Framework
 Authors@R: c(
@@ -33,10 +33,10 @@ biocViews: Microarray, OneChannel, TwoChannel, MultiChannel,
         DataImport, DataRepresentation, GUI, Visualization,
         Preprocessing, QualityControl, aCGH, CopyNumberVariants
 NeedsCompilation: no
-Packaged: 2021-01-03 01:11:05 UTC; hb
+Packaged: 2022-11-11 02:09:52 UTC; hb
 Author: Henrik Bengtsson [aut, cre, cph],
   Mark Robinson [ctb],
   Ken Simpson [ctb]
 Maintainer: Henrik Bengtsson <henrikb@braju.com>
 Repository: CRAN
-Date/Publication: 2021-01-05 05:10:12 UTC
+Date/Publication: 2022-11-15 18:30:13 UTC
