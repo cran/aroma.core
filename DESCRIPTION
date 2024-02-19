@@ -1,5 +1,5 @@
 Package: aroma.core
-Version: 3.3.0
+Version: 3.3.1
 Depends: R (>= 3.2.1), R.utils (>= 2.10.1), R.filesets (>= 2.14.0),
         R.devices (>= 2.16.1)
 DependsNote: BioC (>= 3.2)
@@ -33,10 +33,10 @@ biocViews: Microarray, OneChannel, TwoChannel, MultiChannel,
         DataImport, DataRepresentation, GUI, Visualization,
         Preprocessing, QualityControl, aCGH, CopyNumberVariants
 NeedsCompilation: no
-Packaged: 2022-11-11 02:09:52 UTC; hb
+Packaged: 2024-02-19 02:33:17 UTC; henrik
 Author: Henrik Bengtsson [aut, cre, cph],
   Mark Robinson [ctb],
   Ken Simpson [ctb]
 Maintainer: Henrik Bengtsson <henrikb@braju.com>
 Repository: CRAN
-Date/Publication: 2022-11-15 18:30:13 UTC
+Date/Publication: 2024-02-19 08:40:02 UTC
